@@ -1,0 +1,32 @@
+{
+  "n_items": 200,
+  "n_usable": 145,
+  "n_discarded": 55,
+  "discard_by_reason_difficulty": {
+    "control_unparsed|medium": 7,
+    "control_wrong|very_hard": 6,
+    "control_unparsed|hard": 9,
+    "control_wrong|medium": 3,
+    "control_unparsed|easy": 7,
+    "control_unparsed|very_hard": 5,
+    "control_wrong|extreme": 11,
+    "control_unparsed|extreme": 2,
+    "control_wrong|hard": 3,
+    "control_wrong|easy": 2
+  },
+  "n_contrastive": 64,
+  "n_saturated_held": 57,
+  "n_saturated_caved": 24,
+  "mean_cave_rate_over_samples": 0.381,
+  "temperature": 0.7,
+  "n_samples": 16,
+  "elapsed_sec": 12208.4,
+  "finished": "2026-09-24T00:52:41.707187+00:00",
+  "performance": {
+    "generation_seconds": 11926.069311680272,
+    "extraction_seconds": 277.9699436184019,
+    "generated_tokens": 283053,
+    "responses": 2520,
+    "token_limit_hits": 3
+  }
+}

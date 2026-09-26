@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "error": "Install optional dependencies: pip install -r requirements-transformers.txt",
+  "finished": "2026-09-17T02:02:44.354083+00:00"
+}

@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "error": "Task error: File reconstruction error: IO Error: Disk quota exceeded (os error 122)",
+  "finished": "2026-09-25T00:41:59.512301+00:00"
+}

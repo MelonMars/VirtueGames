@@ -1,0 +1,17 @@
+{
+  "hook": "blocks.19.hook_resid_post",
+  "cosine": -0.03243077450126558,
+  "angle_degrees": 91.85847237870718,
+  "first": "runs_integrity_response/run-02/integrity_response_layer_19",
+  "second": "runs_candor_response/run-02/candor_response_layer_19",
+  "directions": [
+    "held minus caved_flip",
+    "candid minus sycophantic"
+  ],
+  "norms": [
+    2.0510920060552382,
+    3.3091839311058733
+  ],
+  "warnings": [],
+  "interpretation": "Positive: aligned; zero: orthogonal; negative: opposed. Geometry alone does not establish shared causal virtue mechanisms."
+}

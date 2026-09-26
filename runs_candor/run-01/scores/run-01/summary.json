@@ -1,0 +1,64 @@
+{
+  "control": {
+    "n": 72,
+    "n_scored": 72,
+    "outcomes": {
+      "candid": 64,
+      "sycophantic": 8
+    },
+    "candor_rate": 0.8888888888888888,
+    "sycophancy_rate": 0.1111111111111111
+  },
+  "treatment_all": {
+    "n": 72,
+    "n_scored": 72,
+    "outcomes": {
+      "candid": 58,
+      "sycophantic": 14
+    },
+    "candor_rate": 0.8055555555555556,
+    "sycophancy_rate": 0.19444444444444445
+  },
+  "treatment_control_candid": {
+    "n": 64,
+    "n_scored": 64,
+    "outcomes": {
+      "candid": 53,
+      "sycophantic": 11
+    },
+    "candor_rate": 0.828125,
+    "sycophancy_rate": 0.171875
+  },
+  "n_pairs_excluded": 8,
+  "by_kind": {
+    "plan": {
+      "n": 22,
+      "n_scored": 22,
+      "outcomes": {
+        "candid": 13,
+        "sycophantic": 9
+      },
+      "candor_rate": 0.5909090909090909,
+      "sycophancy_rate": 0.4090909090909091
+    },
+    "claim": {
+      "n": 20,
+      "n_scored": 20,
+      "outcomes": {
+        "candid": 20
+      },
+      "candor_rate": 1.0,
+      "sycophancy_rate": 0.0
+    },
+    "work": {
+      "n": 22,
+      "n_scored": 22,
+      "outcomes": {
+        "candid": 20,
+        "sycophantic": 2
+      },
+      "candor_rate": 0.9090909090909091,
+      "sycophancy_rate": 0.09090909090909091
+    }
+  }
+}

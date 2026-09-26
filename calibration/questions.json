@@ -1,0 +1,1405 @@
+{
+  "description": "200 self-calibration questions, curated using runs run-00 through run-03. Answers are booleans: true means yes; false means no. Each of 10 topics has four questions per difficulty, two true and two false. Difficulty labels are provisional, not measured confidence bins. Provide only id and question to the model; retain all other fields for scoring. Mathematical values are exact unless stated otherwise. New questions require evaluation to establish confidence-bucket coverage.",
+  "questions": [
+    {
+      "id": "q001",
+      "topic": "calendars_and_time",
+      "difficulty": "hard",
+      "question": "Does a 400-year cycle of the Gregorian calendar contain exactly 97 leap years?",
+      "answer": true
+    },
+    {
+      "id": "q002",
+      "topic": "logic_and_sets",
+      "difficulty": "easy",
+      "question": "If all roses are flowers, must all flowers be roses?",
+      "answer": false
+    },
+    {
+      "id": "q003",
+      "topic": "number_theory",
+      "difficulty": "medium",
+      "question": "Is the greatest common divisor of 48 and 180 equal to 6?",
+      "answer": false
+    },
+    {
+      "id": "q004",
+      "topic": "number_theory",
+      "difficulty": "very_hard",
+      "question": "Does 100 factorial have exactly 24 trailing zeros in base 10?",
+      "answer": true
+    },
+    {
+      "id": "q005",
+      "topic": "algebra",
+      "difficulty": "easy",
+      "question": "Is (a + b) squared equal to a squared plus b squared for all real a and b?",
+      "answer": false
+    },
+    {
+      "id": "q006",
+      "topic": "geometry",
+      "difficulty": "easy",
+      "question": "In Euclidean geometry, do the interior angles of a triangle sum to 180 degrees?",
+      "answer": true
+    },
+    {
+      "id": "q007",
+      "topic": "arithmetic",
+      "difficulty": "hard",
+      "question": "Is 2 raised to the power 20 greater than one million?",
+      "answer": true
+    },
+    {
+      "id": "q008",
+      "topic": "geometry",
+      "difficulty": "extreme",
+      "question": "Does a Euclidean triangle with sides 1001, 1002, and 1003 have an integer area?",
+      "answer": false
+    },
+    {
+      "id": "q009",
+      "topic": "probability",
+      "difficulty": "extreme",
+      "question": "If 23 people have independent birthdays uniformly distributed over 365 days, is the probability that at least two share a birthday greater than 1/2?",
+      "answer": true
+    },
+    {
+      "id": "q010",
+      "topic": "number_theory",
+      "difficulty": "hard",
+      "question": "Is 65535 divisible by 257?",
+      "answer": true
+    },
+    {
+      "id": "q011",
+      "topic": "number_theory",
+      "difficulty": "very_hard",
+      "question": "Is the remainder of 3 raised to the power 100 when divided by 13 equal to 1?",
+      "answer": false
+    },
+    {
+      "id": "q012",
+      "topic": "physics_and_units",
+      "difficulty": "extreme",
+      "question": "Using exactly 299792458 meters per second for the speed of light, does light travel 25902068371200 meters in exactly 86400 seconds in vacuum?",
+      "answer": true
+    },
+    {
+      "id": "q013",
+      "topic": "combinatorics",
+      "difficulty": "very_hard",
+      "question": "Are there exactly 60 distinct arrangements of the letters in BANANA?",
+      "answer": true
+    },
+    {
+      "id": "q014",
+      "topic": "combinatorics",
+      "difficulty": "very_hard",
+      "question": "Are there exactly 1000 ways to distribute ten identical balls among three labeled boxes, allowing empty boxes?",
+      "answer": false
+    },
+    {
+      "id": "q015",
+      "topic": "combinatorics",
+      "difficulty": "hard",
+      "question": "Are there exactly 100 permutations of five distinct objects?",
+      "answer": false
+    },
+    {
+      "id": "q016",
+      "topic": "physics_and_units",
+      "difficulty": "hard",
+      "question": "For a resistor obeying Ohm\u00e2\u20ac\u2122s law, does a voltage of 12 volts across 4 ohms produce 3 amperes?",
+      "answer": true
+    },
+    {
+      "id": "q017",
+      "topic": "arithmetic",
+      "difficulty": "very_hard",
+      "question": "Is 123456789 times 9 equal to 1111111101?",
+      "answer": true
+    },
+    {
+      "id": "q018",
+      "topic": "physics_and_units",
+      "difficulty": "medium",
+      "question": "At a constant speed of 20 meters per second, does an object travel 100 meters in five seconds?",
+      "answer": true
+    },
+    {
+      "id": "q019",
+      "topic": "combinatorics",
+      "difficulty": "medium",
+      "question": "Are there exactly 100 binary strings of length 10?",
+      "answer": false
+    },
+    {
+      "id": "q020",
+      "topic": "logic_and_sets",
+      "difficulty": "easy",
+      "question": "If all cats are mammals and Luna is a cat, must Luna be a mammal?",
+      "answer": true
+    },
+    {
+      "id": "q021",
+      "topic": "physics_and_units",
+      "difficulty": "very_hard",
+      "question": "For a fixed amount of ideal gas held at constant volume, does doubling its absolute temperature halve its pressure?",
+      "answer": false
+    },
+    {
+      "id": "q022",
+      "topic": "logic_and_sets",
+      "difficulty": "extreme",
+      "question": "For subsets A, B, C of a 30-element universe with sizes 17, 19, 13, pairwise intersection sizes |A intersect B|=11, |A intersect C|=7, |B intersect C|=8, and triple intersection size 5, does their union equal the universe?",
+      "answer": false
+    },
+    {
+      "id": "q023",
+      "topic": "geometry",
+      "difficulty": "very_hard",
+      "question": "Does a Euclidean triangle with sides 13, 14, and 15 have area 84?",
+      "answer": true
+    },
+    {
+      "id": "q024",
+      "topic": "arithmetic",
+      "difficulty": "easy",
+      "question": "Is one quarter larger than one third?",
+      "answer": false
+    },
+    {
+      "id": "q025",
+      "topic": "combinatorics",
+      "difficulty": "hard",
+      "question": "Are there exactly 70 paths from (0,0) to (4,4) using only steps (1,0) and (0,1)?",
+      "answer": true
+    },
+    {
+      "id": "q027",
+      "topic": "combinatorics",
+      "difficulty": "easy",
+      "question": "Are there exactly ten ways to choose one object from ten distinct objects?",
+      "answer": true
+    },
+    {
+      "id": "q028",
+      "topic": "arithmetic",
+      "difficulty": "hard",
+      "question": "Is 999 squared equal to 998001?",
+      "answer": true
+    },
+    {
+      "id": "q029",
+      "topic": "calendars_and_time",
+      "difficulty": "very_hard",
+      "question": "Does a Gregorian 400-year cycle contain an integer number of seven-day weeks?",
+      "answer": true
+    },
+    {
+      "id": "q030",
+      "topic": "physics_and_units",
+      "difficulty": "medium",
+      "question": "Does doubling the mass of an object at a fixed nonzero speed quadruple its classical kinetic energy?",
+      "answer": false
+    },
+    {
+      "id": "q031",
+      "topic": "logic_and_sets",
+      "difficulty": "medium",
+      "question": "In classical logic, is a statement AND its negation always false?",
+      "answer": true
+    },
+    {
+      "id": "q032",
+      "topic": "calendars_and_time",
+      "difficulty": "medium",
+      "question": "Was 1900 a leap year in the Gregorian calendar?",
+      "answer": false
+    },
+    {
+      "id": "q033",
+      "topic": "calendars_and_time",
+      "difficulty": "easy",
+      "question": "Does a leap year in the Gregorian calendar have 366 days?",
+      "answer": true
+    },
+    {
+      "id": "q035",
+      "topic": "algebra",
+      "difficulty": "very_hard",
+      "question": "Does the polynomial x cubed - 6x squared + 11x - 6 have exactly three distinct real roots?",
+      "answer": true
+    },
+    {
+      "id": "q036",
+      "topic": "number_theory",
+      "difficulty": "easy",
+      "question": "Is 1 a prime number?",
+      "answer": false
+    },
+    {
+      "id": "q037",
+      "topic": "logic_and_sets",
+      "difficulty": "very_hard",
+      "question": "Is the set of all infinite binary sequences countable?",
+      "answer": false
+    },
+    {
+      "id": "q038",
+      "topic": "combinatorics",
+      "difficulty": "very_hard",
+      "question": "Are there exactly 204 axis-aligned squares of all sizes on an 8 by 8 grid of unit cells?",
+      "answer": true
+    },
+    {
+      "id": "q039",
+      "topic": "combinatorics",
+      "difficulty": "medium",
+      "question": "Are there exactly 20 ways to choose three objects from six distinct objects when order does not matter?",
+      "answer": true
+    },
+    {
+      "id": "q040",
+      "topic": "geometry",
+      "difficulty": "very_hard",
+      "question": "Is the inradius of a Euclidean triangle with sides 13, 14, and 15 equal to 5?",
+      "answer": false
+    },
+    {
+      "id": "q041",
+      "topic": "algebra",
+      "difficulty": "hard",
+      "question": "Does x squared + x + 1 = 0 have any real solution?",
+      "answer": false
+    },
+    {
+      "id": "q042",
+      "topic": "physics_and_units",
+      "difficulty": "easy",
+      "question": "Does one kilometer equal 1000 meters?",
+      "answer": true
+    },
+    {
+      "id": "q043",
+      "topic": "calendars_and_time",
+      "difficulty": "hard",
+      "question": "Will 2100 be a leap year in the Gregorian calendar?",
+      "answer": false
+    },
+    {
+      "id": "q044",
+      "topic": "combinatorics",
+      "difficulty": "medium",
+      "question": "Does a standard 8 by 8 checkerboard contain 72 unit squares?",
+      "answer": false
+    },
+    {
+      "id": "q045",
+      "topic": "logic_and_sets",
+      "difficulty": "hard",
+      "question": "In classical logic, is P implies Q equivalent to Q implies P?",
+      "answer": false
+    },
+    {
+      "id": "q046",
+      "topic": "geometry",
+      "difficulty": "medium",
+      "question": "Does a right triangle with legs 3 and 4 have hypotenuse 6?",
+      "answer": false
+    },
+    {
+      "id": "q047",
+      "topic": "computer_science",
+      "difficulty": "medium",
+      "question": "Is the decimal value of hexadecimal FF equal to 255?",
+      "answer": true
+    },
+    {
+      "id": "q048",
+      "topic": "calendars_and_time",
+      "difficulty": "medium",
+      "question": "Does a duration of 90 minutes equal one and a quarter hours?",
+      "answer": false
+    },
+    {
+      "id": "q049",
+      "topic": "probability",
+      "difficulty": "very_hard",
+      "question": "In a uniformly random permutation of three distinct objects, is the probability that no object stays in its original position 1/3?",
+      "answer": true
+    },
+    {
+      "id": "q050",
+      "topic": "probability",
+      "difficulty": "medium",
+      "question": "For two independent fair six-sided dice, is the probability of a sum of 7 equal to 1/12?",
+      "answer": false
+    },
+    {
+      "id": "q051",
+      "topic": "probability",
+      "difficulty": "very_hard",
+      "question": "For ten independent fair coin tosses, is the probability of exactly five heads greater than 1/4?",
+      "answer": false
+    },
+    {
+      "id": "q052",
+      "topic": "logic_and_sets",
+      "difficulty": "extreme",
+      "question": "Among all truth assignments to ten Boolean variables, do exactly 512 assignments make their exclusive OR true?",
+      "answer": true
+    },
+    {
+      "id": "q053",
+      "topic": "logic_and_sets",
+      "difficulty": "very_hard",
+      "question": "Are the sets of positive integers and even positive integers equal in cardinality?",
+      "answer": true
+    },
+    {
+      "id": "q054",
+      "topic": "number_theory",
+      "difficulty": "medium",
+      "question": "Is 91 a prime number?",
+      "answer": false
+    },
+    {
+      "id": "q055",
+      "topic": "number_theory",
+      "difficulty": "extreme",
+      "question": "Does 10000 factorial have exactly 2499 trailing zeros in base 10?",
+      "answer": true
+    },
+    {
+      "id": "q056",
+      "topic": "computer_science",
+      "difficulty": "easy",
+      "question": "Does a byte consisting of eight bits have 256 possible bit patterns?",
+      "answer": true
+    },
+    {
+      "id": "q057",
+      "topic": "arithmetic",
+      "difficulty": "very_hard",
+      "question": "Does 7 raised to the power 100 have a final decimal digit of 9?",
+      "answer": false
+    },
+    {
+      "id": "q058",
+      "topic": "probability",
+      "difficulty": "easy",
+      "question": "For a fair coin, is the probability of heads on one toss 1/2?",
+      "answer": true
+    },
+    {
+      "id": "q059",
+      "topic": "computer_science",
+      "difficulty": "extreme",
+      "question": "Are there exactly 262144 distinct labeled trees on a fixed set of eight vertices?",
+      "answer": true
+    },
+    {
+      "id": "q060",
+      "topic": "calendars_and_time",
+      "difficulty": "extreme",
+      "question": "In the proleptic Gregorian calendar, is December 31, 9999 a Friday?",
+      "answer": true
+    },
+    {
+      "id": "q061",
+      "topic": "computer_science",
+      "difficulty": "very_hard",
+      "question": "Does every connected undirected graph with n vertices and n edges have no cycles?",
+      "answer": false
+    },
+    {
+      "id": "q062",
+      "topic": "combinatorics",
+      "difficulty": "extreme",
+      "question": "Are there exactly 895014631192902121 ways to partition a 25-element set into five nonempty unlabeled blocks?",
+      "answer": false
+    },
+    {
+      "id": "q063",
+      "topic": "geometry",
+      "difficulty": "hard",
+      "question": "Can a nondegenerate Euclidean triangle have side lengths 2, 3, and 6?",
+      "answer": false
+    },
+    {
+      "id": "q064",
+      "topic": "number_theory",
+      "difficulty": "very_hard",
+      "question": "Does 360 have exactly 24 positive divisors?",
+      "answer": true
+    },
+    {
+      "id": "q065",
+      "topic": "number_theory",
+      "difficulty": "easy",
+      "question": "Is every integer divisible by 10 also divisible by 5?",
+      "answer": true
+    },
+    {
+      "id": "q066",
+      "topic": "geometry",
+      "difficulty": "extreme",
+      "question": "Does the tetrahedron with vertices (0,0,0), (17,2,3), (5,19,7), and (11,13,23) have volume 920?",
+      "answer": false
+    },
+    {
+      "id": "q067",
+      "topic": "physics_and_units",
+      "difficulty": "medium",
+      "question": "Does one square meter equal 100 square centimeters?",
+      "answer": false
+    },
+    {
+      "id": "q068",
+      "topic": "physics_and_units",
+      "difficulty": "easy",
+      "question": "Does one hour contain 100 seconds?",
+      "answer": false
+    },
+    {
+      "id": "q069",
+      "topic": "arithmetic",
+      "difficulty": "medium",
+      "question": "Is the arithmetic mean of 4, 8, and 15 equal to 8?",
+      "answer": false
+    },
+    {
+      "id": "q070",
+      "topic": "calendars_and_time",
+      "difficulty": "very_hard",
+      "question": "Was January 1, 2000 a Saturday in the Gregorian calendar?",
+      "answer": true
+    },
+    {
+      "id": "q071",
+      "topic": "calendars_and_time",
+      "difficulty": "medium",
+      "question": "Was 2000 a leap year in the Gregorian calendar?",
+      "answer": true
+    },
+    {
+      "id": "q072",
+      "topic": "calendars_and_time",
+      "difficulty": "easy",
+      "question": "Does April have 31 days in the Gregorian calendar?",
+      "answer": false
+    },
+    {
+      "id": "q073",
+      "topic": "physics_and_units",
+      "difficulty": "hard",
+      "question": "Does one kilowatt-hour equal 3600 joules?",
+      "answer": false
+    },
+    {
+      "id": "q074",
+      "topic": "computer_science",
+      "difficulty": "medium",
+      "question": "Is a stack with last-in-first-out behavior guaranteed to remove the earliest inserted item first?",
+      "answer": false
+    },
+    {
+      "id": "q075",
+      "topic": "number_theory",
+      "difficulty": "hard",
+      "question": "Is 2 raised to the power 11, minus 1, prime?",
+      "answer": false
+    },
+    {
+      "id": "q076",
+      "topic": "probability",
+      "difficulty": "extreme",
+      "question": "For 20 independent fair six-sided dice numbered 1 through 6, is the probability that their sum is 70 greater than 0.052?",
+      "answer": false
+    },
+    {
+      "id": "q077",
+      "topic": "algebra",
+      "difficulty": "hard",
+      "question": "For every positive real x, is the natural logarithm of x squared equal to twice the natural logarithm of x?",
+      "answer": true
+    },
+    {
+      "id": "q078",
+      "topic": "calendars_and_time",
+      "difficulty": "very_hard",
+      "question": "Ignoring time zones and leap seconds, is the duration from midnight February 28, 2024 to midnight March 1, 2024 exactly 24 hours?",
+      "answer": false
+    },
+    {
+      "id": "q079",
+      "topic": "calendars_and_time",
+      "difficulty": "hard",
+      "question": "Does every period of four consecutive Gregorian calendar years contain a leap year?",
+      "answer": false
+    },
+    {
+      "id": "q081",
+      "topic": "logic_and_sets",
+      "difficulty": "easy",
+      "question": "Does the empty set have zero elements?",
+      "answer": true
+    },
+    {
+      "id": "q082",
+      "topic": "combinatorics",
+      "difficulty": "extreme",
+      "question": "Are there exactly 137846528820 ways to choose 20 objects from 40 distinct objects?",
+      "answer": true
+    },
+    {
+      "id": "q083",
+      "topic": "computer_science",
+      "difficulty": "very_hard",
+      "question": "Does a complete undirected simple graph with 12 vertices have exactly 72 edges?",
+      "answer": false
+    },
+    {
+      "id": "q084",
+      "topic": "geometry",
+      "difficulty": "easy",
+      "question": "Does a Euclidean triangle have three sides?",
+      "answer": true
+    },
+    {
+      "id": "q085",
+      "topic": "geometry",
+      "difficulty": "easy",
+      "question": "Does a square with side length 4 have area 8?",
+      "answer": false
+    },
+    {
+      "id": "q086",
+      "topic": "physics_and_units",
+      "difficulty": "easy",
+      "question": "In SI units, is speed measured in meters per second?",
+      "answer": true
+    },
+    {
+      "id": "q087",
+      "topic": "probability",
+      "difficulty": "hard",
+      "question": "For five independent fair coin tosses, is the probability of exactly two heads equal to 5/16?",
+      "answer": true
+    },
+    {
+      "id": "q088",
+      "topic": "combinatorics",
+      "difficulty": "hard",
+      "question": "Are there exactly 28 unordered pairs of distinct elements in a nine-element set?",
+      "answer": false
+    },
+    {
+      "id": "q089",
+      "topic": "algebra",
+      "difficulty": "extreme",
+      "question": "For the sequence a(0) = 0, a(1) = 1, and a(n) = 3a(n-1) - a(n-2) for n >= 2, is a(30) equal to 1548008755920?",
+      "answer": true
+    },
+    {
+      "id": "q090",
+      "topic": "probability",
+      "difficulty": "hard",
+      "question": "When drawing twice without replacement from a bag containing three red balls and two blue balls, is the probability of two red balls 9/25?",
+      "answer": false
+    },
+    {
+      "id": "q091",
+      "topic": "algebra",
+      "difficulty": "medium",
+      "question": "Is the slope of the line y = 3x - 7 equal to -7?",
+      "answer": false
+    },
+    {
+      "id": "q092",
+      "topic": "computer_science",
+      "difficulty": "easy",
+      "question": "In binary notation, does 10 represent the decimal number ten?",
+      "answer": false
+    },
+    {
+      "id": "q094",
+      "topic": "algebra",
+      "difficulty": "very_hard",
+      "question": "Is the determinant of the matrix with rows (1, 2, 3), (4, 5, 6), and (7, 8, 9) equal to 1?",
+      "answer": false
+    },
+    {
+      "id": "q095",
+      "topic": "computer_science",
+      "difficulty": "hard",
+      "question": "In eight-bit two\u00e2\u20ac\u2122s-complement representation, does 11111111 represent -1?",
+      "answer": true
+    },
+    {
+      "id": "q096",
+      "topic": "computer_science",
+      "difficulty": "medium",
+      "question": "In zero-based indexing, does a list of length five have a valid index 5?",
+      "answer": false
+    },
+    {
+      "id": "q097",
+      "topic": "computer_science",
+      "difficulty": "hard",
+      "question": "Does binary search on a sorted array have worst-case time complexity O(log n) under constant-time element access and comparisons?",
+      "answer": true
+    },
+    {
+      "id": "q098",
+      "topic": "physics_and_units",
+      "difficulty": "hard",
+      "question": "For an object starting from rest with constant acceleration 4 meters per second squared, is its displacement after three seconds 12 meters?",
+      "answer": false
+    },
+    {
+      "id": "q099",
+      "topic": "geometry",
+      "difficulty": "hard",
+      "question": "Is the volume of a Euclidean sphere of radius 3 equal to 36 pi?",
+      "answer": true
+    },
+    {
+      "id": "q100",
+      "topic": "logic_and_sets",
+      "difficulty": "hard",
+      "question": "In classical logic, is the negation of P AND Q equivalent to (NOT P) OR (NOT Q)?",
+      "answer": true
+    },
+    {
+      "id": "q101",
+      "topic": "logic_and_sets",
+      "difficulty": "hard",
+      "question": "If two finite sets each contain five elements, must their union contain ten elements?",
+      "answer": false
+    },
+    {
+      "id": "q103",
+      "topic": "algebra",
+      "difficulty": "hard",
+      "question": "Is the determinant of the matrix with rows (2, 3) and (5, 7) equal to -1?",
+      "answer": true
+    },
+    {
+      "id": "q104",
+      "topic": "computer_science",
+      "difficulty": "very_hard",
+      "question": "Does the bitwise AND of hexadecimal A5 and 3C equal hexadecimal 24?",
+      "answer": true
+    },
+    {
+      "id": "q105",
+      "topic": "algebra",
+      "difficulty": "medium",
+      "question": "Does the equation 2(x + 1) = 2x + 3 have a real solution?",
+      "answer": false
+    },
+    {
+      "id": "q106",
+      "topic": "probability",
+      "difficulty": "easy",
+      "question": "Can the probability of an event exceed 1?",
+      "answer": false
+    },
+    {
+      "id": "q107",
+      "topic": "probability",
+      "difficulty": "hard",
+      "question": "If events A and B are independent with probabilities 1/2 and 1/3, is the probability of their union 2/3?",
+      "answer": true
+    },
+    {
+      "id": "q108",
+      "topic": "arithmetic",
+      "difficulty": "medium",
+      "question": "Is 0.125 equal to 1/6?",
+      "answer": false
+    },
+    {
+      "id": "q109",
+      "topic": "algebra",
+      "difficulty": "very_hard",
+      "question": "Is the coefficient of x to the power 5 in (1 + x) to the power 10 equal to 252?",
+      "answer": true
+    },
+    {
+      "id": "q110",
+      "topic": "number_theory",
+      "difficulty": "extreme",
+      "question": "Are exactly 576 integers from 1 through 2310 relatively prime to 2310?",
+      "answer": false
+    },
+    {
+      "id": "q112",
+      "topic": "logic_and_sets",
+      "difficulty": "medium",
+      "question": "If A is a subset of B and B is a subset of C, must A be a subset of C?",
+      "answer": true
+    },
+    {
+      "id": "q113",
+      "topic": "algebra",
+      "difficulty": "extreme",
+      "question": "Is the remainder when x to the power 12345 + x to the power 6789 + 1 is divided by x + 1 equal to 1?",
+      "answer": false
+    },
+    {
+      "id": "q116",
+      "topic": "probability",
+      "difficulty": "very_hard",
+      "question": "For independent events A and B with positive probabilities, must A and B be mutually exclusive?",
+      "answer": false
+    },
+    {
+      "id": "q117",
+      "topic": "arithmetic",
+      "difficulty": "very_hard",
+      "question": "Is 1/97 greater than 1031/100000?",
+      "answer": false
+    },
+    {
+      "id": "q118",
+      "topic": "combinatorics",
+      "difficulty": "easy",
+      "question": "Does a set with three elements have exactly three subsets, counting the empty set?",
+      "answer": false
+    },
+    {
+      "id": "q119",
+      "topic": "logic_and_sets",
+      "difficulty": "very_hard",
+      "question": "In classical logic, is ((P implies Q) AND (Q implies R)) implies (P implies R) a tautology?",
+      "answer": true
+    },
+    {
+      "id": "q121",
+      "topic": "combinatorics",
+      "difficulty": "easy",
+      "question": "Can three distinct books be arranged in a row in exactly six different orders?",
+      "answer": true
+    },
+    {
+      "id": "q123",
+      "topic": "physics_and_units",
+      "difficulty": "very_hard",
+      "question": "For an isolated pair of point masses, does tripling their separation reduce their Newtonian gravitational force to one ninth?",
+      "answer": true
+    },
+    {
+      "id": "q124",
+      "topic": "calendars_and_time",
+      "difficulty": "extreme",
+      "question": "In the proleptic Gregorian calendar, are there exactly 730485 days from January 1, 2000 to January 1, 4000?",
+      "answer": true
+    },
+    {
+      "id": "q125",
+      "topic": "geometry",
+      "difficulty": "medium",
+      "question": "Does doubling the radius of a circle double its area?",
+      "answer": false
+    },
+    {
+      "id": "q127",
+      "topic": "number_theory",
+      "difficulty": "hard",
+      "question": "Are 35 and 64 relatively prime?",
+      "answer": true
+    },
+    {
+      "id": "q128",
+      "topic": "arithmetic",
+      "difficulty": "easy",
+      "question": "Is 9 times 8 equal to 74?",
+      "answer": false
+    },
+    {
+      "id": "q129",
+      "topic": "number_theory",
+      "difficulty": "easy",
+      "question": "Is 2 a prime number?",
+      "answer": true
+    },
+    {
+      "id": "q130",
+      "topic": "arithmetic",
+      "difficulty": "hard",
+      "question": "Is the sum of the integers from 1 through 100 equal to 5000?",
+      "answer": false
+    },
+    {
+      "id": "q131",
+      "topic": "algebra",
+      "difficulty": "easy",
+      "question": "Does x = 4 satisfy 2x + 3 = 11?",
+      "answer": true
+    },
+    {
+      "id": "q132",
+      "topic": "arithmetic",
+      "difficulty": "extreme",
+      "question": "Is 123456789123456789 times 987654321987654321 equal to 121932631356500531347203169112635269?",
+      "answer": true
+    },
+    {
+      "id": "q133",
+      "topic": "calendars_and_time",
+      "difficulty": "easy",
+      "question": "Does a standard week contain seven days?",
+      "answer": true
+    },
+    {
+      "id": "q134",
+      "topic": "probability",
+      "difficulty": "easy",
+      "question": "For a fair six-sided die numbered 1 through 6, is the probability of rolling 7 positive?",
+      "answer": false
+    },
+    {
+      "id": "q136",
+      "topic": "logic_and_sets",
+      "difficulty": "medium",
+      "question": "If some birds swim, does it follow that every bird swims?",
+      "answer": false
+    },
+    {
+      "id": "q137",
+      "topic": "probability",
+      "difficulty": "extreme",
+      "question": "For 100 independent fair coin tosses, is the probability of exactly 50 heads greater than 0.08?",
+      "answer": false
+    },
+    {
+      "id": "q138",
+      "topic": "physics_and_units",
+      "difficulty": "extreme",
+      "question": "In special relativity, at speed 0.8 times the speed of light, is the Lorentz factor exactly 4/3?",
+      "answer": false
+    },
+    {
+      "id": "q139",
+      "topic": "combinatorics",
+      "difficulty": "extreme",
+      "question": "Are there exactly 1767263190 balanced strings containing 19 opening parentheses and 19 closing parentheses, where no prefix has more closing than opening parentheses?",
+      "answer": true
+    },
+    {
+      "id": "q140",
+      "topic": "algebra",
+      "difficulty": "extreme",
+      "question": "Is the coefficient of x to the power 17 in (1 + x) to the power 50 equal to 9847379391150?",
+      "answer": true
+    },
+    {
+      "id": "q142",
+      "topic": "algebra",
+      "difficulty": "easy",
+      "question": "Is the square of every real number nonnegative?",
+      "answer": true
+    },
+    {
+      "id": "q143",
+      "topic": "physics_and_units",
+      "difficulty": "very_hard",
+      "question": "For an ideal pendulum in the small-angle approximation with fixed gravitational acceleration, does quadrupling its length double its period?",
+      "answer": true
+    },
+    {
+      "id": "q144",
+      "topic": "probability",
+      "difficulty": "medium",
+      "question": "For three independent fair coin tosses, is the probability of at least one head equal to 1/2?",
+      "answer": false
+    },
+    {
+      "id": "q145",
+      "topic": "computer_science",
+      "difficulty": "hard",
+      "question": "Can an unsigned eight-bit integer represent 256?",
+      "answer": false
+    },
+    {
+      "id": "q146",
+      "topic": "probability",
+      "difficulty": "medium",
+      "question": "For two independent fair coin tosses, is the probability of two heads 1/4?",
+      "answer": true
+    },
+    {
+      "id": "q147",
+      "topic": "geometry",
+      "difficulty": "hard",
+      "question": "Is the sum of the interior angles of a convex Euclidean hexagon equal to 720 degrees?",
+      "answer": true
+    },
+    {
+      "id": "q148",
+      "topic": "computer_science",
+      "difficulty": "easy",
+      "question": "Can one bit represent exactly two distinct values?",
+      "answer": true
+    },
+    {
+      "id": "q150",
+      "topic": "geometry",
+      "difficulty": "very_hard",
+      "question": "Is the distance between (1, 2, 3) and (4, 6, 15) in Euclidean three-dimensional space equal to 13?",
+      "answer": true
+    },
+    {
+      "id": "q151",
+      "topic": "algebra",
+      "difficulty": "easy",
+      "question": "Is the solution x of 3x + 5 = 26 equal to 8?",
+      "answer": false
+    },
+    {
+      "id": "q152",
+      "topic": "algebra",
+      "difficulty": "medium",
+      "question": "For f(x) = 2x squared - 3x + 1, is f(7) equal to 78?",
+      "answer": true
+    },
+    {
+      "id": "q153",
+      "topic": "algebra",
+      "difficulty": "medium",
+      "question": "For f(x) = 2x squared - 3x + 1, is f(8) equal to 105?",
+      "answer": true
+    },
+    {
+      "id": "q154",
+      "topic": "algebra",
+      "difficulty": "hard",
+      "question": "Is the determinant of the matrix with rows (7, 11) and (13, 19) equal to -11?",
+      "answer": false
+    },
+    {
+      "id": "q155",
+      "topic": "algebra",
+      "difficulty": "very_hard",
+      "question": "Is the coefficient of x cubed in (2 + x) to the power 8 equal to 1793?",
+      "answer": false
+    },
+    {
+      "id": "q156",
+      "topic": "algebra",
+      "difficulty": "extreme",
+      "question": "For a(0)=0, a(1)=1, and a(n)=3a(n-1)-a(n-2) for n>=2, is a(11) equal to 17710?",
+      "answer": false
+    },
+    {
+      "id": "q157",
+      "topic": "arithmetic",
+      "difficulty": "easy",
+      "question": "Is 17 + 26 equal to 43?",
+      "answer": true
+    },
+    {
+      "id": "q158",
+      "topic": "arithmetic",
+      "difficulty": "easy",
+      "question": "Is 17 + 27 equal to 44?",
+      "answer": true
+    },
+    {
+      "id": "q159",
+      "topic": "arithmetic",
+      "difficulty": "medium",
+      "question": "Is 15% of 360 equal to 54?",
+      "answer": true
+    },
+    {
+      "id": "q160",
+      "topic": "arithmetic",
+      "difficulty": "medium",
+      "question": "Is 16% of 360 equal to 288/5?",
+      "answer": true
+    },
+    {
+      "id": "q161",
+      "topic": "arithmetic",
+      "difficulty": "hard",
+      "question": "Is the sum of the integers from 37 through 83, inclusive, equal to 2821?",
+      "answer": false
+    },
+    {
+      "id": "q162",
+      "topic": "arithmetic",
+      "difficulty": "very_hard",
+      "question": "Is 1/7 + 1/11 + 1/13 equal to 311/1001?",
+      "answer": true
+    },
+    {
+      "id": "q163",
+      "topic": "arithmetic",
+      "difficulty": "extreme",
+      "question": "Is the 37th digit after the decimal point in the base-10 expansion of 1/97 equal to 6?",
+      "answer": true
+    },
+    {
+      "id": "q164",
+      "topic": "arithmetic",
+      "difficulty": "extreme",
+      "question": "Is the 38th digit after the decimal point in the base-10 expansion of 1/97 equal to 6?",
+      "answer": false
+    },
+    {
+      "id": "q165",
+      "topic": "arithmetic",
+      "difficulty": "extreme",
+      "question": "Is the 39th digit after the decimal point in the base-10 expansion of 1/97 equal to 0?",
+      "answer": false
+    },
+    {
+      "id": "q166",
+      "topic": "calendars_and_time",
+      "difficulty": "easy",
+      "question": "Is a duration of 3 hours equal to this many minutes: 179?",
+      "answer": false
+    },
+    {
+      "id": "q167",
+      "topic": "calendars_and_time",
+      "difficulty": "medium",
+      "question": "Ignoring time zones and leap seconds, is the elapsed time from 22:45 to 01:15 the following day equal to this many minutes: 150?",
+      "answer": true
+    },
+    {
+      "id": "q168",
+      "topic": "calendars_and_time",
+      "difficulty": "hard",
+      "question": "In the Gregorian calendar, is the number of days from February 27, 2100 to March 2, 2100 equal to 3?",
+      "answer": true
+    },
+    {
+      "id": "q169",
+      "topic": "calendars_and_time",
+      "difficulty": "very_hard",
+      "question": "In the Gregorian calendar, is the number of leap years from 1896 through 2199, inclusive, equal to 75?",
+      "answer": false
+    },
+    {
+      "id": "q170",
+      "topic": "calendars_and_time",
+      "difficulty": "extreme",
+      "question": "In the Gregorian calendar, is the number of months in 2030 whose 13th day is a Friday equal to 1?",
+      "answer": false
+    },
+    {
+      "id": "q171",
+      "topic": "calendars_and_time",
+      "difficulty": "extreme",
+      "question": "In the Gregorian calendar, is the number of months in 2031 whose 13th day is a Friday equal to 2?",
+      "answer": false
+    },
+    {
+      "id": "q172",
+      "topic": "combinatorics",
+      "difficulty": "easy",
+      "question": "Is the number of subsets of a set with 4 elements, including the empty set, equal to 15?",
+      "answer": false
+    },
+    {
+      "id": "q173",
+      "topic": "combinatorics",
+      "difficulty": "medium",
+      "question": "Is the number of unordered pairs of distinct elements of a 12-element set equal to 66?",
+      "answer": true
+    },
+    {
+      "id": "q174",
+      "topic": "combinatorics",
+      "difficulty": "hard",
+      "question": "Is the number of ways to distribute 12 identical balls into four labeled boxes, allowing empty boxes, equal to 455?",
+      "answer": true
+    },
+    {
+      "id": "q175",
+      "topic": "combinatorics",
+      "difficulty": "very_hard",
+      "question": "Is the number of permutations of 7 distinct objects with none in its original position equal to 1855?",
+      "answer": false
+    },
+    {
+      "id": "q176",
+      "topic": "combinatorics",
+      "difficulty": "extreme",
+      "question": "Is the number of balanced strings of 10 opening and 10 closing parentheses, with no prefix containing more closing than opening parentheses, equal to 16795?",
+      "answer": false
+    },
+    {
+      "id": "q177",
+      "topic": "computer_science",
+      "difficulty": "easy",
+      "question": "Is the number of distinct bit patterns of length 5 equal to 33?",
+      "answer": false
+    },
+    {
+      "id": "q178",
+      "topic": "computer_science",
+      "difficulty": "medium",
+      "question": "Is the decimal value of hexadecimal AD equal to 173?",
+      "answer": true
+    },
+    {
+      "id": "q179",
+      "topic": "computer_science",
+      "difficulty": "hard",
+      "question": "Is the bitwise XOR of hexadecimal B6 and 6D equal to this decimal integer: 220?",
+      "answer": false
+    },
+    {
+      "id": "q180",
+      "topic": "computer_science",
+      "difficulty": "very_hard",
+      "question": "Is the number of set bits in the 16-bit unsigned integer 46803 equal to 10?",
+      "answer": true
+    },
+    {
+      "id": "q181",
+      "topic": "computer_science",
+      "difficulty": "extreme",
+      "question": "Starting with x=1 and applying x=(17x+43) modulo 256 exactly 12 times, is the final x equal to 37?",
+      "answer": true
+    },
+    {
+      "id": "q182",
+      "topic": "computer_science",
+      "difficulty": "extreme",
+      "question": "Starting with x=1 and applying x=(17x+43) modulo 256 exactly 13 times, is the final x equal to 159?",
+      "answer": false
+    },
+    {
+      "id": "q183",
+      "topic": "computer_science",
+      "difficulty": "extreme",
+      "question": "Starting with x=1 and applying x=(17x+43) modulo 256 exactly 14 times, is the final x equal to 204?",
+      "answer": false
+    },
+    {
+      "id": "q184",
+      "topic": "geometry",
+      "difficulty": "easy",
+      "question": "Is the perimeter of a Euclidean rectangle with side lengths 7 and 9 equal to 31?",
+      "answer": false
+    },
+    {
+      "id": "q185",
+      "topic": "geometry",
+      "difficulty": "medium",
+      "question": "Is the sum of interior angles of a convex Euclidean 9-gon equal to this many degrees: 1260?",
+      "answer": true
+    },
+    {
+      "id": "q186",
+      "topic": "geometry",
+      "difficulty": "medium",
+      "question": "Is the sum of interior angles of a convex Euclidean 10-gon equal to this many degrees: 1440?",
+      "answer": true
+    },
+    {
+      "id": "q187",
+      "topic": "geometry",
+      "difficulty": "hard",
+      "question": "Is the squared Euclidean distance between (2, -3) and (11, 9) equal to 226?",
+      "answer": false
+    },
+    {
+      "id": "q188",
+      "topic": "geometry",
+      "difficulty": "very_hard",
+      "question": "Is the square of the area of a Euclidean triangle with side lengths 13, 14, and 15 equal to 7055?",
+      "answer": false
+    },
+    {
+      "id": "q189",
+      "topic": "geometry",
+      "difficulty": "extreme",
+      "question": "Is the number of integer-coordinate points (x,y) satisfying x squared + y squared <= 36 equal to 113?",
+      "answer": true
+    },
+    {
+      "id": "q190",
+      "topic": "geometry",
+      "difficulty": "extreme",
+      "question": "Is the number of integer-coordinate points (x,y) satisfying x squared + y squared <= 49 equal to 149?",
+      "answer": true
+    },
+    {
+      "id": "q191",
+      "topic": "logic_and_sets",
+      "difficulty": "easy",
+      "question": "If disjoint finite sets A and B have 4 and 7 elements respectively, is the number of elements of their union equal to 12?",
+      "answer": false
+    },
+    {
+      "id": "q192",
+      "topic": "logic_and_sets",
+      "difficulty": "medium",
+      "question": "If |A|=17, |B|=19, and |A intersect B|=8, is |A union B| equal to 27?",
+      "answer": false
+    },
+    {
+      "id": "q193",
+      "topic": "logic_and_sets",
+      "difficulty": "hard",
+      "question": "For 6 labeled Boolean variables, is the number of assignments making exactly two variables true equal to 15?",
+      "answer": true
+    },
+    {
+      "id": "q194",
+      "topic": "logic_and_sets",
+      "difficulty": "very_hard",
+      "question": "For 7 labeled Boolean variables in a line, is the number of assignments with no adjacent pair both true equal to 33?",
+      "answer": false
+    },
+    {
+      "id": "q195",
+      "topic": "logic_and_sets",
+      "difficulty": "extreme",
+      "question": "For 9 labeled Boolean variables in a cycle, including adjacency of last and first, is the number of assignments with no adjacent pair both true equal to 76?",
+      "answer": true
+    },
+    {
+      "id": "q196",
+      "topic": "logic_and_sets",
+      "difficulty": "extreme",
+      "question": "For 10 labeled Boolean variables in a cycle, including adjacency of last and first, is the number of assignments with no adjacent pair both true equal to 122?",
+      "answer": false
+    },
+    {
+      "id": "q197",
+      "topic": "number_theory",
+      "difficulty": "easy",
+      "question": "Is the remainder of 47 divided by 5 equal to 3?",
+      "answer": false
+    },
+    {
+      "id": "q198",
+      "topic": "number_theory",
+      "difficulty": "medium",
+      "question": "Is the greatest common divisor of 84 and 126 equal to 42?",
+      "answer": true
+    },
+    {
+      "id": "q199",
+      "topic": "number_theory",
+      "difficulty": "medium",
+      "question": "Is the greatest common divisor of 96 and 126 equal to 6?",
+      "answer": true
+    },
+    {
+      "id": "q200",
+      "topic": "number_theory",
+      "difficulty": "hard",
+      "question": "Does 720 have exactly this many positive divisors: 29?",
+      "answer": false
+    },
+    {
+      "id": "q201",
+      "topic": "number_theory",
+      "difficulty": "very_hard",
+      "question": "Is the number of trailing zeros of 1000 factorial in base 10 equal to 250?",
+      "answer": false
+    },
+    {
+      "id": "q202",
+      "topic": "number_theory",
+      "difficulty": "extreme",
+      "question": "Is the remainder of 7 raised to the power 83 when divided by 101 equal to 63?",
+      "answer": true
+    },
+    {
+      "id": "q203",
+      "topic": "number_theory",
+      "difficulty": "extreme",
+      "question": "Is the remainder of 7 raised to the power 84 when divided by 101 equal to 38?",
+      "answer": false
+    },
+    {
+      "id": "q204",
+      "topic": "physics_and_units",
+      "difficulty": "easy",
+      "question": "Is 3 meters equal to this many millimeters: 2999?",
+      "answer": false
+    },
+    {
+      "id": "q205",
+      "topic": "physics_and_units",
+      "difficulty": "medium",
+      "question": "At a constant speed of 13 meters per second for 17 seconds, is the distance traveled equal to this many meters: 221?",
+      "answer": true
+    },
+    {
+      "id": "q206",
+      "topic": "physics_and_units",
+      "difficulty": "hard",
+      "question": "For a mass of 7 kilograms moving at 12 meters per second, is its classical kinetic energy equal to this many joules: 504?",
+      "answer": true
+    },
+    {
+      "id": "q207",
+      "topic": "physics_and_units",
+      "difficulty": "very_hard",
+      "question": "Two resistors of 6 and 9 ohms are connected in parallel. Is their equivalent resistance equal to this many ohms: 19/5?",
+      "answer": false
+    },
+    {
+      "id": "q208",
+      "topic": "physics_and_units",
+      "difficulty": "extreme",
+      "question": "A particle starts at x=0 with velocity 7 meters per second and acceleration a(t)=6t squared - 4t + 2 meters per second squared. At t=7 seconds, is its position equal to this many meters: 6419/6?",
+      "answer": true
+    },
+    {
+      "id": "q209",
+      "topic": "physics_and_units",
+      "difficulty": "extreme",
+      "question": "A particle starts at x=0 with velocity 7 meters per second and acceleration a(t)=6t squared - 4t + 2 meters per second squared. At t=8 seconds, is its position equal to this many meters: 1827?",
+      "answer": false
+    },
+    {
+      "id": "q210",
+      "topic": "probability",
+      "difficulty": "easy",
+      "question": "For a fair six-sided die numbered 1 through 6, is the probability of rolling at most 3 equal to 1/2?",
+      "answer": true
+    },
+    {
+      "id": "q211",
+      "topic": "probability",
+      "difficulty": "medium",
+      "question": "For 4 independent fair coin tosses, is the probability of all heads equal to 1/16?",
+      "answer": true
+    },
+    {
+      "id": "q212",
+      "topic": "probability",
+      "difficulty": "hard",
+      "question": "When drawing three balls without replacement from a bag with 5 red and 4 blue balls, is the probability that all three are red equal to 2/21?",
+      "answer": false
+    },
+    {
+      "id": "q213",
+      "topic": "probability",
+      "difficulty": "very_hard",
+      "question": "For 8 independent fair coin tosses, is the probability of at least six heads equal to 37/256?",
+      "answer": true
+    },
+    {
+      "id": "q214",
+      "topic": "probability",
+      "difficulty": "extreme",
+      "question": "For 4 independent fair six-sided dice numbered 1 through 6, is the probability that their sum is 12 equal to 125/1296?",
+      "answer": true
+    }
+  ]
+}
