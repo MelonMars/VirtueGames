@@ -1,5 +1,9 @@
 # VirtueGames experiments
 
+For the current scoring, audit, family-split, and cross-game steering workflow,
+start with [Measurement v2](MEASUREMENT_WORKFLOW.md). Existing saved run scores
+and vectors predate these checks and need rescoring/re-extraction.
+
 ## One command per experiment, with optional activation extraction
 
 Run `python run_integrity.py`, `python run_integrity_variance.py`,

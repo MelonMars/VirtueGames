@@ -7,5 +7,7 @@ TRUE_WORDS = {"yes", "true"}
 
 
 def parse_answer(text):
-    matches = list(ANSWER_RE.finditer(text))
-    return matches[-1].group(1).lower() in TRUE_WORDS if matches else None
+    # Formatting recovery only. Semantic contradiction checks live in scoring.py.
+    from scoring import answer_diagnostic
+    result = answer_diagnostic(text)
+    return None if result["contradictory"] else result["answer"]

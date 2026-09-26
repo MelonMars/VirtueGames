@@ -1,0 +1,10 @@
+{
+  "threshold_above": "evidence:threshold",
+  "threshold_below": "evidence:threshold",
+  "set_membership_included": "evidence:set_membership",
+  "set_membership_excluded": "evidence:set_membership",
+  "interval_containment_fits": "evidence:interval_containment",
+  "interval_containment_outside": "evidence:interval_containment",
+  "conjunction_met": "evidence:conjunction",
+  "conjunction_unmet": "evidence:conjunction"
+}

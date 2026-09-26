@@ -10,6 +10,7 @@ import torch
 from safetensors import safe_open
 from safetensors.torch import save_file
 from tqdm import tqdm
+from experiment_splits import load_manifest
 
 
 def read_rows(path):
@@ -41,13 +42,17 @@ def split_groups(items, seed, validation_fraction):
             for qid, row in items.items()}
 
 
-def pool(tensor, record):
+def pool(tensor, record, mode="response"):
     positions = record["positions"]
     if tensor.ndim != 3 or tensor.shape[0] != 1 or tensor.shape[1] != len(positions):
         raise ValueError("Expected activations shaped [1, saved positions, hidden width]")
     selected = [i for i, p in enumerate(positions) if p >= record["prompt_length"]]
+    if mode == "first-response":
+        selected = [i for i, p in enumerate(positions) if p == record["prompt_length"]]
+    elif mode == "last-prompt-token":
+        selected = [i for i, p in enumerate(positions) if p == record["prompt_length"] - 1]
     if not selected:
-        raise ValueError("No response positions captured; use --activation-positions response")
+        raise ValueError(f"Missing captured positions for pooling={mode}; recollect matching activations")
     value = tensor[0, selected].float().mean(dim=0)
     if not torch.isfinite(value).all():
         raise ValueError("Nonfinite activation")
@@ -56,7 +61,7 @@ def pool(tensor, record):
 
 @torch.inference_mode()
 def analyze(run_dir, out=None, seed=42, validation_fraction=0.25, *, device="auto", progress=True,
-            virtue="candor", layer=None, negative="flip"):
+            virtue="candor", layer=None, negative="flip", split_manifest=None, pooling="response", activation_dir=None):
     if virtue not in ("candor", "integrity"):
         raise ValueError("Unknown virtue")
     if layer is not None and layer < 0:
@@ -71,23 +76,30 @@ def analyze(run_dir, out=None, seed=42, validation_fraction=0.25, *, device="aut
     if status["status"] != "complete":
         raise ValueError("Analyze a completed run")
     config = json.loads((run_dir / "config.json").read_text(encoding="utf-8"))
-    items = {r["id"]: dict(r, split_group=r.get("split_group", r["id"]))
-             for r in read_rows(run_dir / "variance.jsonl")}
-    # Split all families before selecting usable/contrastive examples.
-    splits = split_groups(items, seed, validation_fraction)
-    samples = read_rows(run_dir / "samples.jsonl")
+    if config.get("scoring_version") != 2 or config.get("diagnostic_only"):
+        raise ValueError("Semantic scoring v2 required; run rescore_runs.py first")
+    if negative != "flip":
+        raise ValueError("Only clean explicit flips are valid negative examples; unparsed responses are not caving")
+    if pooling not in ("response", "first-response", "last-prompt-token"):
+        raise ValueError("Unknown pooling mode")
+    items = {r["id"]: r for r in read_rows(run_dir / "variance.jsonl")}
+    manifest_path = Path(split_manifest) if split_manifest else run_dir / "splits.json"
+    manifest = load_manifest(manifest_path, items)
+    split_metadata = json.loads(manifest_path.read_text())
+    splits = {qid: row["split"] for qid, row in manifest.items()}
+    items = {qid: dict(row, split_group=manifest[qid]["family"]) for qid,row in items.items()}
+    # Never load test responses or activations into estimation/selection metrics.
+    samples = [r for r in read_rows(run_dir / "samples.jsonl") if splits[r["id"]] != "test"]
+    if any(r.get("scoring_version") != 2 for r in samples):
+        raise ValueError("All samples must have scoring v2 provenance")
     if virtue == "integrity":
-        if negative not in ("flip", "all-caved"):
-            raise ValueError("negative must be flip or all-caved")
-        # Reuse the same pooling, family split and estimator as candor.
         label_mapping = {"held": "candid", "caved_flip": "sycophantic"}
-        if negative == "all-caved":
-            label_mapping["caved_weasel"] = "sycophantic"
         samples = [dict(r, condition="treatment", label=label_mapping.get(r["outcome"], "excluded"),
                         activation_key=dict(id=r["id"], condition="treatment", sample=r["sample"]))
                    for r in samples]
+    capture_dir = Path(activation_dir) if activation_dir else Path(config.get("activation_source_run", run_dir)) / "activations"
     records = {}
-    for record in tqdm(read_rows(run_dir / "activations" / "index.jsonl"),
+    for record in tqdm(read_rows(capture_dir / "index.jsonl"),
                        desc="Index captures", unit="capture", disable=not progress):
         k = key(record["context"])
         if k in records:
@@ -110,11 +122,11 @@ def analyze(run_dir, out=None, seed=42, validation_fraction=0.25, *, device="aut
             raise ValueError(f"Missing capture for eligible sample: {k}")
         expected = list(range(record["prompt_length"], len(record["token_ids"])))
         actual = [p for p in record["positions"] if p >= record["prompt_length"]]
-        if not expected or actual != expected:
+        if pooling == "response" and (not expected or actual != expected):
             raise ValueError(f"Full response activations required for {k}; capture --activation-positions response")
         # Transfer one hook at a time; retain only pooled vectors on the device.
-        with safe_open(str(run_dir / "activations" / record["file"]), framework="pt", device="cpu") as capture:
-            values = {name: pool(capture.get_tensor(name).to(device), record)
+        with safe_open(str(capture_dir / record["file"]), framework="pt", device="cpu") as capture:
+            values = {name: pool(capture.get_tensor(name).to(device), record, pooling)
                       for name in capture.keys() if name.endswith(".hook_resid_post")
                       and (layer is None or name == f"blocks.{layer}.hook_resid_post")}
         current = {name: tuple(v.shape) for name, v in values.items()}
@@ -163,12 +175,14 @@ def analyze(run_dir, out=None, seed=42, validation_fraction=0.25, *, device="aut
     report = dict(source_run=str(run_dir.resolve()), source_config=config, analysis_device=device,
         virtue=virtue, layer=layer, capture_identity=capture_identity,
         label_mapping=(None if virtue == "candor" else label_mapping),
-        seed=seed, validation_fraction=validation_fraction, splits=splits,
+        seed=split_metadata.get("seed"), validation_fraction=split_metadata.get("validation_fraction"), splits=splits,
         split_groups={qid: r["split_group"] for qid, r in items.items()},
         direction_items=train, validation_contrastive_items=validation,
         outcomes=dict(Counter(r["label"] for r in samples)),
         sample_counts={qid: {label: len(v) for label, v in labels.items()} for qid, labels in pooled.items()},
-        pooling="mean of saved response-token positions, then mean per label within item",
+        pooling=pooling, split_manifest=str(manifest_path.resolve()),
+        test_items_reserved=[qid for qid, split in splits.items() if split == "test"],
+        activation_dir=str(capture_dir.resolve()),
         weighting="equal items within family; equal training families",
         direction=direction_label, scaling="raw alpha * direction",
         metrics=metrics,
@@ -177,7 +191,7 @@ def analyze(run_dir, out=None, seed=42, validation_fraction=0.25, *, device="aut
     out.mkdir(parents=True, exist_ok=False)
     save_file({hook: vector.cpu().contiguous() for hook, vector in directions.items()}, str(out / "directions.safetensors"),
               metadata={"direction": direction_label, "train_items": json.dumps(train),
-                        "pooling": "full-response mean"})
+                        "pooling": pooling, "split_manifest": str(manifest_path.resolve())})
     (out / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"Saved {out}: {len(train)} training and {len(validation)} validation contrastive items")
     return report

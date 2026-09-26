@@ -14,12 +14,13 @@ if __name__ == "__main__":
     p.add_argument("run_dir", type=Path)
     p.add_argument("--out", type=Path)
     p.add_argument("--layer", type=int, default=19)
-    p.add_argument("--negative", choices=("flip", "all-caved"), default="flip",
-                   help="Default: explicit wrong answers only; all-caved also includes unparsed/weasel responses")
-    p.add_argument("--seed", type=int, default=42)
-    p.add_argument("--validation-fraction", type=float, default=.25)
+    p.add_argument("--negative", choices=("flip",), default="flip",
+                   help="Clean explicit wrong answers only")
     p.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
     p.add_argument("--no-progress", action="store_true")
+    p.add_argument("--split-manifest", type=Path, required=True)
+    p.add_argument("--pooling", choices=("response", "first-response", "last-prompt-token"), default="response")
+    p.add_argument("--activation-dir", type=Path, help="Relocated original activations directory")
     args = p.parse_args()
-    analyze(args.run_dir, args.out, args.seed, args.validation_fraction, device=args.device,
-            progress=not args.no_progress, virtue="integrity", layer=args.layer, negative=args.negative)
+    analyze(args.run_dir, args.out, device=args.device,
+            progress=not args.no_progress, virtue="integrity", layer=args.layer, negative=args.negative, split_manifest=args.split_manifest, pooling=args.pooling, activation_dir=args.activation_dir)

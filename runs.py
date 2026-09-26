@@ -39,6 +39,21 @@ def read_jsonl(path):
         return [json.loads(line) for line in stream if line.strip()]
 
 
+def model_runtime(llm):
+    """Record resolved checkpoint identity and actual execution settings."""
+    from importlib.metadata import version, PackageNotFoundError
+    model = getattr(llm, "model", None)
+    versions = {}
+    for name in ("torch", "transformers", "transformer-lens"):
+        try:
+            versions[name] = version(name)
+        except PackageNotFoundError:
+            pass
+    return dict(resolved_revision=getattr(getattr(model, "config", None), "_commit_hash", None),
+                dtype=str(getattr(model, "dtype", "unknown")), device=str(getattr(model, "device", "unknown")),
+                versions=versions)
+
+
 @contextmanager
 def jsonl_writer(path):
     with Path(path).open("w", encoding="utf-8") as stream:

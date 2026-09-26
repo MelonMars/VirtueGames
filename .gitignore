@@ -1,1 +1,4 @@
 **/activations*/
+__pycache__/
+*.py[cod]
+*.md

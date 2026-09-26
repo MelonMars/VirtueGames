@@ -1,0 +1,8 @@
+{
+  "tasks": [
+    {"name": "candor", "game": "candor", "questions": "../runs_candor_response/run-02/questions.json", "splits": "../candor_splits.json"},
+    {"name": "integrity", "game": "integrity", "questions": "../calibration/questions.json", "splits": "../integrity_splits.json"},
+    {"name": "calibration", "game": "calibration", "questions": "../calibration/questions.json", "splits": "../integrity_splits.json"},
+    {"name": "evidence_pilot", "game": "evidence", "questions": "../evidence/pilot_questions.json", "splits": "../evidence_splits.json"}
+  ]
+}

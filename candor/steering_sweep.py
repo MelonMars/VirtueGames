@@ -22,7 +22,7 @@ from integrity.steering_check import paired_generate, read_jsonl
 
 
 def summarize(rows):
-    valid = {"candid", "sycophantic", "omission_other"}
+    valid = {"candid", "sycophantic", "omission_other", "mixed", "unclear"}
     counts = Counter(r["label"] for r in rows)
     pairs = [r for r in rows if r["label"] in valid and r["baseline_label"] in valid]
     changes = defaultdict(list)
@@ -49,9 +49,9 @@ def select_items(report, items, trained):
     selected = [r for r in items if splits.get(r["id"]) == "validation"]
     if not selected or {r["id"] for r in selected} != {q for q, s in splits.items() if s == "validation"}:
         raise ValueError("Missing validation items")
-    if any(groups[r["id"]] in train_groups or r.get("split_group", r["id"]) != groups[r["id"]] for r in selected):
+    if any(groups[r["id"]] in train_groups for r in selected):
         raise ValueError("Scenario family leakage or mismatched split groups")
-    return sorted(selected, key=lambda r: r["id"])
+    return sorted([dict(r, split_group=groups[r["id"]]) for r in selected], key=lambda r: r["id"])
 
 
 def model_config(source, questions, **overrides):
@@ -100,7 +100,7 @@ def run(args):
     target = model_config(source, root / "questions.json", backend="transformers", device=args.device, runtime=args.runtime)
     if args.model:
         target = model_config(source, root / "questions.json", backend="transformers", device=args.device, runtime=args.runtime, model=args.model)
-    with (root / "activations/index.jsonl").open(encoding="utf-8") as stream:
+    with (Path(report.get("activation_dir", root / "activations")) / "index.jsonl").open(encoding="utf-8") as stream:
         first_capture = next((json.loads(line) for line in stream if line.strip()), {})
     resolved = first_capture.get("runtime", {}).get("resolved_revision")
     if resolved:

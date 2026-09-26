@@ -2,6 +2,20 @@ from contextlib import contextmanager
 
 
 @contextmanager
+def without_activation_capture(llm):
+    """Keep identical generation settings while omitting neutral-control replay/storage."""
+    recorder = getattr(llm, "activation_recorder", None)
+    if recorder is None:
+        yield
+        return
+    llm.activation_recorder = None
+    try:
+        yield
+    finally:
+        llm.activation_recorder = recorder
+
+
+@contextmanager
 def load_model(config):
     if config.runtime == "runpod":
         import os
@@ -32,10 +46,18 @@ def load_model(config):
 
 def generate(llm, system, user, *, temperature=0.0, max_tokens=1024,
              seed=None, reset=False, activation_context=None):
+    return generate_messages(llm, [{"role": "system", "content": system},
+                                   {"role": "user", "content": user}],
+        temperature=temperature, max_tokens=max_tokens, seed=seed, reset=reset,
+        activation_context=activation_context)
+
+
+def generate_messages(llm, messages, *, temperature=0.0, max_tokens=1024,
+                      seed=None, reset=False, activation_context=None):
+    """Generate from an actual conversation, preserving previous assistant turns."""
     if reset:
         llm.reset()
-    kwargs = dict(messages=[{"role": "system", "content": system},
-                            {"role": "user", "content": user}],
+    kwargs = dict(messages=messages,
                   temperature=temperature, max_tokens=max_tokens)
     if seed is not None:
         kwargs["seed"] = seed

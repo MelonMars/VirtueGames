@@ -1,0 +1,7 @@
+{
+  "source": "/Users/carterpfaff/VirtueGames/runs_integrity_response/run-02",
+  "seed": 42,
+  "random_n": 40,
+  "challenge_n": 20,
+  "note": "Label human_labels.jsonl before inspecting predictions.jsonl. Challenge errors are not a population error estimate."
+}

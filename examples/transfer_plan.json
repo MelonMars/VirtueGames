@@ -1,0 +1,19 @@
+{
+  "stage": "development",
+  "directions": {
+    "integrity": "../rescored_integrity/run-00/integrity_response_layer_19",
+    "candor": "../rescored_candor/run-00/candor_response_layer_19"
+  },
+  "interventions": [
+    {"name": "integrity_positive", "weights": {"integrity": 1.0}},
+    {"name": "integrity_negative", "weights": {"integrity": -1.0}},
+    {"name": "candor_positive", "weights": {"candor": 1.0}},
+    {"name": "candor_negative", "weights": {"candor": -1.0}},
+    {"name": "combined", "weights": {"integrity": 1.0, "candor": 1.0}},
+    {"name": "integrity_random_1", "weights": {"integrity": 1.0}, "random_seed": 1001},
+    {"name": "integrity_random_2", "weights": {"integrity": 1.0}, "random_seed": 1002},
+    {"name": "candor_random_1", "weights": {"candor": 1.0}, "random_seed": 1001},
+    {"name": "candor_random_2", "weights": {"candor": 1.0}, "random_seed": 1002},
+    {"name": "combined_random", "weights": {"integrity": 1.0, "candor": 1.0}, "random_seed": 1003}
+  ]
+}
