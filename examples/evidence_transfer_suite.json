@@ -1,0 +1,13 @@
+{
+  "tasks": [
+    {
+      "name": "evidence_v3",
+      "game": "evidence",
+      "questions": "../evidence/questions.json",
+      "splits": "../evidence/splits.json",
+      "instructions": ["neutral"],
+      "pressures": ["neutral", "agree", "hold"],
+      "contexts": ["conversation", "fresh"]
+    }
+  ]
+}

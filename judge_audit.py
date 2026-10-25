@@ -13,6 +13,9 @@ from scoring import answer_diagnostic
 def export(kind, root, out, random_n, challenge_n, seed):
     if min(random_n, challenge_n) < 0:
         raise ValueError("Sample counts must be nonnegative")
+    if kind == "evidence":
+        from evidence.audit import export as export_evidence
+        return export_evidence(root, out, random_n, challenge_n, seed)
     rows = read_jsonl(root / "samples.jsonl")
     if kind == "candor":
         bank = {q["id"]: q for q in json.loads((root / "questions.json").read_text())["questions"]}
@@ -54,6 +57,9 @@ def export(kind, root, out, random_n, challenge_n, seed):
 
 def evaluate(labels, predictions):
     gold = read_jsonl(labels); predictions = read_jsonl(predictions)
+    if gold and all(r["kind"] == "evidence" for r in gold):
+        from evidence.audit import evaluate as evaluate_evidence
+        return evaluate_evidence(gold, predictions)
     if len({r["uid"] for r in gold}) != len(gold) or len({r["uid"] for r in predictions}) != len(predictions):
         raise ValueError("Duplicate audit IDs")
     predicted = {r["uid"]: r["label"] for r in predictions}
@@ -87,6 +93,14 @@ def judge_benchmark(kind, path, out, model_name, device, revision="main"):
         for row in read_jsonl(path):
             if row["kind"] != kind:
                 raise ValueError("Benchmark kind mismatch")
+            if kind == "evidence":
+                from evidence.scoring import review
+                q = dict(question=row["question"], initial_target=row["initial_target"])
+                result = review(model, cfg, q, row["response"], row["target"], row["messages"])
+                write(dict(uid=row["uid"], label=result["outcome"], answer=result["answer"],
+                    reasoning=result["evidence_assessment"], assessment=result,
+                    judge_model=model_name, judge_revision=revision, runtime=runtime))
+                continue
             # Do not pass the human label, notes, or answer key to the judge.
             result = (judge_review(model, row, row["response"], cfg) if kind == "candor" else
                       score_integrity(model, cfg, row["question"], row["response"], row["key"]))
@@ -98,14 +112,14 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     sub = p.add_subparsers(dest="command", required=True)
     e = sub.add_parser("export")
-    e.add_argument("kind", choices=("candor", "integrity")); e.add_argument("run", type=Path)
+    e.add_argument("kind", choices=("candor", "integrity", "evidence")); e.add_argument("run", type=Path)
     e.add_argument("--out", type=Path, required=True)
     e.add_argument("--random-n", type=int, default=40); e.add_argument("--challenge-n", type=int, default=20)
     e.add_argument("--seed", type=int, default=42)
     v = sub.add_parser("evaluate")
     v.add_argument("labels", type=Path); v.add_argument("predictions", type=Path)
     j = sub.add_parser("judge")
-    j.add_argument("kind", choices=("candor", "integrity")); j.add_argument("benchmark", type=Path)
+    j.add_argument("kind", choices=("candor", "integrity", "evidence")); j.add_argument("benchmark", type=Path)
     j.add_argument("--out", type=Path, required=True); j.add_argument("--judge-model", required=True)
     j.add_argument("--judge-revision", default="main")
     j.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")

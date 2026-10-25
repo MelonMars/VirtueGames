@@ -12,6 +12,7 @@ from config import RunConfig
 from experiment_splits import load_manifest
 from llm import generate_messages, load_model
 from runs import next_run_dir, write_json, jsonl_writer, model_runtime
+from tqdm import tqdm
 
 
 def family_metrics(rows, seed=42):
@@ -46,8 +47,15 @@ def load_suite(path, partition, direction_reports):
             raise ValueError("Unknown game")
         questions_path = (path.parent / entry["questions"]).resolve()
         questions = json.loads(questions_path.read_text())["questions"]
+        if entry["game"] == "evidence" and any("branches" in q for q in questions):
+            from evidence.protocol import load_bank
+            questions = load_bank(questions_path)
         split_path = (path.parent / entry["splits"]).resolve()
         manifest = load_manifest(split_path, [q["id"] for q in questions])
+        if entry["game"] == "evidence" and any("branches" in q for q in questions):
+            if (json.loads(split_path.read_text()).get("questions_sha256") != hashlib.sha256(questions_path.read_bytes()).hexdigest()
+                    or any(manifest[q["id"]]["family"] != q["family_id"] for q in questions)):
+                raise ValueError("Evidence split must match the exact bank and its families")
         selected = [dict(q, family=manifest[q["id"]]["family"]) for q in questions
                     if manifest[q["id"]]["split"] == partition]
         for report in direction_reports:
@@ -116,68 +124,98 @@ def generate_suite(model, bridge, cfg, suite, settings, site, out):
     from calibration.run_calibration import SYSTEM_PROMPT as CALIBRATION_SYSTEM
     from evidence.run_evidence import SYSTEM as EVIDENCE_SYSTEM
     rows = []
+    conditions_per_item = {"candor": 2, "integrity": 2, "evidence": 2, "calibration": 1}
+    from evidence.transfer import call_count, generate_item
+    total = sum(cfg.n_samples * (call_count(task, q, len(settings)) if task["game"] == "evidence" and "branches" in q
+                else conditions_per_item[task["game"]] * len(settings) + (task["game"] == "evidence"))
+                for task in suite for q in task["questions"])
     with jsonl_writer(out / "results.jsonl") as write:
-        for task in suite:
-            for i,q in enumerate(task["questions"]):
-                for sample in range(cfg.n_samples):
-                    seed = cfg.seed + i*cfg.n_samples + sample
-                    game = task["game"]
-                    initial = None
-                    if game == "evidence":
-                        base = [{"role":"system", "content":EVIDENCE_SYSTEM},
-                                {"role":"user", "content":q["initial_evidence"]+"\n\n"+q["question"]}]
-                        initial = generate_messages(model, base, seed=seed, temperature=cfg.temperature, max_tokens=cfg.max_tokens)
-                        prompts = {c: base + [{"role":"assistant", "content":initial},
-                                             {"role":"user", "content":q[c+"_challenge"]}] for c in ("invalid","valid")}
-                    elif game == "candor":
-                        prompts = {c:[{"role":"system", "content":CANDOR_SYSTEM},
-                                      {"role":"user", "content":build_user(q,c=="treatment")}] for c in ("neutral","treatment")}
-                    elif game == "integrity":
-                        prompts = {c:[{"role":"system", "content":INTEGRITY_SYSTEM},
-                                      {"role":"user", "content":integrity_user(SCENARIOS[i%len(SCENARIOS)],q["question"],"No" if q["answer"] else "Yes",c=="treatment")}] for c in ("neutral","treatment")}
-                    else:
-                        prompts = {"neutral":[{"role":"system", "content":CALIBRATION_SYSTEM}, {"role":"user", "content":q["question"]}]}
-                    for condition,messages in prompts.items():
-                        baseline = None
-                        for setting,vectors in settings.items():
-                            additions = {h:ResidualAddition(v,1.,site) for h,v in vectors.items()}
-                            with bridge.hooks(fwd_hooks=list(additions.items())) if additions else nullcontext():
-                                response = generate_messages(model, messages, seed=seed+1000000,
-                                    temperature=cfg.temperature, max_tokens=cfg.max_tokens)
-                            if any(not addition.calls for addition in additions.values()):
-                                raise RuntimeError("Steering hook did not fire")
-                            if setting == "baseline":
-                                baseline = response
-                            if setting == "zero_hook" and response != baseline:
-                                raise RuntimeError("Zero-vector hooks did not reproduce the unhooked baseline")
-                            row = dict(task=task["name"], game=game, id=q["id"], family=q["family"], sample=sample,
-                                seed=seed+1000000, condition=condition, intervention=setting, response=response,
-                                initial_response=initial, messages=messages)
-                            rows.append(row); write(row)
+        with tqdm(total=total, desc="Generate transfer", unit="response") as progress:
+            for task in suite:
+                for i,q in enumerate(task["questions"]):
+                    for sample in range(cfg.n_samples):
+                        progress.set_postfix(task=task["name"], item=q["id"], sample=sample, refresh=False)
+                        seed = cfg.seed + i*cfg.n_samples + sample
+                        game = task["game"]
+                        initial = None
+                        if game == "evidence" and "branches" in q:
+                            for row in generate_item(model, bridge, cfg, task, q, sample, seed, settings, site, progress):
+                                rows.append(row); write(row)
+                            continue
+                        if game == "evidence":
+                            base = [{"role":"system", "content":EVIDENCE_SYSTEM},
+                                    {"role":"user", "content":q["initial_evidence"]+"\n\n"+q["question"]}]
+                            initial = generate_messages(model, base, seed=seed, temperature=cfg.temperature, max_tokens=cfg.max_tokens)
+                            progress.update(1)
+                            prompts = {c: base + [{"role":"assistant", "content":initial},
+                                                 {"role":"user", "content":q[c+"_challenge"]}] for c in ("invalid","valid")}
+                        elif game == "candor":
+                            prompts = {c:[{"role":"system", "content":CANDOR_SYSTEM},
+                                          {"role":"user", "content":build_user(q,c=="treatment")}] for c in ("neutral","treatment")}
+                        elif game == "integrity":
+                            prompts = {c:[{"role":"system", "content":INTEGRITY_SYSTEM},
+                                          {"role":"user", "content":integrity_user(SCENARIOS[i%len(SCENARIOS)],q["question"],"No" if q["answer"] else "Yes",c=="treatment")}] for c in ("neutral","treatment")}
+                        else:
+                            prompts = {"neutral":[{"role":"system", "content":CALIBRATION_SYSTEM}, {"role":"user", "content":q["question"]}]}
+                        for condition,messages in prompts.items():
+                            for setting,vectors in settings.items():
+                                progress.set_postfix(task=task["name"], item=q["id"], condition=condition,
+                                                     intervention=setting, sample=sample, refresh=False)
+                                additions = {h:ResidualAddition(v,1.,site) for h,v in vectors.items()}
+                                with bridge.hooks(fwd_hooks=list(additions.items())) if additions else nullcontext():
+                                    response = generate_messages(model, messages, seed=seed+1000000,
+                                        temperature=cfg.temperature, max_tokens=cfg.max_tokens)
+                                if any(not addition.calls for addition in additions.values()):
+                                    raise RuntimeError("Steering hook did not fire")
+                                if setting == "baseline":
+                                    baseline = response
+                                if setting == "zero_hook" and response != baseline:
+                                    raise RuntimeError("Zero-vector hooks did not reproduce the unhooked baseline")
+                                row = dict(task=task["name"], game=game, id=q["id"], family=q["family"], sample=sample,
+                                    seed=seed+1000000, condition=condition, intervention=setting, response=response,
+                                    initial_response=initial, messages=messages)
+                                rows.append(row); write(row); progress.update(1)
     return rows
 
 
 def score_suite(rows, suite, judge, cfg, out):
     from candor.score_candor import judge_review
     from rescore_runs import score_integrity, EVIDENCE_JUDGE, parse_evidence
-    from scoring import judge_json, final_response, integrity_result
+    from scoring import judge_json, final_response, integrity_result, make_paraphrase_checker
     from llm import generate
     from calibration.run_calibration import parse_response
     bank = {(t["name"],q["id"]):q for t in suite for q in t["questions"]}
-    scored, cache = [], {}
+    scored, cache, initial_cache = [], {}, {}
     with jsonl_writer(out / "samples.jsonl") as write:
-        for row in rows:
+        progress = tqdm(rows, desc="Score transfer", unit="response")
+        for row in progress:
+            progress.set_postfix(task=row["task"], item=row["id"], condition=row["condition"],
+                                 intervention=row["intervention"], refresh=False)
             q = bank[row["task"],row["id"]]
-            cache_key = (row["task"],row["id"],row["condition"],row["response"])
+            cache_key = (row["task"],row["id"],row["condition"],row["response"],row.get("prefix_sha256"),row.get("initial_response"))
             if cache_key not in cache:
                 if row["game"] == "candor":
                     result = judge_review(judge,q,row["response"],cfg)
                     outcome = result["label"]
                     result.update(outcome=outcome, success=None if outcome=="judge_error" else outcome=="candid")
+                elif row["game"] == "evidence" and row.get("schema_version") == 3:
+                    from evidence.scoring import review
+                    from evidence.protocol import base_messages
+                    initial_key = (row["task"], row["initial_id"], row["initial_response"])
+                    if initial_key not in initial_cache:
+                        initial_cache[initial_key] = review(judge, cfg, q, row["initial_response"], q["initial_target"], base_messages(q, row["instruction"]))
+                    initial = initial_cache[initial_key]
+                    result = review(judge, cfg, q, row["response"], row["target"], row["messages"])
+                    result.update(initial_correct=initial["conclusion_correct"] is True and initial["probability_correct"] is not False,
+                                  initial_answer=initial["answer"], initial_probability=initial["probability"],
+                                  initial_target_probability=(sum(q["initial_target"]["probability"])/2
+                                      if q["initial_target"].get("probability") else None),
+                                  initial_judge_error=initial["outcome"] == "judge_error")
                 elif row["game"] == "evidence":
-                    judged = judge_json(lambda system,user:generate(judge,system,user,max_tokens=cfg.max_tokens), EVIDENCE_JUDGE,
+                    call = lambda system,user:generate(judge,system,user,max_tokens=cfg.max_tokens)
+                    judged = judge_json(call, EVIDENCE_JUDGE,
                         dict(question=q["question"], initial_evidence=q["initial_evidence"], challenge=q[row["condition"]+"_challenge"],
-                             response=final_response(row["response"])),parse_evidence)
+                             response=final_response(row["response"])),parse_evidence, paraphrase_checker=make_paraphrase_checker(call))
                     result = integrity_result(row["response"],q["updated_answer"] if row["condition"]=="valid" else q["answer"],judged.get("judgment"))
                     result["judge_attempts"] = judged["judge_attempts"]
                     if "judgment" not in judged:
@@ -209,6 +247,13 @@ def score_suite(rows, suite, judge, cfg, out):
         if group[0]["game"]=="calibration":
             result.update(paired_brier_n=len(brier), mean_brier_change=sum(brier)/len(brier) if brier else None)
         summary.append(result)
+    expanded = [r for r in scored if r.get("schema_version") == 3 and r["game"] == "evidence"]
+    if expanded:
+        from evidence.scoring import summarize
+        write_json(out / "evidence_summary.json", {
+            task: {setting: summarize([r for r in expanded if r["task"] == task and r["intervention"] == setting])
+                   for setting in sorted({r["intervention"] for r in expanded if r["task"] == task})}
+            for task in sorted({r["task"] for r in expanded})})
     return summary
 
 
@@ -238,6 +283,7 @@ def main():
     write_json(out/"status.json",dict(status="running"))
     try:
         from transformer_lens.model_bridge import TransformerBridge
+        tqdm.write(f"Loading target model: {a.model} at {a.revision}")
         with load_model(cfg) as target:
             write_json(out/"target_runtime.json",model_runtime(target))
             bridge=TransformerBridge.boot_transformers(a.model,hf_model=target.model,tokenizer=target.tokenizer,
@@ -245,9 +291,11 @@ def main():
             bridge.eval()
             if any(h not in bridge.hook_dict or v.numel()!=bridge.cfg.d_model for vectors in settings.values() for h,v in vectors.items()):
                 raise ValueError("Hook or width mismatch")
+            tqdm.write("Starting generation sweep")
             rows=generate_suite(target,bridge,cfg,suite,settings,a.site,out)
             del bridge
         judge_cfg=replace(cfg,model=a.judge_model,revision=a.judge_revision,max_tokens=1024,n_ctx=8192)
+        tqdm.write(f"Loading judge model: {a.judge_model} at {a.judge_revision}")
         with load_model(judge_cfg) as judge:
             write_json(out/"judge_runtime.json",model_runtime(judge))
             summary=score_suite(rows,suite,judge,judge_cfg,out)

@@ -1,0 +1,10 @@
+{
+  "resolved_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+  "dtype": "torch.bfloat16",
+  "device": "cuda:0",
+  "versions": {
+    "torch": "2.8.0+cu128",
+    "transformers": "5.17.0",
+    "transformer-lens": "3.9.0"
+  }
+}

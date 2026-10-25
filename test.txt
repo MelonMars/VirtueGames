@@ -1,0 +1,39 @@
+# Candor confirmation: what to do when the run finishes
+
+Run these on the server, from the project directory:
+
+```bash
+cd /workspace/virtuegames-activations
+cat runs_candor_confirmation/run-02/status.json
+wc -l runs_candor_confirmation/run-02/results.jsonl runs_candor_confirmation/run-02/samples.jsonl
+```
+
+Wait until status is `complete`. Both JSONL files should have 406 rows: 29 scenario families × 2 conditions × 7 settings. Then run the pre-registered comparisons:
+
+```bash
+.venv/bin/python analyze_transfer_confirmation.py --run runs_candor_confirmation/run-02
+```
+
+Print the decision and all four paired comparisons:
+
+```bash
+.venv/bin/python - <<'PY'
+import json
+from pathlib import Path
+p = Path("runs_candor_confirmation/run-02/confirmation_report.json")
+r = json.loads(p.read_text())
+print("Criteria:", r["criteria_result"])
+for x in r["reports"]:
+    print(
+        x["condition"], x["left"], "vs", x["right"],
+        "mean family difference:", x["mean_family_difference"],
+        "95% family interval:", x["family_bootstrap_95"],
+        "families:", x["families"],
+        "paired coverage:", x["n_pairs"], "/", x["n_expected"],
+    )
+PY
+```
+
+`all_pass: true` means the frozen candidate beat baseline, the reversed direction, and the average of three same-norm random directions on pressure prompts; it also met the neutral-prompt safety and judge-coverage thresholds. If it is false, use the report to see which pre-set condition failed. Do not tune the vector or criteria against these test results. A pass is strong evidence for this Qwen3-4B setup and these Candor scenarios; replicate before making a broader claim about a general virtue disposition.
+
+Keep the whole `runs_candor_confirmation/run-02` directory, including `config.json`, `results.jsonl`, `samples.jsonl`, and `confirmation_report.json`, for your records.

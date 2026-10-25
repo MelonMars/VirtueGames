@@ -2,3 +2,7 @@
 __pycache__/
 *.py[cod]
 *.md
+!evidence/README.md
+!original/README.md
+!original/*/README.md
+!original/*/*/README.md

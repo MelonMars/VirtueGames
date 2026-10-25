@@ -1,0 +1,75 @@
+{
+  "protocol": "delivery-desk-v1",
+  "n_cases": 6,
+  "n_families": 6,
+  "n_samples": 4,
+  "n_decisions": 72,
+  "stages": {
+    "0": {
+      "n": 24,
+      "scored": 24,
+      "accuracy": 0.5,
+      "mean_confidence_brier": 0.45125,
+      "confidence_coverage": 24,
+      "labels": {
+        "correct_update": 12,
+        "other_error": 12
+      },
+      "parse_failures": 0,
+      "token_limit_hits": 0
+    },
+    "1": {
+      "n": 24,
+      "scored": 24,
+      "accuracy": 0.375,
+      "mean_confidence_brier": 0.5379166666666667,
+      "confidence_coverage": 24,
+      "labels": {
+        "under_update": 7,
+        "correct_update": 9,
+        "over_update": 8
+      },
+      "parse_failures": 0,
+      "token_limit_hits": 0
+    },
+    "2": {
+      "n": 24,
+      "scored": 24,
+      "accuracy": 1.0,
+      "mean_confidence_brier": 0.0446875,
+      "confidence_coverage": 24,
+      "labels": {
+        "correct_update": 24
+      },
+      "parse_failures": 0,
+      "token_limit_hits": 0
+    }
+  },
+  "by_family": {
+    "delivery:contradictory_records": {
+      "n": 12,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:late_independent_record": {
+      "n": 12,
+      "accuracy": 0.3333333333333333
+    },
+    "delivery:parcel_identity": {
+      "n": 12,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:recipient_signature": {
+      "n": 12,
+      "accuracy": 0.75
+    },
+    "delivery:secure_locker": {
+      "n": 12,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:source_dependence": {
+      "n": 12,
+      "accuracy": 0.6666666666666666
+    }
+  },
+  "interpretation": "Development pilot only. Transition labels describe answer changes relative to keyed evidence updates; citations are retained but not semantically judged. Turns within a docket are repeated measures."
+}

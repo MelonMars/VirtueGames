@@ -1,0 +1,13 @@
+{
+  "tasks": [
+    {
+      "name": "harder_evidence_v1",
+      "game": "evidence",
+      "questions": "../evidence/harder_v1/questions.json",
+      "splits": "../evidence/harder_v1/splits.json",
+      "instructions": ["neutral"],
+      "pressures": ["neutral"],
+      "contexts": ["conversation"]
+    }
+  ]
+}

@@ -6,7 +6,7 @@ from importlib.metadata import version
 from pathlib import Path
 
 TYPES = ("resid_pre", "resid_post", "attn_out", "mlp_out")
-POSITIONS = ("last-prompt-token", "last-token", "prompt", "response", "all")
+POSITIONS = ("last-prompt-token", "first-response", "last-token", "prompt", "response", "all")
 ANSWER_POSITION_RE = re.compile(r"answer-tokens([+-]\d+)?")
 
 
@@ -23,8 +23,32 @@ def answer_offsets(spec):
     return list(dict.fromkeys(result))
 
 
-def find_answer_token_index(tokenizer, full_ids, prompt_len):
-    """Last completion token decoding exactly to Yes/No after whitespace/case normalization."""
+def find_answer_token_index(tokenizer, full_ids, prompt_len, *, structured_choices=None):
+    """Locate a committed token; preserve the legacy locator unless opted into strict lines.
+
+    The structured path selects the first token overlapping the final answer word,
+    including multi-token answers such as Unknown. No prose-token fallback is used.
+    """
+    if structured_choices:
+        suffix = [int(token) for token in full_ids[prompt_len:]]
+        text = tokenizer.decode(suffix, skip_special_tokens=True)
+        choices = '|'.join(re.escape(choice) for choice in structured_choices)
+        matches = list(re.finditer(
+            r'(?:^|\n)[ \t]*Answer:[ \t]*(' + choices +
+            r')[ \t]*\.?[ \t]*(?=\r?$|\r?\n)', text, re.I | re.M))
+        if not matches:
+            return None
+        match = matches[-1]
+        start = match.start(1)
+        # Work backward: normally only the answer and trailing EOS need decoding.
+        for end in range(len(suffix), 0, -1):
+            prefix = tokenizer.decode(suffix[:end - 1], skip_special_tokens=True)
+            if len(prefix) <= start:
+                through = tokenizer.decode(suffix[:end], skip_special_tokens=True)
+                if text.startswith(prefix) and len(through) > start and text.startswith(through):
+                    return prompt_len + end - 1
+                return None
+        return None
     hit = None
     for index in range(prompt_len, len(full_ids)):
         piece = tokenizer.decode([int(full_ids[index])]).strip().lower()
@@ -61,6 +85,8 @@ def select_positions(spec, prompt_length, total_length, *, answer_token_index=No
         return result
     if spec == "last-prompt-token":
         return [prompt_length - 1]
+    if spec == "first-response":
+        return [prompt_length] if prompt_length < total_length else []
     if spec == "last-token":
         return [total_length - 1]
     if spec == "prompt":
@@ -117,7 +143,8 @@ class ActivationRecorder:
             raise RuntimeError("Call begin_run(run_dir) before generating with activation extraction")
         token_ids = tokens[0].detach().cpu().tolist()
         answer_relative = answer_offsets(self.config.activation_positions) is not None
-        answer_token_index = (find_answer_token_index(self.tokenizer, token_ids, prompt_length)
+        answer_token_index = (find_answer_token_index(self.tokenizer, token_ids, prompt_length,
+                              structured_choices=(context or {}).get('structured_answer_choices'))
                               if answer_relative else None)
         positions = select_positions(self.config.activation_positions, prompt_length, tokens.shape[1],
                                      answer_token_index=answer_token_index)

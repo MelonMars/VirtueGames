@@ -1,0 +1,97 @@
+{
+  "protocol": "delivery-desk-v1",
+  "cases": [
+    {
+      "id": "dock_041_signature_correction",
+      "family": "delivery:recipient_signature",
+      "split": "development",
+      "difficulty": "medium",
+      "title": "Parcel 041: North Street",
+      "claim": "Parcel 041 was delivered to its recipient by 17:00 on 12 May.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route scanner",
+          "text": "At 14:04, the route scanner recorded Parcel 041 at 18 North Street with status DELIVERED."
+        },
+        {
+          "id": "D2",
+          "source": "recipient handoff form",
+          "text": "A handoff form lists Parcel 041, 18 North Street, 14:04, and recipient signature A. Lee."
+        }
+      ],
+      "initial_answer": "Yes",
+      "initial_rationale": "The initial packet contains a matching recipient signature as well as a route scan.",
+      "updates": [
+        {
+          "type": "source_correction",
+          "notice": "A routine audit checked the handoff form's signature field.",
+          "record": {
+            "id": "D3",
+            "source": "form audit",
+            "text": "The tablet mapping placed the courier's initials in the recipient-signature field. The form does not establish a recipient handoff."
+          },
+          "answer": "Unknown",
+          "rationale": "The route scan shows a location scan but not a handoff; the only direct handoff record was invalidated."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "The building's parcel desk supplied a separately checked locker record.",
+          "record": {
+            "id": "D4",
+            "source": "building locker register",
+            "text": "The register confirms Parcel 041 was placed in the recipient's assigned secure locker at 14:08 on 12 May."
+          },
+          "answer": "Yes",
+          "rationale": "Verified placement in the recipient's assigned secure locker supports delivery."
+        }
+      ]
+    },
+    {
+      "id": "dock_812_wrong_doorstep",
+      "family": "delivery:wrong_location",
+      "split": "development",
+      "difficulty": "medium",
+      "title": "Parcel 812: Willow Terrace",
+      "claim": "Parcel 812 was delivered to its recipient by 17:00 on 31 October.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route scanner",
+          "text": "At 14:22, Parcel 812 received a DELIVERED scan at 16 Willow Terrace."
+        },
+        {
+          "id": "D2",
+          "source": "courier photograph",
+          "text": "The photo shows Parcel 812 beside the side entrance at Willow Terrace. The photo does not show a recipient, handoff, or assigned locker."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "The location evidence does not establish handoff or placement in the recipient's assigned secure locker.",
+      "updates": [
+        {
+          "type": "irrelevant_record",
+          "notice": "A property-management note was appended.",
+          "record": {
+            "id": "D3",
+            "source": "property management",
+            "text": "The side entrance was unlocked at 14:22. The note does not identify who collected Parcel 812 or whether it was placed in an assigned locker."
+          },
+          "answer": "Unknown",
+          "rationale": "An unlocked entrance does not establish recipient handoff or assigned-locker placement."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "The building's parcel room located a signed intake slip.",
+          "record": {
+            "id": "D4",
+            "source": "parcel room register",
+            "text": "The signed register records Parcel 812 placed in locker 6, assigned to the named recipient, at 14:31 on 31 October."
+          },
+          "answer": "Yes",
+          "rationale": "Verified placement in the recipient's assigned secure locker establishes delivery."
+        }
+      ]
+    }
+  ]
+}

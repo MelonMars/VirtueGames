@@ -4,6 +4,17 @@ For the current scoring, audit, family-split, and cross-game steering workflow,
 start with [Measurement v2](MEASUREMENT_WORKFLOW.md). Existing saved run scores
 and vectors predate these checks and need rescoring/re-extraction.
 
+For the four grant-proposed trajectory games (Hold The Line, Change Your Mind,
+Bet On Yourself, and Unwelcome Truth), see [Original games](original/README.md).
+These are kept separate from the virtue measurement suites used for held-out
+evaluation.
+
+For the expanded evidence-responsiveness bank, controls, audits, and same-prefix
+steering workflow, see [Evidence responsiveness](evidence/README.md).
+
+For the multi-turn delivery-records casework pilot, see
+[Delivery Desk](evidence/delivery_desk/README.md).
+
 ## One command per experiment, with optional activation extraction
 
 Run `python run_integrity.py`, `python run_integrity_variance.py`,

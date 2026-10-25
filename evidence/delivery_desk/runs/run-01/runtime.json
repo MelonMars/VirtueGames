@@ -1,0 +1,10 @@
+{
+  "resolved_revision": null,
+  "dtype": "torch.bfloat16",
+  "device": "cpu",
+  "versions": {
+    "torch": "2.14.1",
+    "transformers": "5.20.0",
+    "transformer-lens": "3.9.0"
+  }
+}

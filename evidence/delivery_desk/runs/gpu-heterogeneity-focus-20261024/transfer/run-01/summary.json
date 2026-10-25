@@ -1,0 +1,183 @@
+{
+  "status": "exploratory-heldout-transfer",
+  "protocol": "delivery-desk-v1",
+  "training_runs": [
+    "/tmp/vg_dd_hetero_focus_20261024/stage1/runs/run-00",
+    "/tmp/vg_dd_hetero_focus_20261024/stage2/runs/run-00"
+  ],
+  "training_batches": [
+    {
+      "run": "/tmp/vg_dd_hetero_focus_20261024/stage1/runs/run-00",
+      "decision_batch": "dock_041_signature_correction:stage-1",
+      "id": "dock_041_signature_correction",
+      "stage": 1,
+      "target": "Unknown",
+      "correct": 23,
+      "incorrect": 41,
+      "correct_answers": {
+        "Unknown": 23
+      },
+      "incorrect_answers": {
+        "Yes": 41
+      },
+      "cosine_to_aggregate": 0.9185554385185242
+    },
+    {
+      "run": "/tmp/vg_dd_hetero_focus_20261024/stage2/runs/run-00",
+      "decision_batch": "dock_989_signed_handoff_audit:stage-2",
+      "id": "dock_989_signed_handoff_audit",
+      "stage": 2,
+      "target": "Unknown",
+      "correct": 42,
+      "incorrect": 22,
+      "correct_answers": {
+        "Unknown": 42
+      },
+      "incorrect_answers": {
+        "No": 22
+      },
+      "cosine_to_aggregate": 0.918555498123169
+    }
+  ],
+  "training_ids": [
+    "dock_041_signature_correction",
+    "dock_989_signed_handoff_audit"
+  ],
+  "excluded_ids": [
+    "dock_041_signature_correction",
+    "dock_812_wrong_doorstep",
+    "dock_854_late_clock_correction",
+    "dock_989_signed_handoff_audit"
+  ],
+  "heldout_ids": [
+    "dock_117_copied_scan",
+    "dock_233_wrong_parcel",
+    "dock_308_return_then_handoff",
+    "dock_422_locker_assignment",
+    "dock_590_delayed_handoff",
+    "dock_641_doorstep_photo",
+    "dock_672_gate_receipt_correction",
+    "dock_703_verified_return",
+    "dock_744_locker_assignment",
+    "dock_781_return_misattribution",
+    "dock_891_locker_misread",
+    "dock_924_return_clock_error",
+    "dock_956_transit_only",
+    "dock_1023_depot_hold",
+    "dock_1058_unresolved_scan",
+    "dock_1091_handoff_then_return_audit",
+    "dock_1127_return_invalidated"
+  ],
+  "direction_sha256": "fbf7b626f520ae94548ebd4fafe78766e6018c1a579065a4219d05be58ebc089",
+  "layer": 16,
+  "hook": "blocks.16.hook_resid_post",
+  "activation_position": "answer-tokens-1",
+  "alpha_results": {
+    "-5.0": {
+      "1": {
+        "n": 17,
+        "accuracy": 0.7647058823529411,
+        "answer_counts": {
+          "Unknown": 3,
+          "Yes": 6,
+          "No": 8
+        },
+        "unknown_rate": 0.17647058823529413,
+        "answer_changes": 0,
+        "accuracy_changes": 0
+      },
+      "2": {
+        "n": 17,
+        "accuracy": 0.7647058823529411,
+        "answer_counts": {
+          "Yes": 6,
+          "No": 7,
+          "Unknown": 4
+        },
+        "unknown_rate": 0.23529411764705882,
+        "answer_changes": 0,
+        "accuracy_changes": 0
+      }
+    },
+    "0.0": {
+      "1": {
+        "n": 17,
+        "accuracy": 0.7647058823529411,
+        "answer_counts": {
+          "Unknown": 3,
+          "Yes": 6,
+          "No": 8
+        },
+        "unknown_rate": 0.17647058823529413,
+        "answer_changes": 0,
+        "accuracy_changes": 0
+      },
+      "2": {
+        "n": 17,
+        "accuracy": 0.7647058823529411,
+        "answer_counts": {
+          "Yes": 6,
+          "No": 7,
+          "Unknown": 4
+        },
+        "unknown_rate": 0.23529411764705882,
+        "answer_changes": 0,
+        "accuracy_changes": 0
+      }
+    },
+    "2.0": {
+      "1": {
+        "n": 17,
+        "accuracy": 0.7647058823529411,
+        "answer_counts": {
+          "Unknown": 3,
+          "Yes": 6,
+          "No": 8
+        },
+        "unknown_rate": 0.17647058823529413,
+        "answer_changes": 0,
+        "accuracy_changes": 0
+      },
+      "2": {
+        "n": 17,
+        "accuracy": 0.7647058823529411,
+        "answer_counts": {
+          "Yes": 6,
+          "No": 7,
+          "Unknown": 4
+        },
+        "unknown_rate": 0.23529411764705882,
+        "answer_changes": 0,
+        "accuracy_changes": 0
+      }
+    },
+    "5.0": {
+      "1": {
+        "n": 17,
+        "accuracy": 0.7647058823529411,
+        "answer_counts": {
+          "Unknown": 3,
+          "Yes": 6,
+          "No": 8
+        },
+        "unknown_rate": 0.17647058823529413,
+        "answer_changes": 0,
+        "accuracy_changes": 0
+      },
+      "2": {
+        "n": 17,
+        "accuracy": 0.7647058823529411,
+        "answer_counts": {
+          "Yes": 6,
+          "No": 7,
+          "Unknown": 4
+        },
+        "unknown_rate": 0.23529411764705882,
+        "answer_changes": 0,
+        "accuracy_changes": 0
+      }
+    }
+  },
+  "interpretation": "Held-out docket transfer only; reference histories use baseline answers. Report Unknown rate alongside accuracy because extraction correctness may be category-confounded.",
+  "created": "2026-10-19T02:08:02.894877+00:00"
+}

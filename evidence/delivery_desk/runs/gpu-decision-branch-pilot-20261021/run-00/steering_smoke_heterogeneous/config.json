@@ -1,0 +1,47 @@
+{
+  "status": "exploratory-only",
+  "source_run": "/tmp/vg_dd_branchpilot_codex/runs/run-00",
+  "layer": 16,
+  "hook": "blocks.16.hook_resid_post",
+  "activation_position": "answer-tokens-1",
+  "matched_training_batches": [
+    {
+      "id": "dock_041_signature_correction",
+      "stage": 1,
+      "correct": 2,
+      "incorrect": 14
+    },
+    {
+      "id": "dock_308_return_then_handoff",
+      "stage": 0,
+      "correct": 10,
+      "incorrect": 6
+    }
+  ],
+  "direction_sha256": "15f68abe5183af8bc28ce9bcc09aff96754beb032160b5d12d6084a6952eeb74",
+  "alpha": 5.0,
+  "injection": "decode-time residual addition at every generated token",
+  "eval_prompts": [
+    {
+      "id": "dock_041_signature_correction",
+      "stage": 1,
+      "target": "Unknown"
+    },
+    {
+      "id": "dock_041_signature_correction",
+      "stage": 1,
+      "target": "Unknown"
+    },
+    {
+      "id": "dock_308_return_then_handoff",
+      "stage": 0,
+      "target": "Unknown"
+    },
+    {
+      "id": "dock_308_return_then_handoff",
+      "stage": 0,
+      "target": "Unknown"
+    }
+  ],
+  "created": "2026-10-19T01:35:03.508204+00:00"
+}

@@ -13,7 +13,7 @@ def inferred_family(qid):
     return re.sub(r"_\d+$", "", qid) if qid.startswith("expanded_") else qid
 
 
-def load_manifest(path, ids):
+def load_manifest(path, ids, *, require_all_partitions=True):
     data = json.loads(Path(path).read_text())
     rows = data["items"]
     if set(rows) != set(ids):
@@ -27,7 +27,7 @@ def load_manifest(path, ids):
         groups[row["family"]].add(row["split"])
     if any(len(splits) != 1 for splits in groups.values()):
         raise ValueError("Scenario family crosses split boundaries")
-    if {row["split"] for row in rows.values()} != {"train", "validation", "test"}:
+    if require_all_partitions and {row["split"] for row in rows.values()} != {"train", "validation", "test"}:
         raise ValueError("All three partitions must contain families")
     return rows
 

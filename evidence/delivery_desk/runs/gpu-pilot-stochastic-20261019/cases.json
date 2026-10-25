@@ -1,0 +1,281 @@
+{
+  "protocol": "delivery-desk-v1",
+  "cases": [
+    {
+      "id": "dock_041_signature_correction",
+      "family": "delivery:recipient_signature",
+      "split": "development",
+      "difficulty": "medium",
+      "title": "Parcel 041: North Street",
+      "claim": "Parcel 041 was delivered to its recipient by 17:00 on 12 May.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route scanner",
+          "text": "At 14:04, the route scanner recorded Parcel 041 at 18 North Street with status DELIVERED."
+        },
+        {
+          "id": "D2",
+          "source": "recipient handoff form",
+          "text": "A handoff form lists Parcel 041, 18 North Street, 14:04, and recipient signature A. Lee."
+        }
+      ],
+      "initial_answer": "Yes",
+      "initial_rationale": "The initial packet contains a matching recipient signature as well as a route scan.",
+      "updates": [
+        {
+          "type": "source_correction",
+          "notice": "A routine audit checked the handoff form's signature field.",
+          "record": {
+            "id": "D3",
+            "source": "form audit",
+            "text": "The tablet mapping placed the courier's initials in the recipient-signature field. The form does not establish a recipient handoff."
+          },
+          "answer": "Unknown",
+          "rationale": "The route scan shows a location scan but not a handoff; the only direct handoff record was invalidated."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "The building's parcel desk supplied a separately checked locker record.",
+          "record": {
+            "id": "D4",
+            "source": "building locker register",
+            "text": "The register confirms Parcel 041 was placed in the recipient's assigned secure locker at 14:08 on 12 May."
+          },
+          "answer": "Yes",
+          "rationale": "Verified placement in the recipient's assigned secure locker supports delivery."
+        }
+      ]
+    },
+    {
+      "id": "dock_117_copied_scan",
+      "family": "delivery:source_dependence",
+      "split": "development",
+      "difficulty": "medium",
+      "title": "Parcel 117: East Annex",
+      "claim": "Parcel 117 was delivered to its recipient by 17:00 on 3 June.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route scanner",
+          "text": "At 15:12, the scanner recorded Parcel 117 at the East Annex entrance with status DELIVERED."
+        },
+        {
+          "id": "D2",
+          "source": "tracking export",
+          "text": "The public tracking page also says DELIVERED at 15:12."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "A route scan and its copied tracking display do not establish recipient handoff.",
+      "updates": [
+        {
+          "type": "source_lineage",
+          "notice": "The tracking export's provenance was checked.",
+          "record": {
+            "id": "D3",
+            "source": "system lineage audit",
+            "text": "D2 was copied automatically from the same route-scanner entry as D1. It is not an independent confirmation. No recipient handoff or assigned-locker record is present."
+          },
+          "answer": "Unknown",
+          "rationale": "The two delivered labels are one location scan copied twice; neither proves a handoff."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "The recipient's building provided a verified handoff record.",
+          "record": {
+            "id": "D4",
+            "source": "building reception log",
+            "text": "A signed reception log independently records Parcel 117 handed to the named recipient at the East Annex at 15:19 on 3 June."
+          },
+          "answer": "Yes",
+          "rationale": "The independent signed handoff record establishes delivery."
+        }
+      ]
+    },
+    {
+      "id": "dock_233_wrong_parcel",
+      "family": "delivery:parcel_identity",
+      "split": "development",
+      "difficulty": "hard",
+      "title": "Parcel 233: Harbor Building",
+      "claim": "Parcel 233 was delivered to its recipient by 16:00 on 21 July.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "recipient handoff form",
+          "text": "The signed form lists Parcel 233, the correct address, and a 13:40 handoff to the named recipient."
+        },
+        {
+          "id": "D2",
+          "source": "route scanner",
+          "text": "The route scanner records Parcel 233 as DELIVERED at the same address at 13:40."
+        }
+      ],
+      "initial_answer": "Yes",
+      "initial_rationale": "The initial packet contains a matching signed handoff form and route scan.",
+      "updates": [
+        {
+          "type": "identity_correction",
+          "notice": "A barcode review was completed after a recipient inquiry.",
+          "record": {
+            "id": "D3",
+            "source": "barcode review",
+            "text": "The handoff form's handwritten parcel number was transcribed incorrectly. Its barcode and signature belong to Parcel 238, not Parcel 233."
+          },
+          "answer": "Unknown",
+          "rationale": "The direct handoff record belongs to another parcel; the remaining route scan alone does not prove a handoff."
+        },
+        {
+          "type": "verified_return",
+          "notice": "The courier's device later synchronized a complete, verified return event.",
+          "record": {
+            "id": "D4",
+            "source": "route device audit",
+            "text": "The device audit confirms Parcel 233 was returned to the depot at 15:02 on 21 July and was not sent out again that day."
+          },
+          "answer": "No",
+          "rationale": "A verified return before the deadline with no later handoff supports that it was not delivered by the deadline."
+        }
+      ]
+    },
+    {
+      "id": "dock_308_return_then_handoff",
+      "family": "delivery:contradictory_records",
+      "split": "development",
+      "difficulty": "hard",
+      "title": "Parcel 308: Civic Offices",
+      "claim": "Parcel 308 was delivered to its recipient by 18:00 on 9 August.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route exception scan",
+          "text": "At 14:10 the courier recorded RECIPIENT UNAVAILABLE for Parcel 308."
+        },
+        {
+          "id": "D2",
+          "source": "daily route summary",
+          "text": "The summary lists the same 14:10 recipient-unavailable event for Parcel 308."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "A route exception is not a verified return event, and its copied summary is not independent evidence.",
+      "updates": [
+        {
+          "type": "source_lineage",
+          "notice": "The summary's source was checked during routine reconciliation.",
+          "record": {
+            "id": "D3",
+            "source": "route system lineage",
+            "text": "D2 is copied from D1. It adds no independent evidence. The file still contains only the recipient-unavailable scan; no verified return-to-depot scan is present."
+          },
+          "answer": "Unknown",
+          "rationale": "The exception scan is not a handoff or verified return; the copied summary adds no independent evidence."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "A signed, independently maintained reception book was located.",
+          "record": {
+            "id": "D4",
+            "source": "Civic Offices reception book",
+            "text": "The book confirms Parcel 308 was handed to the named recipient at 16:22 on 9 August. Parcel ID, address, date, and signature were independently verified."
+          },
+          "answer": "Yes",
+          "rationale": "The verified recipient handoff establishes delivery despite the earlier route exception."
+        }
+      ]
+    },
+    {
+      "id": "dock_422_locker_assignment",
+      "family": "delivery:secure_locker",
+      "split": "development",
+      "difficulty": "medium",
+      "title": "Parcel 422: West Court",
+      "claim": "Parcel 422 was delivered by 17:00 on 2 September.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "locker placement scan",
+          "text": "At 11:16, Parcel 422 was scanned into locker 14 at West Court."
+        },
+        {
+          "id": "D2",
+          "source": "automated tracking page",
+          "text": "Tracking says Parcel 422 was placed in locker 14 at 11:16."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "The placement scan does not establish delivery to the recipient until the locker assignment is checked.",
+      "updates": [
+        {
+          "type": "locker_assignment",
+          "notice": "The locker assignment ledger was checked against the parcel label.",
+          "record": {
+            "id": "D3",
+            "source": "building assignment ledger",
+            "text": "Locker 14 was assigned to the named recipient for Parcel 422 on 2 September. The placement scan and assignment refer to the same parcel and address."
+          },
+          "answer": "Yes",
+          "rationale": "The verified placement scan plus the assignment ledger establish placement in the recipient's assigned secure locker."
+        },
+        {
+          "type": "identity_correction",
+          "notice": "A barcode audit corrected the parcel identity on the placement scan.",
+          "record": {
+            "id": "D4",
+            "source": "scanner correction log",
+            "text": "The placement scan labeled Parcel 422 was actually for Parcel 424. The assignment ledger remains valid but does not show where Parcel 422 went."
+          },
+          "answer": "Unknown",
+          "rationale": "The placement evidence belongs to another parcel; no remaining record establishes delivery or non-delivery of Parcel 422."
+        }
+      ]
+    },
+    {
+      "id": "dock_590_delayed_handoff",
+      "family": "delivery:late_independent_record",
+      "split": "development",
+      "difficulty": "hard",
+      "title": "Parcel 590: Maple Apartments",
+      "claim": "Parcel 590 was delivered to its recipient by 17:00 on 14 October.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route application",
+          "text": "The application shows DELIVERED at Maple Apartments at 13:03."
+        },
+        {
+          "id": "D2",
+          "source": "route application sync log",
+          "text": "The status was synchronized while the courier's device was offline; the log does not say whether the scan happened at the door or at the depot."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "An unverified route application status does not establish a handoff or a return.",
+      "updates": [
+        {
+          "type": "timestamp_correction",
+          "notice": "The device timestamp was normalized against the depot clock.",
+          "record": {
+            "id": "D3",
+            "source": "device time audit",
+            "text": "The 13:03 status was entered at the depot at 12:51 and uploaded later. It is not a verified delivery-location scan."
+          },
+          "answer": "Unknown",
+          "rationale": "The audit removes the route status as evidence of a delivery location; the file still lacks a handoff or return event."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "The recipient returned a signed receipt from a separately maintained entry system.",
+          "record": {
+            "id": "D4",
+            "source": "building entry system",
+            "text": "The verified entry-system receipt records Parcel 590 handed to the named recipient at 15:27 on 14 October."
+          },
+          "answer": "Yes",
+          "rationale": "The independent, verified handoff record establishes delivery before the deadline."
+        }
+      ]
+    }
+  ]
+}

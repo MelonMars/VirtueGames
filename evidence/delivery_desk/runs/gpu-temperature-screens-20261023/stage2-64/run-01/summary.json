@@ -1,0 +1,73 @@
+{
+  "protocol": "delivery-desk-v1",
+  "sampling_design": "decision-branches-v1",
+  "n_cases": 21,
+  "n_families": 21,
+  "n_samples_per_decision": 64,
+  "focus_stage": 2,
+  "n_decisions": 1386,
+  "stages": {
+    "0": {
+      "n": 21,
+      "scored": 21,
+      "accuracy": 0.6190476190476191,
+      "answer_counts": {
+        "Yes": 14,
+        "Unknown": 3,
+        "No": 4
+      },
+      "decision_batches_with_answer_variation": 0,
+      "mean_confidence_brier": 0.32392857142857145,
+      "labels": {
+        "correct_update": 13,
+        "other_error": 8
+      },
+      "parse_failures": 0,
+      "format_failures": 0,
+      "token_limit_hits": 0
+    },
+    "1": {
+      "n": 21,
+      "scored": 21,
+      "accuracy": 0.6666666666666666,
+      "answer_counts": {
+        "Yes": 9,
+        "Unknown": 3,
+        "No": 9
+      },
+      "decision_batches_with_answer_variation": 0,
+      "mean_confidence_brier": 0.30642857142857144,
+      "labels": {
+        "under_update": 2,
+        "correct_update": 14,
+        "over_update": 4,
+        "other_error": 1
+      },
+      "parse_failures": 0,
+      "format_failures": 0,
+      "token_limit_hits": 0
+    },
+    "2": {
+      "n": 1344,
+      "scored": 1344,
+      "accuracy": 0.7008928571428571,
+      "answer_counts": {
+        "Yes": 452,
+        "No": 521,
+        "Unknown": 371
+      },
+      "decision_batches_with_answer_variation": 3,
+      "mean_confidence_brier": 0.27336830357142855,
+      "labels": {
+        "correct_update": 942,
+        "under_update": 128,
+        "other_error": 210,
+        "over_update": 64
+      },
+      "parse_failures": 0,
+      "format_failures": 0,
+      "token_limit_hits": 0
+    }
+  },
+  "interpretation": "Development pilot. Each decision batch repeats an identical prompt prefix; only branch 0 advances to form the fixed reference history for the next stage. This is not a full tree."
+}

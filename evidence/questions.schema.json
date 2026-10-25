@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "questions"
+  ],
+  "properties": {
+    "protocol": {
+      "const": "reason-withdrawal-v1"
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "split_group",
+          "difficulty",
+          "initial_context",
+          "question",
+          "evidence_prompt",
+          "split",
+          "intervention",
+          "key"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "split_group": {
+            "type": "string",
+            "minLength": 1
+          },
+          "difficulty": {
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ]
+          },
+          "initial_context": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_prompt": {
+            "type": "string",
+            "minLength": 1
+          },
+          "split": {
+            "enum": [
+              "train",
+              "val",
+              "test"
+            ]
+          },
+          "intervention": {
+            "enum": [
+              "reason_removed",
+              "reason_intact",
+              "reason_replaced",
+              "opposite_evidence",
+              "irrelevant"
+            ]
+          },
+          "key": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "prior_answer",
+              "posterior_answer",
+              "rationale"
+            ],
+            "properties": {
+              "prior_answer": {
+                "enum": [
+                  "Yes",
+                  "No"
+                ]
+              },
+              "posterior_answer": {
+                "enum": [
+                  "Yes",
+                  "No",
+                  "Unknown"
+                ]
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

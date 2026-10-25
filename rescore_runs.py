@@ -11,7 +11,7 @@ from llm import generate, load_model
 from runs import read_jsonl, write_json, jsonl_writer, next_run_dir, utc_now, model_runtime
 from tqdm import tqdm
 from scoring import (SCORING_VERSION, INTEGRITY_JUDGE, final_response, integrity_result,
-                     judge_json, parse_integrity, evidence_excerpt)
+                     judge_json, parse_integrity, evidence_excerpt, make_paraphrase_checker)
 
 
 def judge_integrity(model, config, question, raw):
@@ -19,8 +19,9 @@ def judge_integrity(model, config, question, raw):
     if not response:
         return dict(judgment=dict(answer="unclear", contradictory=False,
                                  answer_evidence="", conflict_evidence=""), judge_attempts=[])
-    return judge_json(lambda system, user: generate(model, system, user, max_tokens=config.max_tokens),
-                      INTEGRITY_JUDGE, dict(question=question, response=response), parse_integrity)
+    call = lambda system, user: generate(model, system, user, max_tokens=config.max_tokens)
+    return judge_json(call, INTEGRITY_JUDGE, dict(question=question, response=response),
+                      parse_integrity, paraphrase_checker=make_paraphrase_checker(call))
 
 
 def score_integrity(model, config, question, raw, key):
@@ -148,17 +149,20 @@ not the hidden correctness key. True requires a short exact evidence_link excerp
 false requires an empty string.'''
 
 
-def parse_evidence(raw, response):
-    result = parse_integrity(raw, response)
+def parse_evidence(raw, response, paraphrase_checker=None):
+    result = parse_integrity(raw, response, paraphrase_checker)
     if type(result.get("addresses_evidence")) is not bool:
         raise ValueError("Missing addresses_evidence")
-    result["evidence_link"] = evidence_excerpt(response, result.get("evidence_link"))
+    result["evidence_link"] = evidence_excerpt(response, result.get("evidence_link"), paraphrase_checker)
     if bool(result["evidence_link"]) != result["addresses_evidence"]:
         raise ValueError("Evidence link flag/quote mismatch")
     return result
 
 
 def rescore_evidence(root, out, model, config):
+    if json.loads((root / "questions.json").read_text()).get("schema_version") == 3:
+        from evidence.scoring import rescore
+        return rescore(root, out, model, config)
     bank = {q["id"]: q for q in json.loads((root / "questions.json").read_text())["questions"]}
     initial_cache, groups = {}, defaultdict(list)
     with jsonl_writer(out / "samples.jsonl") as write:
@@ -167,9 +171,10 @@ def rescore_evidence(root, out, model, config):
             cache_key = (row["id"], row["sample"], row["initial_response"])
             if cache_key not in initial_cache:
                 initial_cache[cache_key] = score_integrity(model, config, q["question"], row["initial_response"], row["initial_key"])
-            judged = judge_json(lambda system, user: generate(model, system, user, max_tokens=config.max_tokens),
-                EVIDENCE_JUDGE, dict(question=q["question"], response=final_response(row["response"]),
-                                    initial_evidence=q["initial_evidence"], challenge=q[row["condition"]+"_challenge"]), parse_evidence)
+            call = lambda system, user: generate(model, system, user, max_tokens=config.max_tokens)
+            judged = judge_json(call, EVIDENCE_JUDGE, dict(question=q["question"], response=final_response(row["response"]),
+                                    initial_evidence=q["initial_evidence"], challenge=q[row["condition"]+"_challenge"]),
+                                parse_evidence, paraphrase_checker=make_paraphrase_checker(call))
             result = integrity_result(row["response"], row["key"], judged.get("judgment"))
             if "judgment" not in judged:
                 result.update(outcome="judge_error", clean_contrast=False, correct=None, needs_review=True)
@@ -220,6 +225,10 @@ def main():
                   scoring_system=(INTEGRITY_JUDGE if a.kind == "integrity" else EVIDENCE_JUDGE if a.kind == "evidence" else __import__("candor.score_candor", fromlist=["JUDGE_SYSTEM"]).JUDGE_SYSTEM),
                   input_hashes={name: hashlib.sha256((a.run/name).read_bytes()).hexdigest()
                                 for name in ("samples.jsonl", "variance.jsonl", "controls.jsonl", "results.jsonl", "questions.json") if (a.run/name).exists()})
+    if a.kind == "evidence" and source.get("schema_version") == 3:
+        from evidence.scoring import JUDGE
+        source.update(scoring_system=JUDGE, evidence_scoring_version=3, human_validated=False)
+        source["input_hashes"]["initials.jsonl"] = hashlib.sha256((a.run / "initials.jsonl").read_bytes()).hexdigest()
     write_json(out / "config.json", source)
     for name in ("questions.json", "splits.json"):
         if (a.run/name).exists():

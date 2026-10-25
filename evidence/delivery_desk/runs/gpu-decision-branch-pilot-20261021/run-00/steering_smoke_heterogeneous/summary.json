@@ -1,0 +1,11 @@
+{
+  "n_pairs": 4,
+  "generations": 8,
+  "alpha": 5.0,
+  "response_changes": 4,
+  "answer_changes": 2,
+  "baseline_accuracy": 0.5,
+  "steered_accuracy": 1.0,
+  "unique_prefixes": 2,
+  "interpretation": "Eight deterministic generations repeated across heterogeneous source prefixes; direction and evaluation reuse the same batches, so this is an in-sample diagnostic, not an efficacy estimate."
+}

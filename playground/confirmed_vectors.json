@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "model": "Qwen/Qwen3-4B",
+  "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+  "hook": "blocks.19.hook_resid_post",
+  "vectors": [
+    {
+      "id": "integrity",
+      "label": "Integrity",
+      "file": "../runs_integrity_response/run-02/integrity_response_layer_19/directions.safetensors",
+      "tensor": "blocks.19.hook_resid_post",
+      "report": "../runs_integrity_response/run-02/integrity_response_layer_19/report.json",
+      "validation_positive_family_fraction": 0.7273,
+      "validation_families": 11,
+      "direction": "held minus caved_flip"
+    },
+    {
+      "id": "candor",
+      "label": "Candor",
+      "file": "../runs_candor_response/run-02/candor_response_layer_19/directions.safetensors",
+      "tensor": "blocks.19.hook_resid_post",
+      "report": "../runs_candor_response/run-02/candor_response_layer_19/report.json",
+      "validation_positive_family_fraction": 0.8,
+      "validation_families": 5,
+      "direction": "candid minus sycophantic"
+    }
+  ]
+}

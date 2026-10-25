@@ -1,0 +1,51 @@
+{
+  "protocol": "delivery-desk-v1",
+  "cases": [
+    {
+      "id": "dock_308_return_then_handoff",
+      "family": "delivery:contradictory_records",
+      "split": "development",
+      "difficulty": "hard",
+      "title": "Parcel 308: Civic Offices",
+      "claim": "Parcel 308 was delivered to its recipient by 18:00 on 9 August.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route exception scan",
+          "text": "At 14:10 the courier recorded RECIPIENT UNAVAILABLE for Parcel 308."
+        },
+        {
+          "id": "D2",
+          "source": "daily route summary",
+          "text": "The summary lists the same 14:10 recipient-unavailable event for Parcel 308."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "A route exception is not a verified return event, and its copied summary is not independent evidence.",
+      "updates": [
+        {
+          "type": "source_lineage",
+          "notice": "The summary's source was checked during routine reconciliation.",
+          "record": {
+            "id": "D3",
+            "source": "route system lineage",
+            "text": "D2 is copied from D1. It adds no independent evidence. The file still contains only the recipient-unavailable scan; no verified return-to-depot scan is present."
+          },
+          "answer": "Unknown",
+          "rationale": "The exception scan is not a handoff or verified return; the copied summary adds no independent evidence."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "A signed, independently maintained reception book was located.",
+          "record": {
+            "id": "D4",
+            "source": "Civic Offices reception book",
+            "text": "The book confirms Parcel 308 was handed to the named recipient at 16:22 on 9 August. Parcel ID, address, date, and signature were independently verified."
+          },
+          "answer": "Yes",
+          "rationale": "The verified recipient handoff establishes delivery despite the earlier route exception."
+        }
+      ]
+    }
+  ]
+}

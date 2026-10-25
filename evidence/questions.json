@@ -1,0 +1,1580 @@
+{
+  "protocol": "reason-withdrawal-v1",
+  "questions": [
+    {
+      "id": "coin_jar_reason_removed",
+      "split_group": "coin_jar",
+      "split": "train",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "A clear photo labeled noon today shows a coin inside a jar. This photo is the only evidence about the jar.",
+      "question": "Was there a coin in the jar at noon today?",
+      "evidence_prompt": "The photo date is checked. It was taken last week, not today. Nothing else shows what was in the jar at noon today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "The old photo does not settle what was in the jar today."
+      }
+    },
+    {
+      "id": "coin_jar_reason_intact",
+      "split_group": "coin_jar",
+      "split": "train",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "A clear photo labeled noon today shows a coin inside a jar. This photo is the only evidence about the jar.",
+      "question": "Was there a coin in the jar at noon today?",
+      "evidence_prompt": "Sam says the jar was empty at noon today. Sam did not see the jar and is only guessing. The photo date is checked and is correct.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "A guess does not defeat the checked photo."
+      }
+    },
+    {
+      "id": "coin_jar_reason_replaced",
+      "split_group": "coin_jar",
+      "split": "train",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "A clear photo labeled noon today shows a coin inside a jar. This photo is the only evidence about the jar.",
+      "question": "Was there a coin in the jar at noon today?",
+      "evidence_prompt": "The first photo turns out to be from last week. A different, clear photo is checked: it was taken at noon today and shows a coin in the jar.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The new photo gives a separate reason for Yes."
+      }
+    },
+    {
+      "id": "coin_jar_opposite_evidence",
+      "split_group": "coin_jar",
+      "split": "train",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "A clear photo labeled noon today shows a coin inside a jar. This photo is the only evidence about the jar.",
+      "question": "Was there a coin in the jar at noon today?",
+      "evidence_prompt": "The first photo turns out to be from last week. A checked video from noon today clearly shows the jar empty.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The current video supports No."
+      }
+    },
+    {
+      "id": "coin_jar_irrelevant",
+      "split_group": "coin_jar",
+      "split": "train",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "A clear photo labeled noon today shows a coin inside a jar. This photo is the only evidence about the jar.",
+      "question": "Was there a coin in the jar at noon today?",
+      "evidence_prompt": "The person who took the photo bought a new coat today. There is no new information about the jar.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The coat has no bearing on the jar."
+      }
+    },
+    {
+      "id": "hall_light_reason_removed",
+      "split_group": "hall_light",
+      "split": "train",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "Lee reports checking the hall at eight this morning and seeing that its light was off. Lee's report is the only evidence about the light.",
+      "question": "Was the hall light on at eight this morning?",
+      "evidence_prompt": "Lee corrects the report: the room checked was the kitchen, not the hall. There is no other record of the hall light at eight.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "A report about the kitchen does not settle the hall light."
+      }
+    },
+    {
+      "id": "hall_light_reason_intact",
+      "split_group": "hall_light",
+      "split": "train",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "Lee reports checking the hall at eight this morning and seeing that its light was off. Lee's report is the only evidence about the light.",
+      "question": "Was the hall light on at eight this morning?",
+      "evidence_prompt": "Pat thinks the hall light was on but did not look at it. Lee confirms checking the hall, not another room.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "Pat has no observation that undermines Lee's checked report."
+      }
+    },
+    {
+      "id": "hall_light_reason_replaced",
+      "split_group": "hall_light",
+      "split": "train",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "Lee reports checking the hall at eight this morning and seeing that its light was off. Lee's report is the only evidence about the light.",
+      "question": "Was the hall light on at eight this morning?",
+      "evidence_prompt": "Lee had checked the kitchen, not the hall. A clear, correctly timed photo from the hall shows its light off at eight.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The hall photo independently supports No."
+      }
+    },
+    {
+      "id": "hall_light_opposite_evidence",
+      "split_group": "hall_light",
+      "split": "train",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "Lee reports checking the hall at eight this morning and seeing that its light was off. Lee's report is the only evidence about the light.",
+      "question": "Was the hall light on at eight this morning?",
+      "evidence_prompt": "Lee had checked the kitchen, not the hall. A clear, correctly timed photo from the hall shows its light on at eight.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "The hall photo supports Yes."
+      }
+    },
+    {
+      "id": "hall_light_irrelevant",
+      "split_group": "hall_light",
+      "split": "train",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "Lee reports checking the hall at eight this morning and seeing that its light was off. Lee's report is the only evidence about the light.",
+      "question": "Was the hall light on at eight this morning?",
+      "evidence_prompt": "Lee says the kitchen table is made of wood. This gives no new information about the hall light.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The table material is irrelevant."
+      }
+    },
+    {
+      "id": "notebook_bag_reason_removed",
+      "split_group": "notebook_bag",
+      "split": "val",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "Ben says he saw Ana put her notebook in her bag just before she left, and saw nothing taken out. His statement is the only evidence about the notebook.",
+      "question": "Was Ana's notebook in her bag when she left home?",
+      "evidence_prompt": "Ben admits he was not there when Ana packed. He assumed she took the notebook because she usually does. Nobody else saw what was in her bag.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "An admitted assumption is not a report of what happened."
+      }
+    },
+    {
+      "id": "notebook_bag_reason_intact",
+      "split_group": "notebook_bag",
+      "split": "val",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "Ben says he saw Ana put her notebook in her bag just before she left, and saw nothing taken out. His statement is the only evidence about the notebook.",
+      "question": "Was Ana's notebook in her bag when she left home?",
+      "evidence_prompt": "Jo says Ana probably forgot her notebook, but Jo did not see her pack. Ben confirms that he watched Ana pack and leave.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "An unsupported guess does not defeat the witness report."
+      }
+    },
+    {
+      "id": "notebook_bag_reason_replaced",
+      "split_group": "notebook_bag",
+      "split": "val",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "Ben says he saw Ana put her notebook in her bag just before she left, and saw nothing taken out. His statement is the only evidence about the notebook.",
+      "question": "Was Ana's notebook in her bag when she left home?",
+      "evidence_prompt": "Ben admits he was not there. A clear video of Ana packing and leaving shows the notebook going into her bag and staying there.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The video supplies a new basis for Yes."
+      }
+    },
+    {
+      "id": "notebook_bag_opposite_evidence",
+      "split_group": "notebook_bag",
+      "split": "val",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "Ben says he saw Ana put her notebook in her bag just before she left, and saw nothing taken out. His statement is the only evidence about the notebook.",
+      "question": "Was Ana's notebook in her bag when she left home?",
+      "evidence_prompt": "Ben admits he was not there. A clear video shows Ana leaving her notebook on the table as she walks out with her bag.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The video supports No."
+      }
+    },
+    {
+      "id": "notebook_bag_irrelevant",
+      "split_group": "notebook_bag",
+      "split": "val",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "Ben says he saw Ana put her notebook in her bag just before she left, and saw nothing taken out. His statement is the only evidence about the notebook.",
+      "question": "Was Ana's notebook in her bag when she left home?",
+      "evidence_prompt": "Ana's bag has a green strap. No new information is given about what was inside it.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The strap color does not bear on the contents."
+      }
+    },
+    {
+      "id": "garden_gate_reason_removed",
+      "split_group": "garden_gate",
+      "split": "val",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "A guard says the garden gate was closed at noon after looking at it from a window. That report is the only evidence about the gate.",
+      "question": "Was the garden gate open at noon?",
+      "evidence_prompt": "The guard explains that a truck blocked the whole view of the gate at noon. The guard could not see whether it was open or closed. No other observation is available.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "A blocked view gives no basis for either answer."
+      }
+    },
+    {
+      "id": "garden_gate_reason_intact",
+      "split_group": "garden_gate",
+      "split": "val",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "A guard says the garden gate was closed at noon after looking at it from a window. That report is the only evidence about the gate.",
+      "question": "Was the garden gate open at noon?",
+      "evidence_prompt": "A visitor guesses that the gate was open. The visitor was not there at noon. The guard confirms having a clear view of the gate.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The visitor's guess does not defeat a clear observation."
+      }
+    },
+    {
+      "id": "garden_gate_reason_replaced",
+      "split_group": "garden_gate",
+      "split": "val",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "A guard says the garden gate was closed at noon after looking at it from a window. That report is the only evidence about the gate.",
+      "question": "Was the garden gate open at noon?",
+      "evidence_prompt": "A truck had blocked the guard's view. A second guard was beside the gate at noon and clearly saw it closed.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The second guard independently supports No."
+      }
+    },
+    {
+      "id": "garden_gate_opposite_evidence",
+      "split_group": "garden_gate",
+      "split": "val",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "A guard says the garden gate was closed at noon after looking at it from a window. That report is the only evidence about the gate.",
+      "question": "Was the garden gate open at noon?",
+      "evidence_prompt": "A truck had blocked the guard's view. A second guard was beside the gate at noon and clearly saw it open.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "The second guard supports Yes."
+      }
+    },
+    {
+      "id": "garden_gate_irrelevant",
+      "split_group": "garden_gate",
+      "split": "val",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "A guard says the garden gate was closed at noon after looking at it from a window. That report is the only evidence about the gate.",
+      "question": "Was the garden gate open at noon?",
+      "evidence_prompt": "The guard had a sandwich for lunch. There is no new information about the gate.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "Lunch is irrelevant to the gate."
+      }
+    },
+    {
+      "id": "plant_water_reason_removed",
+      "split_group": "plant_water",
+      "split": "test",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "Mia says she saw someone pour water into the desk plant's soil this morning. Her report is the only evidence about whether that plant was watered.",
+      "question": "Was the desk plant watered this morning?",
+      "evidence_prompt": "Mia points out the plant she saw: it is the plant on the shelf, not the desk plant. There is no other evidence about the desk plant.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "Evidence about another plant leaves this one unsettled."
+      }
+    },
+    {
+      "id": "plant_water_reason_intact",
+      "split_group": "plant_water",
+      "split": "test",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "Mia says she saw someone pour water into the desk plant's soil this morning. Her report is the only evidence about whether that plant was watered.",
+      "question": "Was the desk plant watered this morning?",
+      "evidence_prompt": "Dan says the desk plant was probably not watered, but Dan was away all morning. Mia confirms that she saw the desk plant being watered.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "Dan has no observation against Mia's confirmed report."
+      }
+    },
+    {
+      "id": "plant_water_reason_replaced",
+      "split_group": "plant_water",
+      "split": "test",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "Mia says she saw someone pour water into the desk plant's soil this morning. Her report is the only evidence about whether that plant was watered.",
+      "question": "Was the desk plant watered this morning?",
+      "evidence_prompt": "Mia had seen the shelf plant being watered. A clear video from this morning separately shows water being poured into the desk plant's soil.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The video provides independent support for Yes."
+      }
+    },
+    {
+      "id": "plant_water_opposite_evidence",
+      "split_group": "plant_water",
+      "split": "test",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "Mia says she saw someone pour water into the desk plant's soil this morning. Her report is the only evidence about whether that plant was watered.",
+      "question": "Was the desk plant watered this morning?",
+      "evidence_prompt": "Mia had seen the shelf plant being watered. A clear video covering the desk plant for the entire morning shows that nobody watered it.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The complete video supports No."
+      }
+    },
+    {
+      "id": "plant_water_irrelevant",
+      "split_group": "plant_water",
+      "split": "test",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "Mia says she saw someone pour water into the desk plant's soil this morning. Her report is the only evidence about whether that plant was watered.",
+      "question": "Was the desk plant watered this morning?",
+      "evidence_prompt": "Mia says the shelf was painted last year. Nothing new is reported about watering the desk plant.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The shelf paint is irrelevant."
+      }
+    },
+    {
+      "id": "library_book_reason_removed",
+      "split_group": "library_book",
+      "split": "test",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "The librarian checks the return record and reports that the book was not returned on Monday. This record is the only evidence about the return.",
+      "question": "Was the library book returned on Monday?",
+      "evidence_prompt": "The librarian finds that the record was never filled in on Monday. A blank entry was mistaken for a checked report of no return. No other evidence is available.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "An unfilled record does not establish whether a return happened."
+      }
+    },
+    {
+      "id": "library_book_reason_intact",
+      "split_group": "library_book",
+      "split": "test",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "The librarian checks the return record and reports that the book was not returned on Monday. This record is the only evidence about the return.",
+      "question": "Was the library book returned on Monday?",
+      "evidence_prompt": "A reader guesses the book was returned on Monday but did not see it happen. The librarian checks that Monday's record is complete and refers to the right book.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "A guess does not undermine a checked, complete record."
+      }
+    },
+    {
+      "id": "library_book_reason_replaced",
+      "split_group": "library_book",
+      "split": "test",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "The librarian checks the return record and reports that the book was not returned on Monday. This record is the only evidence about the return.",
+      "question": "Was the library book returned on Monday?",
+      "evidence_prompt": "Monday's return record was never filled in. A clear video covering the return desk and box for all of Monday shows that this book was not returned.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The complete video independently supports No."
+      }
+    },
+    {
+      "id": "library_book_opposite_evidence",
+      "split_group": "library_book",
+      "split": "test",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "The librarian checks the return record and reports that the book was not returned on Monday. This record is the only evidence about the return.",
+      "question": "Was the library book returned on Monday?",
+      "evidence_prompt": "Monday's return record was never filled in. A clear video from Monday shows the book being handed back to the librarian.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "The return video supports Yes."
+      }
+    },
+    {
+      "id": "library_book_irrelevant",
+      "split_group": "library_book",
+      "split": "test",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "The librarian checks the return record and reports that the book was not returned on Monday. This record is the only evidence about the return.",
+      "question": "Was the library book returned on Monday?",
+      "evidence_prompt": "The librarian says the library walls are blue. There is no new information about the book return.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The wall color is irrelevant."
+      }
+    },
+    {
+      "id": "office_parcel_reason_removed",
+      "split_group": "office_parcel",
+      "split": "train",
+      "intervention": "reason_removed",
+      "difficulty": "medium",
+      "initial_context": "A driver reports handing the parcel to the receptionist on Tuesday. A clerk separately reports seeing that handoff. These are the only two accounts of the delivery.",
+      "question": "Was the parcel handed to the office receptionist on Tuesday?",
+      "evidence_prompt": "The driver and clerk each check the parcel number. Both were describing a different parcel. There is no other record of the parcel in the question.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "Both accounts concern the wrong parcel, leaving this delivery unsettled."
+      }
+    },
+    {
+      "id": "office_parcel_reason_intact",
+      "split_group": "office_parcel",
+      "split": "train",
+      "intervention": "reason_intact",
+      "difficulty": "medium",
+      "initial_context": "A driver reports handing the parcel to the receptionist on Tuesday. A clerk separately reports seeing that handoff. These are the only two accounts of the delivery.",
+      "question": "Was the parcel handed to the office receptionist on Tuesday?",
+      "evidence_prompt": "The driver had confused the parcel number and withdraws the report. The clerk checks a photo taken during the handoff. It clearly shows the right parcel number and the receptionist on Tuesday.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The clerk's checked observation still supports delivery after the driver withdraws."
+      }
+    },
+    {
+      "id": "office_parcel_reason_replaced",
+      "split_group": "office_parcel",
+      "split": "train",
+      "intervention": "reason_replaced",
+      "difficulty": "medium",
+      "initial_context": "A driver reports handing the parcel to the receptionist on Tuesday. A clerk separately reports seeing that handoff. These are the only two accounts of the delivery.",
+      "question": "Was the parcel handed to the office receptionist on Tuesday?",
+      "evidence_prompt": "Both people had described a different parcel. A checked Tuesday video clearly shows the parcel in the question being handed to the receptionist.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The video replaces the two mistaken accounts."
+      }
+    },
+    {
+      "id": "office_parcel_opposite_evidence",
+      "split_group": "office_parcel",
+      "split": "train",
+      "intervention": "opposite_evidence",
+      "difficulty": "medium",
+      "initial_context": "A driver reports handing the parcel to the receptionist on Tuesday. A clerk separately reports seeing that handoff. These are the only two accounts of the delivery.",
+      "question": "Was the parcel handed to the office receptionist on Tuesday?",
+      "evidence_prompt": "Both people had described a different parcel. A checked record and clear video show the parcel stayed in a locked depot all Tuesday. It could not have been delivered that day.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The parcel staying locked in the depot all day rules out the delivery."
+      }
+    },
+    {
+      "id": "office_parcel_irrelevant",
+      "split_group": "office_parcel",
+      "split": "train",
+      "intervention": "irrelevant",
+      "difficulty": "medium",
+      "initial_context": "A driver reports handing the parcel to the receptionist on Tuesday. A clerk separately reports seeing that handoff. These are the only two accounts of the delivery.",
+      "question": "Was the parcel handed to the office receptionist on Tuesday?",
+      "evidence_prompt": "The driver corrects the color of the delivery van from white to blue. Both people confirm the parcel number, the day, and the handoff. The van color does not affect those observations.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "Correcting van color does not remove the evidence of the handoff."
+      }
+    },
+    {
+      "id": "classroom_window_reason_removed",
+      "split_group": "classroom_window",
+      "split": "val",
+      "intervention": "reason_removed",
+      "difficulty": "medium",
+      "initial_context": "A teacher says the classroom window was shut at noon Friday. A caretaker separately says they saw it shut at that time. These are the only observations of the window.",
+      "question": "Was the classroom window open at noon on Friday?",
+      "evidence_prompt": "The teacher checks their diary and had visited on Thursday. The caretaker checks the room number and had visited a different classroom. No other observation covers the right window at noon Friday.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "Neither observation concerns the required place and time."
+      }
+    },
+    {
+      "id": "classroom_window_reason_intact",
+      "split_group": "classroom_window",
+      "split": "val",
+      "intervention": "reason_intact",
+      "difficulty": "medium",
+      "initial_context": "A teacher says the classroom window was shut at noon Friday. A caretaker separately says they saw it shut at that time. These are the only observations of the window.",
+      "question": "Was the classroom window open at noon on Friday?",
+      "evidence_prompt": "The teacher had visited on Thursday and withdraws the report. The caretaker checks the room and time: it was the right classroom at noon Friday, and the window was shut.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "One independent, checked observation still supports a closed window."
+      }
+    },
+    {
+      "id": "classroom_window_reason_replaced",
+      "split_group": "classroom_window",
+      "split": "val",
+      "intervention": "reason_replaced",
+      "difficulty": "medium",
+      "initial_context": "A teacher says the classroom window was shut at noon Friday. A caretaker separately says they saw it shut at that time. These are the only observations of the window.",
+      "question": "Was the classroom window open at noon on Friday?",
+      "evidence_prompt": "The teacher had the wrong day, and the caretaker had the wrong room. A checked photo from the right classroom at noon Friday clearly shows its window shut.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The photo supplies a new reason for No."
+      }
+    },
+    {
+      "id": "classroom_window_opposite_evidence",
+      "split_group": "classroom_window",
+      "split": "val",
+      "intervention": "opposite_evidence",
+      "difficulty": "medium",
+      "initial_context": "A teacher says the classroom window was shut at noon Friday. A caretaker separately says they saw it shut at that time. These are the only observations of the window.",
+      "question": "Was the classroom window open at noon on Friday?",
+      "evidence_prompt": "The teacher had the wrong day, and the caretaker had the wrong room. A checked photo from the right classroom at noon Friday clearly shows its window wide open.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "The photo supports an open window at the specified time."
+      }
+    },
+    {
+      "id": "classroom_window_irrelevant",
+      "split_group": "classroom_window",
+      "split": "val",
+      "intervention": "irrelevant",
+      "difficulty": "medium",
+      "initial_context": "A teacher says the classroom window was shut at noon Friday. A caretaker separately says they saw it shut at that time. These are the only observations of the window.",
+      "question": "Was the classroom window open at noon on Friday?",
+      "evidence_prompt": "The teacher corrects a separate claim about the board being clean. The caretaker had not discussed the board. Both window observations still refer to noon Friday in the right classroom.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "An error about the board does not undermine the window observations."
+      }
+    },
+    {
+      "id": "red_folder_reason_removed",
+      "split_group": "red_folder",
+      "split": "test",
+      "intervention": "reason_removed",
+      "difficulty": "medium",
+      "initial_context": "An assistant says they saw the red folder in the cabinet at closing time. A manager separately says they saw the same thing. These two observations are the only evidence.",
+      "question": "Was the red folder in the locked cabinet at closing time?",
+      "evidence_prompt": "The assistant had looked before lunch, not at closing. The manager was referring to the red folder in another office. Nothing else records where this folder was at closing.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "Both original observations miss the specified situation."
+      }
+    },
+    {
+      "id": "red_folder_reason_intact",
+      "split_group": "red_folder",
+      "split": "test",
+      "intervention": "reason_intact",
+      "difficulty": "medium",
+      "initial_context": "An assistant says they saw the red folder in the cabinet at closing time. A manager separately says they saw the same thing. These two observations are the only evidence.",
+      "question": "Was the red folder in the locked cabinet at closing time?",
+      "evidence_prompt": "The manager withdraws the report after noticing it was another office. The assistant checks the time and office and confirms clearly seeing this folder in this cabinet at closing.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The assistant's checked observation survives the manager's error."
+      }
+    },
+    {
+      "id": "red_folder_reason_replaced",
+      "split_group": "red_folder",
+      "split": "test",
+      "intervention": "reason_replaced",
+      "difficulty": "medium",
+      "initial_context": "An assistant says they saw the red folder in the cabinet at closing time. A manager separately says they saw the same thing. These two observations are the only evidence.",
+      "question": "Was the red folder in the locked cabinet at closing time?",
+      "evidence_prompt": "The assistant had the wrong time and the manager had the wrong office. A checked photo of the correct cabinet at closing clearly shows the red folder inside.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The correct photo replaces the original reasons."
+      }
+    },
+    {
+      "id": "red_folder_opposite_evidence",
+      "split_group": "red_folder",
+      "split": "test",
+      "intervention": "opposite_evidence",
+      "difficulty": "medium",
+      "initial_context": "An assistant says they saw the red folder in the cabinet at closing time. A manager separately says they saw the same thing. These two observations are the only evidence.",
+      "question": "Was the red folder in the locked cabinet at closing time?",
+      "evidence_prompt": "The assistant had the wrong time and the manager had the wrong office. A checked photo shows the red folder on the desk beside the locked cabinet at closing.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The photo places the folder outside the cabinet at closing."
+      }
+    },
+    {
+      "id": "red_folder_irrelevant",
+      "split_group": "red_folder",
+      "split": "test",
+      "intervention": "irrelevant",
+      "difficulty": "medium",
+      "initial_context": "An assistant says they saw the red folder in the cabinet at closing time. A manager separately says they saw the same thing. These two observations are the only evidence.",
+      "question": "Was the red folder in the locked cabinet at closing time?",
+      "evidence_prompt": "The manager corrects the number of chairs in the office. The observations about the folder, cabinet, and closing time are unchanged.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The chair count does not affect the observations of the folder."
+      }
+    },
+    {
+      "id": "pool_notice_reason_removed",
+      "split_group": "pool_notice",
+      "split": "train",
+      "intervention": "reason_removed",
+      "difficulty": "hard",
+      "initial_context": "The pool desk reports that the pool was closed to visitors at noon Saturday. The town website repeats the desk report. A newspaper repeats the website. Neither the website nor the newspaper checked the pool themselves.",
+      "question": "Was the town pool open to visitors at noon on Saturday?",
+      "evidence_prompt": "The pool desk finds it read last Saturday's entry, not the Saturday in the question. The website and newspaper used that same mistaken report. There is no separate evidence about the right Saturday.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "The three reports share one failed source; their number does not supply independent evidence."
+      }
+    },
+    {
+      "id": "pool_notice_reason_intact",
+      "split_group": "pool_notice",
+      "split": "train",
+      "intervention": "reason_intact",
+      "difficulty": "hard",
+      "initial_context": "The pool desk reports that the pool was closed to visitors at noon Saturday. The town website repeats the desk report. A newspaper repeats the website. Neither the website nor the newspaper checked the pool themselves.",
+      "question": "Was the town pool open to visitors at noon on Saturday?",
+      "evidence_prompt": "The newspaper withdraws its story because it never checked the pool. The desk checks its original record: it is for the right Saturday and records the pool closed at noon. The website had copied that record correctly.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "Withdrawal of a copy does not defeat the checked original source."
+      }
+    },
+    {
+      "id": "pool_notice_reason_replaced",
+      "split_group": "pool_notice",
+      "split": "train",
+      "intervention": "reason_replaced",
+      "difficulty": "hard",
+      "initial_context": "The pool desk reports that the pool was closed to visitors at noon Saturday. The town website repeats the desk report. A newspaper repeats the website. Neither the website nor the newspaper checked the pool themselves.",
+      "question": "Was the town pool open to visitors at noon on Saturday?",
+      "evidence_prompt": "The desk used the wrong Saturday, so both copies are also wrong about the date. A separate, checked video from the right Saturday shows the pool entrance locked with a closed sign at noon. Staff confirm visitors could not enter.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "Separate observations replace the failed source and its copies."
+      }
+    },
+    {
+      "id": "pool_notice_opposite_evidence",
+      "split_group": "pool_notice",
+      "split": "train",
+      "intervention": "opposite_evidence",
+      "difficulty": "hard",
+      "initial_context": "The pool desk reports that the pool was closed to visitors at noon Saturday. The town website repeats the desk report. A newspaper repeats the website. Neither the website nor the newspaper checked the pool themselves.",
+      "question": "Was the town pool open to visitors at noon on Saturday?",
+      "evidence_prompt": "The desk used the wrong Saturday, so both copies are also wrong about the date. A separate, checked video from the right Saturday shows staff admitting visitors to the pool at noon.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "Direct evidence of visitor admission defeats the mistaken reports."
+      }
+    },
+    {
+      "id": "pool_notice_irrelevant",
+      "split_group": "pool_notice",
+      "split": "train",
+      "intervention": "irrelevant",
+      "difficulty": "hard",
+      "initial_context": "The pool desk reports that the pool was closed to visitors at noon Saturday. The town website repeats the desk report. A newspaper repeats the website. Neither the website nor the newspaper checked the pool themselves.",
+      "question": "Was the town pool open to visitors at noon on Saturday?",
+      "evidence_prompt": "The newspaper corrects the spelling of the pool manager's name. The desk report about the right Saturday and its copies have not changed.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "A spelling correction does not affect whether the pool was open."
+      }
+    },
+    {
+      "id": "bike_loan_reason_removed",
+      "split_group": "bike_loan",
+      "split": "val",
+      "intervention": "reason_removed",
+      "difficulty": "hard",
+      "initial_context": "The club allows a bike loan only when both conditions hold: the member has a current pass and the bike is booked in their name. These two conditions together are enough. A checked pass list shows Eli has a current pass. The booking sheet shows the bike booked to Eli on Monday.",
+      "question": "Under these rules, was Eli allowed to borrow the club bike on Monday?",
+      "evidence_prompt": "The booking sheet turns out to be from last Monday. There is no booking information for the Monday in the question. The pass list is correct.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "One required condition is now unknown; a valid pass alone does not settle permission."
+      }
+    },
+    {
+      "id": "bike_loan_reason_intact",
+      "split_group": "bike_loan",
+      "split": "val",
+      "intervention": "reason_intact",
+      "difficulty": "hard",
+      "initial_context": "The club allows a bike loan only when both conditions hold: the member has a current pass and the bike is booked in their name. These two conditions together are enough. A checked pass list shows Eli has a current pass. The booking sheet shows the bike booked to Eli on Monday.",
+      "question": "Under these rules, was Eli allowed to borrow the club bike on Monday?",
+      "evidence_prompt": "Someone says Eli's pass must be expired because Eli joined last year. The checked pass list includes a renewal and confirms it is current. The booking sheet is checked and is for the right Monday.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The checked renewal and booking establish both conditions despite an unsupported objection."
+      }
+    },
+    {
+      "id": "bike_loan_reason_replaced",
+      "split_group": "bike_loan",
+      "split": "val",
+      "intervention": "reason_replaced",
+      "difficulty": "hard",
+      "initial_context": "The club allows a bike loan only when both conditions hold: the member has a current pass and the bike is booked in their name. These two conditions together are enough. A checked pass list shows Eli has a current pass. The booking sheet shows the bike booked to Eli on Monday.",
+      "question": "Under these rules, was Eli allowed to borrow the club bike on Monday?",
+      "evidence_prompt": "The booking sheet is from last Monday. A separate, checked booking email confirms the bike was booked to Eli for the Monday in the question. The current pass is still confirmed.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "A new booking source restores the missing condition while the pass remains valid."
+      }
+    },
+    {
+      "id": "bike_loan_opposite_evidence",
+      "split_group": "bike_loan",
+      "split": "val",
+      "intervention": "opposite_evidence",
+      "difficulty": "hard",
+      "initial_context": "The club allows a bike loan only when both conditions hold: the member has a current pass and the bike is booked in their name. These two conditions together are enough. A checked pass list shows Eli has a current pass. The booking sheet shows the bike booked to Eli on Monday.",
+      "question": "Under these rules, was Eli allowed to borrow the club bike on Monday?",
+      "evidence_prompt": "The booking sheet is from last Monday. The correct booking record is checked and shows the bike was not booked to Eli on the Monday in the question. Eli still has a current pass.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The absence of the required booking is enough for No even with a current pass."
+      }
+    },
+    {
+      "id": "bike_loan_irrelevant",
+      "split_group": "bike_loan",
+      "split": "val",
+      "intervention": "irrelevant",
+      "difficulty": "hard",
+      "initial_context": "The club allows a bike loan only when both conditions hold: the member has a current pass and the bike is booked in their name. These two conditions together are enough. A checked pass list shows Eli has a current pass. The booking sheet shows the bike booked to Eli on Monday.",
+      "question": "Under these rules, was Eli allowed to borrow the club bike on Monday?",
+      "evidence_prompt": "A staff member corrects the bike's color on a repair note. The checked pass and booking records are unchanged. Bike color is not part of the loan rule.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "A correction outside the two stated conditions does not affect permission."
+      }
+    },
+    {
+      "id": "hall_booking_reason_removed",
+      "split_group": "hall_booking",
+      "split": "test",
+      "intervention": "reason_removed",
+      "difficulty": "hard",
+      "initial_context": "A group may use the hall only if it has both a booking and a paid deposit. Those two conditions together are enough. The booking list confirms the school group has a Friday booking. A checked payment list records that its deposit was not paid.",
+      "question": "Under these rules, was the school group allowed to use the hall on Friday?",
+      "evidence_prompt": "The payment list used the wrong group number. It says nothing about whether the school group paid. The school group's booking is still confirmed.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "A required condition is unsettled, so neither permission nor lack of permission is established."
+      }
+    },
+    {
+      "id": "hall_booking_reason_intact",
+      "split_group": "hall_booking",
+      "split": "test",
+      "intervention": "reason_intact",
+      "difficulty": "hard",
+      "initial_context": "A group may use the hall only if it has both a booking and a paid deposit. Those two conditions together are enough. The booking list confirms the school group has a Friday booking. A checked payment list records that its deposit was not paid.",
+      "question": "Under these rules, was the school group allowed to use the hall on Friday?",
+      "evidence_prompt": "A clerk corrects the room number on an unrelated receipt. The booking and payment lists are checked: they refer to the right group and Friday, and its deposit was not paid.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The unrelated correction leaves the checked failure of a required condition intact."
+      }
+    },
+    {
+      "id": "hall_booking_reason_replaced",
+      "split_group": "hall_booking",
+      "split": "test",
+      "intervention": "reason_replaced",
+      "difficulty": "hard",
+      "initial_context": "A group may use the hall only if it has both a booking and a paid deposit. Those two conditions together are enough. The booking list confirms the school group has a Friday booking. A checked payment list records that its deposit was not paid.",
+      "question": "Under these rules, was the school group allowed to use the hall on Friday?",
+      "evidence_prompt": "The payment list used the wrong group number. A separate, checked bank record confirms the school group's deposit was not paid. The booking is still confirmed.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The bank record independently establishes the missing required payment."
+      }
+    },
+    {
+      "id": "hall_booking_opposite_evidence",
+      "split_group": "hall_booking",
+      "split": "test",
+      "intervention": "opposite_evidence",
+      "difficulty": "hard",
+      "initial_context": "A group may use the hall only if it has both a booking and a paid deposit. Those two conditions together are enough. The booking list confirms the school group has a Friday booking. A checked payment list records that its deposit was not paid.",
+      "question": "Under these rules, was the school group allowed to use the hall on Friday?",
+      "evidence_prompt": "The payment list used the wrong group number. A separate, checked receipt confirms the school group paid its deposit. The Friday booking is still confirmed.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "Both necessary and sufficient conditions are now established."
+      }
+    },
+    {
+      "id": "hall_booking_irrelevant",
+      "split_group": "hall_booking",
+      "split": "test",
+      "intervention": "irrelevant",
+      "difficulty": "hard",
+      "initial_context": "A group may use the hall only if it has both a booking and a paid deposit. Those two conditions together are enough. The booking list confirms the school group has a Friday booking. A checked payment list records that its deposit was not paid.",
+      "question": "Under these rules, was the school group allowed to use the hall on Friday?",
+      "evidence_prompt": "The school group changes the color of its posters. The confirmed booking and unpaid deposit are unchanged. Poster color is not part of the permission rule.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "Poster color does not change either condition."
+      }
+    },
+    {
+      "id": "parcel_delivery_reason_removed",
+      "split_group": "parcel_delivery",
+      "split": "train",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "The courier’s checked delivery photo was taken at 2:10 today. It shows a parcel inside the front door marked 14, and the route record confirms that is the correct address.",
+      "question": "Was the parcel delivered to address 14 today?",
+      "evidence_prompt": "The photo is checked again: its door number is 41, not 14. There is no other delivery record for address 14.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "parcel_delivery_reason_intact",
+      "split_group": "parcel_delivery",
+      "split": "train",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "The courier’s checked delivery photo was taken at 2:10 today. It shows a parcel inside the front door marked 14, and the route record confirms that is the correct address.",
+      "question": "Was the parcel delivered to address 14 today?",
+      "evidence_prompt": "A neighbor says they did not see a parcel at 2:10, but they arrived at 3:00 and did not check the doorway then. The photo’s address and time are confirmed.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "parcel_delivery_reason_replaced",
+      "split_group": "parcel_delivery",
+      "split": "train",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "The courier’s checked delivery photo was taken at 2:10 today. It shows a parcel inside the front door marked 14, and the route record confirms that is the correct address.",
+      "question": "Was the parcel delivered to address 14 today?",
+      "evidence_prompt": "The photo turns out to show address 41. A separate signed receipt confirms the parcel was handed to the resident at address 14 at 2:10 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "parcel_delivery_opposite_evidence",
+      "split_group": "parcel_delivery",
+      "split": "train",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "The courier’s checked delivery photo was taken at 2:10 today. It shows a parcel inside the front door marked 14, and the route record confirms that is the correct address.",
+      "question": "Was the parcel delivered to address 14 today?",
+      "evidence_prompt": "The photo turns out to show address 41. The checked route record for address 14 says the parcel was returned to the depot and not delivered today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "parcel_delivery_irrelevant",
+      "split_group": "parcel_delivery",
+      "split": "train",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "The courier’s checked delivery photo was taken at 2:10 today. It shows a parcel inside the front door marked 14, and the route record confirms that is the correct address.",
+      "question": "Was the parcel delivered to address 14 today?",
+      "evidence_prompt": "The courier corrects the color of the van in the photo. The address and time in the checked delivery record are unchanged.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    },
+    {
+      "id": "meeting_setup_reason_removed",
+      "split_group": "meeting_setup",
+      "split": "val",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "The room must have its chairs and projector ready before the 3:00 meeting. At 2:50, the checked room checklist says the chairs were still stacked and the projector was off.",
+      "question": "Was the room ready for the 3:00 meeting at 2:50?",
+      "evidence_prompt": "The checklist is found to be for the room next door, not this room. No one checked whether this room was ready at 2:50.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "meeting_setup_reason_intact",
+      "split_group": "meeting_setup",
+      "split": "val",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "The room must have its chairs and projector ready before the 3:00 meeting. At 2:50, the checked room checklist says the chairs were still stacked and the projector was off.",
+      "question": "Was the room ready for the 3:00 meeting at 2:50?",
+      "evidence_prompt": "Someone says they saw chairs in the hallway at 2:50, but those chairs were for a different room. The checklist is confirmed to be for this room.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "meeting_setup_reason_replaced",
+      "split_group": "meeting_setup",
+      "split": "val",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "The room must have its chairs and projector ready before the 3:00 meeting. At 2:50, the checked room checklist says the chairs were still stacked and the projector was off.",
+      "question": "Was the room ready for the 3:00 meeting at 2:50?",
+      "evidence_prompt": "The checklist is found to be for the room next door. A separate, checked photo of this room at 2:50 shows the chairs still stacked and the projector off.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "meeting_setup_opposite_evidence",
+      "split_group": "meeting_setup",
+      "split": "val",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "The room must have its chairs and projector ready before the 3:00 meeting. At 2:50, the checked room checklist says the chairs were still stacked and the projector was off.",
+      "question": "Was the room ready for the 3:00 meeting at 2:50?",
+      "evidence_prompt": "The checklist is found to be for the room next door. A separate, checked photo of this room at 2:50 shows the chairs set out and the projector on.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "meeting_setup_irrelevant",
+      "split_group": "meeting_setup",
+      "split": "val",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "The room must have its chairs and projector ready before the 3:00 meeting. At 2:50, the checked room checklist says the chairs were still stacked and the projector was off.",
+      "question": "Was the room ready for the 3:00 meeting at 2:50?",
+      "evidence_prompt": "The organizer corrects the meeting title on the checklist. The room number, time, and checked notes about the chairs and projector are unchanged.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    },
+    {
+      "id": "projector_status_reason_removed",
+      "split_group": "projector_status",
+      "split": "val",
+      "intervention": "reason_removed",
+      "difficulty": "medium",
+      "initial_context": "At the start of class at 10:00, a checked classroom photo shows the projector’s power light on and the lesson slide on the screen.",
+      "question": "Was the projector on at 10:00?",
+      "evidence_prompt": "The photo’s timestamp is wrong; it was taken yesterday. There is no other record of the projector at 10:00 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "projector_status_reason_intact",
+      "split_group": "projector_status",
+      "split": "val",
+      "intervention": "reason_intact",
+      "difficulty": "medium",
+      "initial_context": "At the start of class at 10:00, a checked classroom photo shows the projector’s power light on and the lesson slide on the screen.",
+      "question": "Was the projector on at 10:00?",
+      "evidence_prompt": "A student says the room looked dark, but did not look at the projector. The checked photo is confirmed to be from this classroom at 10:00 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "projector_status_reason_replaced",
+      "split_group": "projector_status",
+      "split": "val",
+      "intervention": "reason_replaced",
+      "difficulty": "medium",
+      "initial_context": "At the start of class at 10:00, a checked classroom photo shows the projector’s power light on and the lesson slide on the screen.",
+      "question": "Was the projector on at 10:00?",
+      "evidence_prompt": "The photo was from yesterday. A separate checked equipment log records the projector running in this classroom at 10:00 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "projector_status_opposite_evidence",
+      "split_group": "projector_status",
+      "split": "val",
+      "intervention": "opposite_evidence",
+      "difficulty": "medium",
+      "initial_context": "At the start of class at 10:00, a checked classroom photo shows the projector’s power light on and the lesson slide on the screen.",
+      "question": "Was the projector on at 10:00?",
+      "evidence_prompt": "The photo was from yesterday. A separate checked equipment log records that the projector was shut down in this classroom at 10:00 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "projector_status_irrelevant",
+      "split_group": "projector_status",
+      "split": "val",
+      "intervention": "irrelevant",
+      "difficulty": "medium",
+      "initial_context": "At the start of class at 10:00, a checked classroom photo shows the projector’s power light on and the lesson slide on the screen.",
+      "question": "Was the projector on at 10:00?",
+      "evidence_prompt": "The teacher corrects the lesson title shown on the slide. The classroom, timestamp, and projector power light in the photo are unchanged.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    },
+    {
+      "id": "laundry_cycle_reason_removed",
+      "split_group": "laundry_cycle",
+      "split": "train",
+      "intervention": "reason_removed",
+      "difficulty": "medium",
+      "initial_context": "The washer display was photographed at 6:00 today. It clearly showed three minutes remaining in the cycle.",
+      "question": "Had the wash cycle finished by 6:00?",
+      "evidence_prompt": "The photo was actually taken at 5:00, not 6:00. There is no other information about the cycle at 6:00.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "laundry_cycle_reason_intact",
+      "split_group": "laundry_cycle",
+      "split": "train",
+      "intervention": "reason_intact",
+      "difficulty": "medium",
+      "initial_context": "The washer display was photographed at 6:00 today. It clearly showed three minutes remaining in the cycle.",
+      "question": "Had the wash cycle finished by 6:00?",
+      "evidence_prompt": "A person in the next room heard a beep around 6:00, but did not check which machine made it. The washer display photo is confirmed to be from 6:00.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "laundry_cycle_reason_replaced",
+      "split_group": "laundry_cycle",
+      "split": "train",
+      "intervention": "reason_replaced",
+      "difficulty": "medium",
+      "initial_context": "The washer display was photographed at 6:00 today. It clearly showed three minutes remaining in the cycle.",
+      "question": "Had the wash cycle finished by 6:00?",
+      "evidence_prompt": "The photo was actually from 5:00. A separate checked washer log shows the cycle still had three minutes left at 6:00.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "laundry_cycle_opposite_evidence",
+      "split_group": "laundry_cycle",
+      "split": "train",
+      "intervention": "opposite_evidence",
+      "difficulty": "medium",
+      "initial_context": "The washer display was photographed at 6:00 today. It clearly showed three minutes remaining in the cycle.",
+      "question": "Had the wash cycle finished by 6:00?",
+      "evidence_prompt": "The photo was actually from 5:00. A separate checked washer log shows the cycle ended at 5:55.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "laundry_cycle_irrelevant",
+      "split_group": "laundry_cycle",
+      "split": "train",
+      "intervention": "irrelevant",
+      "difficulty": "medium",
+      "initial_context": "The washer display was photographed at 6:00 today. It clearly showed three minutes remaining in the cycle.",
+      "question": "Had the wash cycle finished by 6:00?",
+      "evidence_prompt": "The owner corrects the color of the laundry basket beside the washer. The display time and remaining-cycle reading are unchanged.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    },
+    {
+      "id": "dispatch_record_reason_removed",
+      "split_group": "dispatch_record",
+      "split": "test",
+      "intervention": "reason_removed",
+      "difficulty": "hard",
+      "initial_context": "The office’s outgoing-mail log is checked and complete for today’s pickup. It lists every item handed to the courier. The blue envelope is not in the log.",
+      "question": "Was the blue envelope handed to the courier today?",
+      "evidence_prompt": "The log is found to be incomplete: one page covering today’s pickup is missing. There is no other record of the blue envelope.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "dispatch_record_reason_intact",
+      "split_group": "dispatch_record",
+      "split": "test",
+      "intervention": "reason_intact",
+      "difficulty": "hard",
+      "initial_context": "The office’s outgoing-mail log is checked and complete for today’s pickup. It lists every item handed to the courier. The blue envelope is not in the log.",
+      "question": "Was the blue envelope handed to the courier today?",
+      "evidence_prompt": "A coworker remembers seeing a blue envelope near the exit, but did not see it handed over. The checked log is confirmed complete for today’s pickup.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "dispatch_record_reason_replaced",
+      "split_group": "dispatch_record",
+      "split": "test",
+      "intervention": "reason_replaced",
+      "difficulty": "hard",
+      "initial_context": "The office’s outgoing-mail log is checked and complete for today’s pickup. It lists every item handed to the courier. The blue envelope is not in the log.",
+      "question": "Was the blue envelope handed to the courier today?",
+      "evidence_prompt": "The log is found to be missing a page. A separate checked courier receipt confirms the blue envelope was not handed over and is still in the office.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "dispatch_record_opposite_evidence",
+      "split_group": "dispatch_record",
+      "split": "test",
+      "intervention": "opposite_evidence",
+      "difficulty": "hard",
+      "initial_context": "The office’s outgoing-mail log is checked and complete for today’s pickup. It lists every item handed to the courier. The blue envelope is not in the log.",
+      "question": "Was the blue envelope handed to the courier today?",
+      "evidence_prompt": "The log is found to be missing a page. A separate courier receipt, checked against the envelope’s tracking number, confirms it was handed over today.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "dispatch_record_irrelevant",
+      "split_group": "dispatch_record",
+      "split": "test",
+      "intervention": "irrelevant",
+      "difficulty": "hard",
+      "initial_context": "The office’s outgoing-mail log is checked and complete for today’s pickup. It lists every item handed to the courier. The blue envelope is not in the log.",
+      "question": "Was the blue envelope handed to the courier today?",
+      "evidence_prompt": "The office corrects the spelling of the courier’s name in the log. The log is still complete, and the blue envelope is still not listed.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    },
+    {
+      "id": "display_case_reason_removed",
+      "split_group": "display_case",
+      "split": "train",
+      "intervention": "reason_removed",
+      "difficulty": "hard",
+      "initial_context": "A checked opening photo shows the blue model inside the museum’s front display case at 9:00 today. The case label and clock are visible in the photo.",
+      "question": "Was the blue model in the front display case at 9:00 today?",
+      "evidence_prompt": "The photo is found to be from last week, not today. There is no other record of what was in the case at 9:00 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "display_case_reason_intact",
+      "split_group": "display_case",
+      "split": "train",
+      "intervention": "reason_intact",
+      "difficulty": "hard",
+      "initial_context": "A checked opening photo shows the blue model inside the museum’s front display case at 9:00 today. The case label and clock are visible in the photo.",
+      "question": "Was the blue model in the front display case at 9:00 today?",
+      "evidence_prompt": "A visitor says the blue model was not there later in the afternoon. The checked photo is confirmed to be from today at 9:00.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "display_case_reason_replaced",
+      "split_group": "display_case",
+      "split": "train",
+      "intervention": "reason_replaced",
+      "difficulty": "hard",
+      "initial_context": "A checked opening photo shows the blue model inside the museum’s front display case at 9:00 today. The case label and clock are visible in the photo.",
+      "question": "Was the blue model in the front display case at 9:00 today?",
+      "evidence_prompt": "The photo is found to be from last week. A separate checked opening inventory, signed at 9:00 today, lists the blue model in the front case.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "display_case_opposite_evidence",
+      "split_group": "display_case",
+      "split": "train",
+      "intervention": "opposite_evidence",
+      "difficulty": "hard",
+      "initial_context": "A checked opening photo shows the blue model inside the museum’s front display case at 9:00 today. The case label and clock are visible in the photo.",
+      "question": "Was the blue model in the front display case at 9:00 today?",
+      "evidence_prompt": "The photo is found to be from last week. A separate checked opening inventory, signed at 9:00 today, lists the blue model as absent from the front case.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "display_case_irrelevant",
+      "split_group": "display_case",
+      "split": "train",
+      "intervention": "irrelevant",
+      "difficulty": "hard",
+      "initial_context": "A checked opening photo shows the blue model inside the museum’s front display case at 9:00 today. The case label and clock are visible in the photo.",
+      "question": "Was the blue model in the front display case at 9:00 today?",
+      "evidence_prompt": "A staff member corrects the case label’s spelling of the artist’s name. The checked photo still shows the blue model and the 9:00 time.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    },
+    {
+      "id": "community_gate_reason_removed",
+      "split_group": "community_gate",
+      "split": "test",
+      "intervention": "reason_removed",
+      "difficulty": "easy",
+      "initial_context": "At 10:00 today, a checked photo shows the community garden’s side gate standing open. The gate sign and the time are visible.",
+      "question": "Was the side gate open at 10:00 today?",
+      "evidence_prompt": "The photo is found to be from yesterday, not today. No one recorded whether the gate was open at 10:00 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "community_gate_reason_intact",
+      "split_group": "community_gate",
+      "split": "test",
+      "intervention": "reason_intact",
+      "difficulty": "easy",
+      "initial_context": "At 10:00 today, a checked photo shows the community garden’s side gate standing open. The gate sign and the time are visible.",
+      "question": "Was the side gate open at 10:00 today?",
+      "evidence_prompt": "A neighbor says the garden is usually locked in the morning but did not visit today. The photo’s date and time are confirmed.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "community_gate_reason_replaced",
+      "split_group": "community_gate",
+      "split": "test",
+      "intervention": "reason_replaced",
+      "difficulty": "easy",
+      "initial_context": "At 10:00 today, a checked photo shows the community garden’s side gate standing open. The gate sign and the time are visible.",
+      "question": "Was the side gate open at 10:00 today?",
+      "evidence_prompt": "The photo is found to be from yesterday. A separate checked entry log records a volunteer opening the side gate at 10:00 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "community_gate_opposite_evidence",
+      "split_group": "community_gate",
+      "split": "test",
+      "intervention": "opposite_evidence",
+      "difficulty": "easy",
+      "initial_context": "At 10:00 today, a checked photo shows the community garden’s side gate standing open. The gate sign and the time are visible.",
+      "question": "Was the side gate open at 10:00 today?",
+      "evidence_prompt": "The photo is found to be from yesterday. A separate checked entry log records that the side gate remained locked at 10:00 today.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "community_gate_irrelevant",
+      "split_group": "community_gate",
+      "split": "test",
+      "intervention": "irrelevant",
+      "difficulty": "easy",
+      "initial_context": "At 10:00 today, a checked photo shows the community garden’s side gate standing open. The gate sign and the time are visible.",
+      "question": "Was the side gate open at 10:00 today?",
+      "evidence_prompt": "The garden corrects the phone number printed on the gate sign. The photo’s date, time, and view of the gate are unchanged.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    },
+    {
+      "id": "printer_job_reason_removed",
+      "split_group": "printer_job",
+      "split": "test",
+      "intervention": "reason_removed",
+      "difficulty": "medium",
+      "initial_context": "The printer’s checked control panel at 9:00 shows an active job with four pages left. The panel clock is confirmed correct.",
+      "question": "Was the printer idle at 9:00?",
+      "evidence_prompt": "The panel clock is found to be an hour fast, and there is no other record of the printer at 9:00.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "printer_job_reason_intact",
+      "split_group": "printer_job",
+      "split": "test",
+      "intervention": "reason_intact",
+      "difficulty": "medium",
+      "initial_context": "The printer’s checked control panel at 9:00 shows an active job with four pages left. The panel clock is confirmed correct.",
+      "question": "Was the printer idle at 9:00?",
+      "evidence_prompt": "A coworker says they did not hear the printer, but they were in another room. The panel clock and active-job display are confirmed correct for 9:00.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "printer_job_reason_replaced",
+      "split_group": "printer_job",
+      "split": "test",
+      "intervention": "reason_replaced",
+      "difficulty": "medium",
+      "initial_context": "The printer’s checked control panel at 9:00 shows an active job with four pages left. The panel clock is confirmed correct.",
+      "question": "Was the printer idle at 9:00?",
+      "evidence_prompt": "The panel clock is found to be an hour fast. A separate checked camera view shows the printer producing pages at 9:00.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "printer_job_opposite_evidence",
+      "split_group": "printer_job",
+      "split": "test",
+      "intervention": "opposite_evidence",
+      "difficulty": "medium",
+      "initial_context": "The printer’s checked control panel at 9:00 shows an active job with four pages left. The panel clock is confirmed correct.",
+      "question": "Was the printer idle at 9:00?",
+      "evidence_prompt": "The panel clock is found to be an hour fast. A separate checked camera view shows the printer powered down and idle at 9:00.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "printer_job_irrelevant",
+      "split_group": "printer_job",
+      "split": "test",
+      "intervention": "irrelevant",
+      "difficulty": "medium",
+      "initial_context": "The printer’s checked control panel at 9:00 shows an active job with four pages left. The panel clock is confirmed correct.",
+      "question": "Was the printer idle at 9:00?",
+      "evidence_prompt": "The office corrects the name of the person who sent the print job. The panel time and active-job display are unchanged.",
+      "key": {
+        "prior_answer": "No",
+        "posterior_answer": "No",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    },
+    {
+      "id": "field_lights_reason_removed",
+      "split_group": "field_lights",
+      "split": "val",
+      "intervention": "reason_removed",
+      "difficulty": "hard",
+      "initial_context": "The sports field’s checked control panel log shows the field lights switched on at 8:00 tonight. The log clock is confirmed correct.",
+      "question": "Were the sports field lights on at 8:00 tonight?",
+      "evidence_prompt": "The control panel log is found to be from last night. There is no other record of the lights tonight.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Unknown",
+        "rationale": "The original evidence no longer establishes the claim, and no replacement evidence settles it."
+      }
+    },
+    {
+      "id": "field_lights_reason_intact",
+      "split_group": "field_lights",
+      "split": "val",
+      "intervention": "reason_intact",
+      "difficulty": "hard",
+      "initial_context": "The sports field’s checked control panel log shows the field lights switched on at 8:00 tonight. The log clock is confirmed correct.",
+      "question": "Were the sports field lights on at 8:00 tonight?",
+      "evidence_prompt": "A passerby says the field looked dark from the road, but did not enter the grounds. The checked log is confirmed to be from tonight at 8:00.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The checked original evidence remains valid; the new report does not defeat its grounds."
+      }
+    },
+    {
+      "id": "field_lights_reason_replaced",
+      "split_group": "field_lights",
+      "split": "val",
+      "intervention": "reason_replaced",
+      "difficulty": "hard",
+      "initial_context": "The sports field’s checked control panel log shows the field lights switched on at 8:00 tonight. The log clock is confirmed correct.",
+      "question": "Were the sports field lights on at 8:00 tonight?",
+      "evidence_prompt": "The control panel log is found to be from last night. A separate checked photo from inside the field shows the lights on at 8:00 tonight.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The original evidence fails, but separate checked evidence supports the same answer."
+      }
+    },
+    {
+      "id": "field_lights_opposite_evidence",
+      "split_group": "field_lights",
+      "split": "val",
+      "intervention": "opposite_evidence",
+      "difficulty": "hard",
+      "initial_context": "The sports field’s checked control panel log shows the field lights switched on at 8:00 tonight. The log clock is confirmed correct.",
+      "question": "Were the sports field lights on at 8:00 tonight?",
+      "evidence_prompt": "The control panel log is found to be from last night. A separate checked photo from inside the field shows the lights off at 8:00 tonight.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "No",
+        "rationale": "The original evidence fails, and separate checked evidence supports the opposite answer."
+      }
+    },
+    {
+      "id": "field_lights_irrelevant",
+      "split_group": "field_lights",
+      "split": "val",
+      "intervention": "irrelevant",
+      "difficulty": "hard",
+      "initial_context": "The sports field’s checked control panel log shows the field lights switched on at 8:00 tonight. The log clock is confirmed correct.",
+      "question": "Were the sports field lights on at 8:00 tonight?",
+      "evidence_prompt": "The groundskeeper corrects the score written on the field’s whiteboard. The control panel log and its time are unchanged.",
+      "key": {
+        "prior_answer": "Yes",
+        "posterior_answer": "Yes",
+        "rationale": "The correction concerns a detail that does not bear on the claim."
+      }
+    }
+  ]
+}

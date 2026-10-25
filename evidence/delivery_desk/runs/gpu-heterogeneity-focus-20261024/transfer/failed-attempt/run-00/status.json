@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "error": "main.<locals>.add_direction() got an unexpected keyword argument 'hook'",
+  "finished": "2026-10-19T02:00:51.367444+00:00"
+}

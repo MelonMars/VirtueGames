@@ -1,0 +1,141 @@
+{
+  "protocol": "delivery-desk-v1",
+  "n_cases": 21,
+  "n_families": 21,
+  "n_samples": 1,
+  "n_decisions": 63,
+  "stages": {
+    "0": {
+      "n": 21,
+      "scored": 21,
+      "accuracy": 0.7142857142857143,
+      "mean_confidence_brier": 0.3107142857142857,
+      "confidence_coverage": 21,
+      "labels": {
+        "correct_update": 15,
+        "other_error": 6
+      },
+      "parse_failures": 0,
+      "format_failures": 1,
+      "token_limit_hits": 0
+    },
+    "1": {
+      "n": 21,
+      "scored": 21,
+      "accuracy": 0.6666666666666666,
+      "mean_confidence_brier": 0.30047619047619045,
+      "confidence_coverage": 21,
+      "labels": {
+        "under_update": 2,
+        "correct_update": 14,
+        "over_update": 4,
+        "other_error": 1
+      },
+      "parse_failures": 0,
+      "format_failures": 1,
+      "token_limit_hits": 0
+    },
+    "2": {
+      "n": 21,
+      "scored": 21,
+      "accuracy": 0.7619047619047619,
+      "mean_confidence_brier": 0.2704761904761905,
+      "confidence_coverage": 21,
+      "labels": {
+        "correct_update": 16,
+        "under_update": 2,
+        "other_error": 3
+      },
+      "parse_failures": 0,
+      "format_failures": 1,
+      "token_limit_hits": 0
+    }
+  },
+  "by_family": {
+    "delivery:ambiguous_record": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "delivery:conflicting_audit": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:contradictory_records": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:deadline_boundary": {
+      "n": 3,
+      "accuracy": 0.0
+    },
+    "delivery:depot_hold": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "delivery:doorstep_photo": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:late_independent_record": {
+      "n": 3,
+      "accuracy": 0.3333333333333333
+    },
+    "delivery:locker_assignment": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:locker_identity": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "delivery:parcel_identity": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:receipt_identity": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:recipient_signature": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:return_confirmation": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "delivery:return_deadline": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "delivery:return_identity": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:return_record_correction": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "delivery:secure_locker": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:signature_audit": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "delivery:source_dependence": {
+      "n": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "delivery:transit_status": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "delivery:wrong_location": {
+      "n": 3,
+      "accuracy": 0.0
+    }
+  },
+  "interpretation": "Development pilot only. Transition labels describe answer changes relative to keyed evidence updates; citations are retained but not semantically judged. Turns within a docket are repeated measures."
+}

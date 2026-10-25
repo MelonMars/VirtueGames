@@ -1,0 +1,60 @@
+{
+  "protocol": "delivery-desk-v1",
+  "sampling_design": "decision-branches-v1",
+  "n_cases": 2,
+  "n_families": 2,
+  "n_samples_per_decision": 64,
+  "focus_stage": 1,
+  "n_decisions": 130,
+  "stages": {
+    "0": {
+      "n": 2,
+      "scored": 2,
+      "accuracy": 0.5,
+      "answer_counts": {
+        "Yes": 2
+      },
+      "decision_batches_with_answer_variation": 0,
+      "mean_confidence_brier": 0.28125,
+      "labels": {
+        "correct_update": 1,
+        "other_error": 1
+      },
+      "parse_failures": 0,
+      "format_failures": 0,
+      "token_limit_hits": 0
+    },
+    "1": {
+      "n": 128,
+      "scored": 128,
+      "accuracy": 0.1953125,
+      "answer_counts": {
+        "Yes": 103,
+        "Unknown": 25
+      },
+      "decision_batches_with_answer_variation": 2,
+      "mean_confidence_brier": 0.58625,
+      "labels": {
+        "under_update": 41,
+        "correct_update": 25,
+        "other_error": 62
+      },
+      "parse_failures": 0,
+      "format_failures": 0,
+      "token_limit_hits": 0
+    },
+    "2": {
+      "n": 0,
+      "scored": 0,
+      "accuracy": null,
+      "answer_counts": {},
+      "decision_batches_with_answer_variation": 0,
+      "mean_confidence_brier": null,
+      "labels": {},
+      "parse_failures": 0,
+      "format_failures": 0,
+      "token_limit_hits": 0
+    }
+  },
+  "interpretation": "Development pilot. Each decision batch repeats an identical prompt prefix; only branch 0 advances to form the fixed reference history for the next stage. This is not a full tree."
+}

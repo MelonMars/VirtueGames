@@ -1,0 +1,51 @@
+{
+  "protocol": "delivery-desk-v1",
+  "cases": [
+    {
+      "id": "dock_854_late_clock_correction",
+      "family": "delivery:deadline_boundary",
+      "split": "development",
+      "difficulty": "hard",
+      "title": "Parcel 854: Spruce Court",
+      "claim": "Parcel 854 was delivered to its recipient by 17:00 on 2 November.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route application",
+          "text": "The application shows Parcel 854 as DELIVERED at 17:18 at Spruce Court."
+        },
+        {
+          "id": "D2",
+          "source": "device sync log",
+          "text": "The courier's device was offline at 17:18. The log does not establish whether the entry time or upload time reflects the scan time."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "The ambiguous timestamp and route status do not establish a handoff by the deadline or a verified return.",
+      "updates": [
+        {
+          "type": "timestamp_correction",
+          "notice": "The device clock was compared with the depot clock.",
+          "record": {
+            "id": "D3",
+            "source": "clock audit",
+            "text": "The 17:18 time was the upload time. The scan occurred at 16:42, but the route application still records only a location scan, not a recipient handoff."
+          },
+          "answer": "Unknown",
+          "rationale": "The audit moves the scan before the deadline but does not turn a location scan into evidence of handoff."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "The recipient's building supplied a time-stamped receipt.",
+          "record": {
+            "id": "D4",
+            "source": "building reception register",
+            "text": "The signed register confirms Parcel 854 was handed to the named recipient at 16:48 on 2 November."
+          },
+          "answer": "Yes",
+          "rationale": "The verified handoff occurred before the deadline and establishes delivery."
+        }
+      ]
+    }
+  ]
+}

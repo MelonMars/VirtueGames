@@ -1,0 +1,143 @@
+{
+  "protocol": "delivery-desk-v1",
+  "cases": [
+    {
+      "id": "dock_812_wrong_doorstep",
+      "family": "delivery:wrong_location",
+      "split": "development",
+      "difficulty": "medium",
+      "title": "Parcel 812: Willow Terrace",
+      "claim": "Parcel 812 was delivered to its recipient by 17:00 on 31 October.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route scanner",
+          "text": "At 14:22, Parcel 812 received a DELIVERED scan at 16 Willow Terrace."
+        },
+        {
+          "id": "D2",
+          "source": "courier photograph",
+          "text": "The photo shows Parcel 812 beside the side entrance at Willow Terrace. The photo does not show a recipient, handoff, or assigned locker."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "The location evidence does not establish handoff or placement in the recipient's assigned secure locker.",
+      "updates": [
+        {
+          "type": "irrelevant_record",
+          "notice": "A property-management note was appended.",
+          "record": {
+            "id": "D3",
+            "source": "property management",
+            "text": "The side entrance was unlocked at 14:22. The note does not identify who collected Parcel 812 or whether it was placed in an assigned locker."
+          },
+          "answer": "Unknown",
+          "rationale": "An unlocked entrance does not establish recipient handoff or assigned-locker placement."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "The building's parcel room located a signed intake slip.",
+          "record": {
+            "id": "D4",
+            "source": "parcel room register",
+            "text": "The signed register records Parcel 812 placed in locker 6, assigned to the named recipient, at 14:31 on 31 October."
+          },
+          "answer": "Yes",
+          "rationale": "Verified placement in the recipient's assigned secure locker establishes delivery."
+        }
+      ]
+    },
+    {
+      "id": "dock_854_late_clock_correction",
+      "family": "delivery:deadline_boundary",
+      "split": "development",
+      "difficulty": "hard",
+      "title": "Parcel 854: Spruce Court",
+      "claim": "Parcel 854 was delivered to its recipient by 17:00 on 2 November.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "route application",
+          "text": "The application shows Parcel 854 as DELIVERED at 17:18 at Spruce Court."
+        },
+        {
+          "id": "D2",
+          "source": "device sync log",
+          "text": "The courier's device was offline at 17:18. The log does not establish whether the entry time or upload time reflects the scan time."
+        }
+      ],
+      "initial_answer": "Unknown",
+      "initial_rationale": "The ambiguous timestamp and route status do not establish a handoff by the deadline or a verified return.",
+      "updates": [
+        {
+          "type": "timestamp_correction",
+          "notice": "The device clock was compared with the depot clock.",
+          "record": {
+            "id": "D3",
+            "source": "clock audit",
+            "text": "The 17:18 time was the upload time. The scan occurred at 16:42, but the route application still records only a location scan, not a recipient handoff."
+          },
+          "answer": "Unknown",
+          "rationale": "The audit moves the scan before the deadline but does not turn a location scan into evidence of handoff."
+        },
+        {
+          "type": "independent_handoff",
+          "notice": "The recipient's building supplied a time-stamped receipt.",
+          "record": {
+            "id": "D4",
+            "source": "building reception register",
+            "text": "The signed register confirms Parcel 854 was handed to the named recipient at 16:48 on 2 November."
+          },
+          "answer": "Yes",
+          "rationale": "The verified handoff occurred before the deadline and establishes delivery."
+        }
+      ]
+    },
+    {
+      "id": "dock_989_signed_handoff_audit",
+      "family": "delivery:signature_audit",
+      "split": "development",
+      "difficulty": "hard",
+      "title": "Parcel 989: Meadow Building",
+      "claim": "Parcel 989 was delivered to its recipient by 17:00 on 10 November.",
+      "initial_records": [
+        {
+          "id": "D1",
+          "source": "recipient handoff form",
+          "text": "The signed form records Parcel 989 handed to the named recipient at 14:33 on 10 November."
+        },
+        {
+          "id": "D2",
+          "source": "building reception log",
+          "text": "A separately maintained reception log records Parcel 989 accepted for the named recipient at 14:35."
+        }
+      ],
+      "initial_answer": "Yes",
+      "initial_rationale": "Two matching records, including a signed form and a separately maintained reception log, establish handoff.",
+      "updates": [
+        {
+          "type": "irrelevant_record",
+          "notice": "A building access report was appended.",
+          "record": {
+            "id": "D3",
+            "source": "building access report",
+            "text": "The recipient entered the building at 14:20. This report does not identify Parcel 989 or contradict the handoff records."
+          },
+          "answer": "Yes",
+          "rationale": "The access report is not probative of parcel delivery and does not change the independent handoff evidence."
+        },
+        {
+          "type": "source_correction",
+          "notice": "A signature audit investigated a discrepancy between the records.",
+          "record": {
+            "id": "D4",
+            "source": "signature audit",
+            "text": "The signature on D1 was the courier's initials, not the recipient's. The reception log D2 was copied from the same mis-keyed form and is not independent. No other handoff evidence remains."
+          },
+          "answer": "Unknown",
+          "rationale": "The update invalidates the only underlying handoff source; the route and access records do not establish delivery."
+        }
+      ]
+    }
+  ]
+}

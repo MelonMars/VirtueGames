@@ -112,6 +112,7 @@ class TransformersModel:
         eos = generation.eos_token_id
         eos_ids = set(eos if isinstance(eos, (list, tuple)) else [eos])
         contents = []
+        batch_token_limit_hits = []
         for row, context in zip(output, activation_contexts):
             # generate pads finished rows while other samples continue. Retain the
             # first EOS, but exclude all padding from activation positions/replay.
@@ -120,15 +121,19 @@ class TransformersModel:
             tokens = row[:prompt_length + stop].unsqueeze(0)
             self.performance["generated_tokens"] += stop
             self.performance["responses"] += 1
-            self.performance["token_limit_hits"] += int(stop == max_tokens and (not suffix or suffix[stop - 1] not in eos_ids))
+            token_limit_hit = int(stop == max_tokens and (not suffix or suffix[stop - 1] not in eos_ids))
+            self.performance["token_limit_hits"] += token_limit_hit
+            batch_token_limit_hits.append(token_limit_hit)
             contents.append(self.tokenizer.decode(tokens[0, prompt_length:], skip_special_tokens=True))
-            if self.activation_recorder is not None:
+            if (self.activation_recorder is not None and
+                    not (context or {}).get("skip_activation_capture", False)):
                 started = time.perf_counter()
                 self.activation_recorder.capture(tokens, prompt_length, context=context,
                                                  seed=seed, temperature=temperature)
                 if devices:
                     torch.cuda.synchronize(self.model.device)
                 self.performance["extraction_seconds"] += time.perf_counter() - started
+        self.performance["last_batch_token_limit_hits"] = batch_token_limit_hits
         return contents
 
     def close(self):
