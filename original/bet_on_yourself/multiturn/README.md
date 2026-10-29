@@ -17,8 +17,11 @@ confidence adjustment rather than unrelated one-shot judgments.
 ## Scoring
 
 Score every round against the key applicable to the information available at
-that round. Report round-wise Brier score, accuracy, calibration/resolution,
-and changes in forecast and wager. Repeated samples for a round branch from the
+that round. Report round-wise answer-confidence and decision-confidence Brier
+scores, decision and factual-answer accuracy, calibration/resolution,
+abstention rate and appropriateness, and changes in forecast and wager.
+Abstentions are excluded from answer-confidence Brier scoring and included in
+decision-confidence Brier scoring. Repeated samples for a round branch from the
 same exact history; do not allow sibling continuations to contaminate one
 another's later evidence path.
 
@@ -39,12 +42,13 @@ development material, not held-out evidence or a final steering set. Sources
 are retained with each case, but are not shown to the model as citations.
 
 The keyed answer is stored in run records and is never sent to the model until
-the transcript's final reveal. Confidence means the probability that the
-model's submitted answer (including an explicit abstention) is correct. Its
-Brier score is the primary forecast score; the stated `+wager`/`-wager` payoff
-is reported separately. Difficulty is a starting label: in particular, a
-hard-edge item's actual difficulty depends on the model checkpoint and should
-be checked with baseline runs.
+the transcript's final reveal. Answer confidence is the probability that a
+proposed factual answer is correct. Decision confidence is the probability that
+the submitted decision is appropriate; it is scored on every round, including
+abstentions. The stated `+wager`/`-wager` payoff is reported separately.
+Difficulty is a starting label: in particular, a hard-edge item's actual
+difficulty depends on the model checkpoint and should be checked with baseline
+runs.
 
 Example:
 

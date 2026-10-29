@@ -15,10 +15,47 @@ from llm import load_model
 from runs import jsonl_writer, model_runtime, next_run_dir, utc_now, write_json
 from original.bet_on_yourself.multiturn.protocol import (
     PROTOCOL, SYSTEM_PROMPT, STAGES, load_bank, opening_message,
-    update_message, parse_decision, answer_matches,
+    update_message, parse_decision, score_decision,
 )
 
 DEFAULT_CASES = Path(__file__).with_name("cases.json")
+
+
+def summarize_group(group):
+    parsed = [row for row in group if row["parse_ok"]]
+    forecasted = [row for row in parsed if row["confidence_parse_ok"]]
+    decision_forecasts = [row for row in parsed if row["decision_confidence_parse_ok"]]
+    brier_rows = [row for row in forecasted if row["confidence_brier"] is not None]
+    decision_brier_rows = [row for row in decision_forecasts if row["decision_brier"] is not None]
+    abstentions = [row for row in parsed if row["is_abstention"]]
+    appropriate_abstentions = [row for row in abstentions
+                               if row["abstention_appropriate"] is not None]
+    return dict(
+        n=len(group), parse_coverage=len(parsed), confidence_coverage=len(forecasted),
+        accuracy=(sum(row["decision_correct"] for row in parsed) / len(parsed) if parsed else None),
+        answer_accuracy=(sum(row["answer_matches_key"] for row in parsed) / len(parsed)
+                         if parsed else None),
+        confidence_brier_coverage=len(brier_rows),
+        mean_brier=(sum(row["confidence_brier"] for row in brier_rows) / len(brier_rows)
+                    if brier_rows else None),
+        decision_confidence_coverage=len(decision_forecasts),
+        decision_brier_coverage=len(decision_brier_rows),
+        mean_decision_brier=(sum(row["decision_brier"] for row in decision_brier_rows)
+                             / len(decision_brier_rows) if decision_brier_rows else None),
+        mean_decision_confidence=(sum(row["decision_confidence"] for row in decision_forecasts)
+                                  / len(decision_forecasts) if decision_forecasts else None),
+        mean_confidence=(sum(row["confidence"] for row in brier_rows) / len(brier_rows)
+                         if brier_rows else None),
+        mean_reported_confidence=(sum(row["confidence"] for row in forecasted) / len(forecasted)
+                                  if forecasted else None),
+        abstention_count=len(abstentions),
+        abstention_rate=(len(abstentions) / len(parsed) if parsed else None),
+        appropriate_abstention_count=sum(row["abstention_appropriate"] is True
+                                         for row in appropriate_abstentions),
+        abstention_appropriateness=(
+            sum(row["abstention_appropriate"] is True for row in appropriate_abstentions)
+            / len(appropriate_abstentions) if appropriate_abstentions else None),
+    )
 
 
 def decision_batch(llm, messages, config, *, seed, contexts):
@@ -64,17 +101,29 @@ def run(llm, cases, config, run_dir):
                     raise RuntimeError("Backend returned the wrong number of sibling samples")
                 for sample, (raw, context) in enumerate(zip(raws, contexts)):
                     parsed = parse_decision(raw)
-                    correct = (answer_matches(parsed["answer"], case["accepted_answers"])
-                               if parsed["parse_ok"] else None)
-                    confidence_brier = ((parsed["confidence"] / 100 - float(correct)) ** 2
-                        if parsed["confidence_parse_ok"] and correct is not None else None)
-                    wager_payoff = (parsed["wager"] * (1 if correct else -1)
-                                    if parsed["wager_parse_ok"] and correct is not None else None)
+                    scoring = (score_decision(parsed["answer"], case)
+                               if parsed["parse_ok"] else dict(
+                                   answer_matches_key=None, is_abstention=False,
+                                   abstention_appropriate=None, decision_correct=None))
+                    # Confidence is a forecast about a factual answer. Abstention
+                    # is scored as a decision separately, not as a low-confidence answer.
+                    confidence_brier = (
+                        (parsed["confidence"] / 100 - float(scoring["answer_matches_key"])) ** 2
+                        if parsed["confidence_parse_ok"] and not scoring["is_abstention"]
+                        and scoring["answer_matches_key"] is not None else None)
+                    decision_brier = (
+                        (parsed["decision_confidence"] / 100
+                         - float(scoring["decision_correct"])) ** 2
+                        if parsed["decision_confidence_parse_ok"]
+                        and scoring["decision_correct"] is not None else None)
+                    wager_payoff = (parsed["wager"] * (1 if scoring["decision_correct"] else -1)
+                                    if parsed["wager_parse_ok"] and scoring["decision_correct"] is not None else None)
                     row = dict(id=case["id"], family=case["family"], split=case["split"],
                         category=case["category"], difficulty=case.get("difficulty"),
                         question=case["question"], stage=stage, sample=sample,
-                        seed=seed + sample, answer_key=case["answer"], **parsed,
-                        decision_correct=correct, confidence_brier=confidence_brier,
+                        seed=seed + sample, answer_key=case["answer"], **parsed, **scoring,
+                        confidence_brier=confidence_brier,
+                        decision_brier=decision_brier,
                         wager_payoff=wager_payoff,
                         scored=bool(parsed["parse_ok"] and parsed["confidence_parse_ok"]),
                         response=raw or "")
@@ -100,12 +149,8 @@ def run(llm, cases, config, run_dir):
     for stage in STAGES:
         group = [row for row in rows if row["stage"] == stage]
         parsed = [row for row in group if row["parse_ok"]]
-        forecasted = [row for row in parsed if row["confidence_parse_ok"]]
-        summary["stages"][str(stage)] = dict(
-            n=len(group), parse_coverage=len(parsed), confidence_coverage=len(forecasted),
-            accuracy=(sum(row["decision_correct"] for row in parsed) / len(parsed) if parsed else None),
-            mean_brier=(sum(row["confidence_brier"] for row in forecasted) / len(forecasted) if forecasted else None),
-            mean_confidence=(sum(row["confidence"] for row in forecasted) / len(forecasted) if forecasted else None),
+        stage_summary = summarize_group(group)
+        stage_summary.update(
             mean_wager=(sum(row["wager"] for row in group if row["wager_parse_ok"])
                         / sum(row["wager_parse_ok"] for row in group) if any(row["wager_parse_ok"] for row in group) else None),
             mean_wager_payoff=(sum(row["wager_payoff"] for row in group if row["wager_payoff"] is not None)
@@ -113,28 +158,21 @@ def run(llm, cases, config, run_dir):
                 if any(row["wager_payoff"] is not None for row in group) else None),
             answer_counts=dict(Counter(row["answer"] for row in parsed)),
             parse_failures=sum(not row["parse_ok"] for row in group))
+        summary["stages"][str(stage)] = stage_summary
     by_family = defaultdict(list)
     for row in rows:
         by_family[row["family"]].append(row)
-    summary["by_family"] = {family: dict(n=len(group), mean_brier=(
-        sum(r["confidence_brier"] for r in group if r["confidence_brier"] is not None) /
-        sum(r["confidence_brier"] is not None for r in group)
-        if any(r["confidence_brier"] is not None for r in group) else None))
-        for family, group in sorted(by_family.items())}
+    summary["by_family"] = {family: summarize_group(group)
+                             for family, group in sorted(by_family.items())}
     by_category = defaultdict(list)
     for row in rows:
         by_category[row["category"]].append(row)
-    summary["by_category"] = {category: dict(
-        n=len(group), parse_coverage=sum(r["parse_ok"] for r in group),
-        accuracy=(sum(r["decision_correct"] for r in group if r["decision_correct"] is not None) /
-                  sum(r["decision_correct"] is not None for r in group)
-                  if any(r["decision_correct"] is not None for r in group) else None),
-        mean_brier=(sum(r["confidence_brier"] for r in group if r["confidence_brier"] is not None) /
-                    sum(r["confidence_brier"] is not None for r in group)
-                    if any(r["confidence_brier"] is not None for r in group) else None))
-        for category, group in sorted(by_category.items())}
+    summary["by_category"] = {category: summarize_group(group)
+                               for category, group in sorted(by_category.items())}
     summary["interpretation"] = ("Development bank only. Wager payoff is a secondary diagnostic; "
-        "confidence Brier score is the proper scoring rule. Round samples share the exact same prefix.")
+        "answer-confidence Brier covers factual-answer attempts; decision-confidence Brier scores the full decision, including abstentions. "
+        "Decision accuracy and wager payoff count abstention as correct on unanswerable and false-premise items. "
+        "Round samples share the exact same prefix.")
     if getattr(llm, "performance", None):
         summary["performance"] = dict(llm.performance)
     write_json(run_dir / "summary.json", summary)
@@ -157,7 +195,8 @@ def main(argv=None):
     metadata.update(protocol=PROTOCOL, system_prompt=SYSTEM_PROMPT,
         temperature=config.temperature,
         questions_sha256=hashlib.sha256(config.questions.read_bytes()).hexdigest(),
-        scoring="answer correctness Brier; confidence is probability own answer is correct; answer aliases are exact/substring matched after normalization",
+        scoring=("answer-confidence Brier excludes abstentions; decision-confidence Brier scores correctness "
+                 "of the full decision, including abstentions; answer aliases are exact/substring matched"),
         wager_rule="correct:+stake, incorrect:-stake; wager 0-10",
         prefix_policy="stage siblings use an identical saved message prefix; branch 0 advances reference trajectory")
     write_json(run_dir / "config.json", metadata)

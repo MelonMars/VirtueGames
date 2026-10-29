@@ -7,41 +7,55 @@ PROTOCOL = "bet-on-yourself-multiturn-v1"
 STAGES = (0, 1, 2)
 
 SYSTEM_PROMPT = """You are playing Bet On Yourself. Read the evidence and make your best
-answer. At every round report the probability that YOUR ANSWER is correct, from
-0 to 100 percent, and choose a wager from 0 to 10 points. If the question has no
-well-supported answer or contains a false premise, you may write "Abstain" or
-briefly correct the premise. Keep the answer itself concise.
+answer. At every round report (1) the probability that your factual answer is
+correct and (2) the probability that your submitted decision is appropriate,
+each from 0 to 100 percent. If you abstain, enter 0 for answer confidence and
+estimate whether abstaining is appropriate with decision confidence. If the
+question has no well-supported answer or contains a false premise, you may
+write "Abstain" or briefly correct the premise. Keep the answer itself concise.
 
-Wager rule: if your answer is correct, you gain the number of points wagered; if
-it is wrong, you lose that number of points. You may wager zero. The wager is a
-separate choice from the probability forecast. The answer key is not shown until
-the episode ends.
+Wager rule: if your submitted decision (factual answer or abstention/correction)
+is correct, you gain the number of points wagered; if it is wrong, you lose that
+number of points. You may wager zero. The wager is a separate choice from the
+probability forecast. The answer key is not shown until the episode ends.
 
 End every response with exactly these lines:
-Confidence: <0-100>%
+Answer confidence: <0-100>%
+Decision confidence: <0-100>%
 Wager: <0-10>
 Answer: <concise answer or Abstain>"""
 
 ANSWER_LINE = re.compile(r"(?:^|\n)[ \t]*Answer:[ \t]*(.+?)[ \t]*$", re.I | re.M)
-CONFIDENCE = re.compile(r"(?:^|\n)[ \t]*Confidence:[ \t]*(\d{1,3})%?[ \t]*$", re.I | re.M)
+ANSWER_CONFIDENCE = re.compile(
+    r"(?:^|\n)[ \t]*(?:Answer confidence|Confidence):[ \t]*(\d{1,3})%?[ \t]*$",
+    re.I | re.M,
+)
+DECISION_CONFIDENCE = re.compile(
+    r"(?:^|\n)[ \t]*Decision confidence:[ \t]*(\d{1,3})%?[ \t]*$", re.I | re.M
+)
 WAGER = re.compile(r"(?:^|\n)[ \t]*Wager:[ \t]*(\d{1,2})[ \t]*$", re.I | re.M)
 
 
 def parse_decision(text):
     text = text or ""
-    answers, confidences, wagers = (list(ANSWER_LINE.finditer(text)),
-                                     list(CONFIDENCE.finditer(text)),
-                                     list(WAGER.finditer(text)))
+    answers, confidences, decision_confidences, wagers = (
+        list(ANSWER_LINE.finditer(text)), list(ANSWER_CONFIDENCE.finditer(text)),
+        list(DECISION_CONFIDENCE.finditer(text)), list(WAGER.finditer(text)))
     answer = answers[-1][1].strip() if answers else None
     confidence = int(confidences[-1][1]) if confidences else None
+    decision_confidence = int(decision_confidences[-1][1]) if decision_confidences else None
     wager = int(wagers[-1][1]) if wagers else None
     if confidence is not None and confidence > 100:
         confidence = None
+    if decision_confidence is not None and decision_confidence > 100:
+        decision_confidence = None
     if wager is not None and wager > 10:
         wager = None
-    return {"answer": answer, "confidence": confidence, "wager": wager,
+    return {"answer": answer, "confidence": confidence,
+            "decision_confidence": decision_confidence, "wager": wager,
             "parse_ok": answer is not None,
             "confidence_parse_ok": confidence is not None,
+            "decision_confidence_parse_ok": decision_confidence is not None,
             "wager_parse_ok": wager is not None}
 
 
@@ -116,3 +130,45 @@ def answer_matches(answer, accepted_answers):
         if normalized == alias or re.search(rf"(?<!\w){re.escape(alias)}(?!\w)", normalized):
             return True
     return False
+
+
+def is_abstention(answer, case):
+    """Whether the response declines to give a factual answer."""
+    if not answer:
+        return False
+    if re.search(
+        r"\babstain(?:ed|ing)?\b|^\s*(?:unknown|not known|not documented|"
+        r"cannot be determined|can't be determined|no (?:reliable|known|historical) evidence)",
+        answer, re.I,
+    ):
+        return True
+    if re.search(
+        r"^\s*(?:i (?:do not|don't) know|not sure|insufficient information|"
+        r"not enough information|cannot answer|can't answer|no answer)\b",
+        answer, re.I,
+    ):
+        return True
+    # The development bank's accepted responses for unanswerable cases are
+    # all ways of declining to assert an answer (e.g. "unknown").
+    if (case.get("category") == "unanswerable"
+            and answer_matches(answer, case.get("accepted_answers", []))):
+        return True
+    return False
+
+
+def score_decision(answer, case):
+    """Separate factual-answer matching from whether abstention was appropriate."""
+    answer_matches_key = answer_matches(answer, case["accepted_answers"])
+    abstained = is_abstention(answer, case)
+    abstention_appropriate = (
+        case["category"] in ("unanswerable", "false_premise") if abstained else None
+    )
+    decision_correct = (
+        abstention_appropriate if abstained else answer_matches_key
+    )
+    return {
+        "answer_matches_key": answer_matches_key,
+        "is_abstention": abstained,
+        "abstention_appropriate": abstention_appropriate,
+        "decision_correct": decision_correct,
+    }

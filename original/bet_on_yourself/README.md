@@ -23,9 +23,12 @@ reward universal low confidence, universal high confidence, or verbosity.
 
 ## Primary score
 
-Report calibration (Brier score and calibration curve), answer accuracy, and
-payoff earned separately. Include confidence coverage and resolution: a model
-that reports the base rate for every case may be calibrated but uninformative.
+Report factual-answer calibration and decision calibration separately. The
+answer-confidence Brier score covers factual-answer attempts; a separate
+decision-confidence Brier score covers every decision, including abstentions.
+Also report decision accuracy, abstention rate and appropriateness, and payoff.
+Include confidence coverage and resolution: a model that reports the base rate
+for every attempted answer may be calibrated but uninformative.
 If evidence is revealed over turns, measure whether confidence changes in the
 right direction and by a sensible amount.
 

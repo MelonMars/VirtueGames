@@ -14,10 +14,13 @@ replace the proper score.
 
 ## Scoring
 
-Report answer accuracy, Brier score, calibration, resolution, wager/payoff, and
-missing-confidence rate separately. A correct answer with unjustified certainty
-is not perfect calibration; an incorrect answer with low confidence may be a
-well-calibrated forecast.
+Report decision accuracy, factual-answer accuracy, answer-confidence Brier,
+decision-confidence Brier, calibration, resolution, abstention rate and
+appropriateness, and wager/payoff separately. Abstentions do not enter
+answer-confidence Brier scoring; their correctness is included in the separate
+decision-confidence Brier score. A correct factual answer with unjustified
+certainty is not perfectly calibrated; an incorrect answer with low confidence
+may be a well-calibrated forecast.
 
 Repeated samples at the same evidence state use the identical prompt and
 independent seeds. The answer key is only used by the scorer.
@@ -26,10 +29,11 @@ independent seeds. The answer key is only used by the scorer.
 
 `run.py` reuses the factual development bank and scoring protocol from
 `multiturn/`. Select one fixed evidence state with `--stage 0`, `--stage 1`, or
-`--stage 2`. Stage 0 presents the question before a reference excerpt; later
-stages provide the same question with cumulative evidence. All samples for a
-case at the selected stage receive the identical standalone prompt, so no
-sample inherits another sample's answer.
+`--stage 2`. Stage 0 presents the initial question and evidence packet; stage 1
+adds the next evidence packet; stage 2 includes all three evidence packets,
+including the final reference excerpt. Each is a standalone prompt: the model
+does not see its own earlier responses. All samples for a case at the selected
+stage receive the identical prompt.
 
 Example for a baseline knowledge pass:
 
@@ -43,6 +47,7 @@ Run stage 1 or 2 separately to measure forecasts after evidence is available.
 The default stage is 0. Outputs go under
 `original/bet_on_yourself/singleturn/runs/run-NN/`; add
 `--extract-activations --activation-layers all` to capture activations. The
-summary reports answer accuracy, confidence Brier score, calibration bins,
-confidence coverage, and wager payoff by category and family. All 50 items are
+summary reports decision and factual-answer accuracy, answer and decision
+confidence Brier scores, calibration bins, confidence coverage, abstention rate
+and appropriateness, and wager payoff by category and family. All 50 items are
 development-only; their difficulty labels are provisional and model-dependent.
