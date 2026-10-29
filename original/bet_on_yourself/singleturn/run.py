@@ -1,5 +1,6 @@
 """Run fixed-prefix, single-decision Bet On Yourself samples."""
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -53,6 +54,7 @@ def summarize(rows):
     abstentions = [row for row in parsed if row["is_abstention"]]
     appropriate_abstentions = [row for row in abstentions
                                if row["abstention_appropriate"] is not None]
+    unanswerable = [row for row in parsed if row["category"] == "unanswerable"]
     wagers = [row["wager"] for row in rows if row["wager_parse_ok"]]
     payoffs = [row["wager_payoff"] for row in rows if row["wager_payoff"] is not None]
     return dict(
@@ -81,6 +83,10 @@ def summarize(rows):
         abstention_appropriateness=(
             sum(row["abstention_appropriate"] is True for row in appropriate_abstentions)
             / len(appropriate_abstentions) if appropriate_abstentions else None),
+        unanswerable_count=len(unanswerable),
+        unanswerable_abstention_recall=(
+            sum(row["is_abstention"] for row in unanswerable) / len(unanswerable)
+            if unanswerable else None),
         mean_wager=(sum(wagers) / len(wagers) if wagers else None),
         mean_wager_payoff=(sum(payoffs) / len(payoffs) if payoffs else None),
         outcomes=dict(Counter(row["answer"] for row in parsed)),
@@ -176,6 +182,12 @@ def main(argv=None):
         remaining += ["--questions", str(DEFAULT_CASES)]
     config, output = parse_config(remaining, max_tokens=384,
         out="original/bet_on_yourself/singleturn/runs", variance=True)
+    if config.extract_activations:
+        passed = lambda name: any(arg == name or arg.startswith(name + "=") for arg in remaining)
+        config = replace(config,
+            activation_layers=config.activation_layers if passed("--activation-layers") else "all",
+            activation_types=config.activation_types if passed("--activation-types") else "resid_post",
+            activation_positions=config.activation_positions if passed("--activation-positions") else "confidence-tokens")
     cases = load_bank(config.questions)
     if config.difficulty:
         cases = [case for case in cases if case.get("difficulty") in config.difficulty]

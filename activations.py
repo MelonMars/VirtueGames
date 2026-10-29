@@ -6,8 +6,13 @@ from importlib.metadata import version
 from pathlib import Path
 
 TYPES = ("resid_pre", "resid_post", "attn_out", "mlp_out")
-POSITIONS = ("last-prompt-token", "first-response", "last-token", "prompt", "response", "all")
+POSITIONS = ("last-prompt-token", "first-response", "last-token", "prompt", "response", "all",
+             "confidence-tokens")
 ANSWER_POSITION_RE = re.compile(r"answer-tokens([+-]\d+)?")
+CONFIDENCE_PATTERNS = {
+    "answer": re.compile(r"(?:^|\n)[ \t]*(?:Answer confidence|Confidence):[ \t]*(\d{1,3})%?[ \t]*$", re.I | re.M),
+    "decision": re.compile(r"(?:^|\n)[ \t]*Decision confidence:[ \t]*(\d{1,3})%?[ \t]*$", re.I | re.M),
+}
 
 
 def answer_offsets(spec):
@@ -57,6 +62,21 @@ def find_answer_token_index(tokenizer, full_ids, prompt_len, *, structured_choic
     return hit
 
 
+def find_confidence_token_index(tokenizer, full_ids, prompt_len, field):
+    """Find the first token containing the numeric value of a confidence field."""
+    suffix = [int(token) for token in full_ids[prompt_len:]]
+    text = tokenizer.decode(suffix, skip_special_tokens=True)
+    matches = list(CONFIDENCE_PATTERNS[field].finditer(text))
+    if not matches:
+        return None
+    start = matches[-1].start(1)
+    for end in range(1, len(suffix) + 1):
+        through = tokenizer.decode(suffix[:end], skip_special_tokens=True)
+        if len(through) > start and text.startswith(through):
+            return prompt_len + end - 1
+    return None
+
+
 def indices(value):
     try:
         result = list(dict.fromkeys(int(part.strip()) for part in value.split(',')))
@@ -74,7 +94,11 @@ def validate_selection(layers, types, positions):
         indices(positions)
 
 
-def select_positions(spec, prompt_length, total_length, *, answer_token_index=None):
+def select_positions(spec, prompt_length, total_length, *, answer_token_index=None,
+                     confidence_token_indices=None):
+    if spec == "confidence-tokens":
+        return [index for index in (confidence_token_indices or [])
+                if index is not None and 0 <= index < total_length]
     offsets = answer_offsets(spec)
     if offsets is not None:
         if answer_token_index is None:
@@ -146,8 +170,13 @@ class ActivationRecorder:
         answer_token_index = (find_answer_token_index(self.tokenizer, token_ids, prompt_length,
                               structured_choices=(context or {}).get('structured_answer_choices'))
                               if answer_relative else None)
+        confidence_token_indices = (
+            [find_confidence_token_index(self.tokenizer, token_ids, prompt_length, field)
+             for field in ('answer', 'decision')]
+            if self.config.activation_positions == "confidence-tokens" else None)
         positions = select_positions(self.config.activation_positions, prompt_length, tokens.shape[1],
-                                     answer_token_index=answer_token_index)
+                                     answer_token_index=answer_token_index,
+                                     confidence_token_indices=confidence_token_indices)
         captured = {}
 
         def save_activation(value, hook, *, name):
@@ -177,6 +206,11 @@ class ActivationRecorder:
             record.update(position_selection=self.config.activation_positions,
                           answer_token_index=answer_token_index,
                           skip_reason="answer_token_not_found" if answer_token_index is None else None)
+        if confidence_token_indices is not None:
+            record.update(position_selection=self.config.activation_positions,
+                          confidence_token_indices=confidence_token_indices,
+                          skip_reason=("confidence_fields_not_found"
+                                       if not any(i is not None for i in confidence_token_indices) else None))
         with (self.directory / "index.jsonl").open('a', encoding='utf-8') as stream:
             stream.write(json.dumps(record) + '\n')
         self.call_index += 1

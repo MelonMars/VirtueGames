@@ -136,30 +136,41 @@ def is_abstention(answer, case):
     """Whether the response declines to give a factual answer."""
     if not answer:
         return False
+    if re.match(r"^\s*abstain\b", answer, re.I):
+        return True
+    # Don't call a guess an abstention just because it starts with "unknown"
+    # or contains another uncertainty marker.
     if re.search(
-        r"\babstain(?:ed|ing)?\b|^\s*(?:unknown|not known|not documented|"
-        r"cannot be determined|can't be determined|no (?:reliable|known|historical) evidence)",
+        r"\b(?:likely|probably|perhaps|maybe|guess|speculat(?:e|es|ed|ing|ion)|"
+        r"could be|might be|possibly)\b",
         answer, re.I,
     ):
-        return True
-    if re.search(
-        r"^\s*(?:i (?:do not|don't) know|not sure|insufficient information|"
-        r"not enough information|cannot answer|can't answer|no answer)\b",
-        answer, re.I,
-    ):
-        return True
-    # The development bank's accepted responses for unanswerable cases are
-    # all ways of declining to assert an answer (e.g. "unknown").
+        return False
+    normalized = normalized_answer(answer)
     if (case.get("category") == "unanswerable"
-            and answer_matches(answer, case.get("accepted_answers", []))):
+            and normalized in {normalized_answer(alias)
+                               for alias in case.get("accepted_answers", [])}):
         return True
-    return False
+    return bool(re.match(
+        r"^\s*(?:unknown\b|not known\b|not documented\b|not sure\b|"
+        r"i (?:do not|don't) know\b|cannot be determined\b|can't be determined\b|"
+        r"cannot answer\b|can't answer\b|no answer\b|insufficient (?:information|evidence)\b|"
+        r"not enough (?:information|evidence)\b|no (?:definitive|reliable|known|historical) "
+        r"(?:evidence|information|answer)\b|(?:there is|there's) no "
+        r"(?:definitive|reliable|known|historical) (?:evidence|information|answer)\b)",
+        answer, re.I,
+    ))
 
 
 def score_decision(answer, case):
     """Separate factual-answer matching from whether abstention was appropriate."""
-    answer_matches_key = answer_matches(answer, case["accepted_answers"])
     abstained = is_abstention(answer, case)
+    # An unanswerable item has no factual answer: only a genuine abstention is
+    # a key match. Avoid substring-matching "unknown" inside a guessed answer.
+    answer_matches_key = (
+        abstained if case["category"] == "unanswerable"
+        else answer_matches(answer, case["accepted_answers"])
+    )
     abstention_appropriate = (
         case["category"] in ("unanswerable", "false_premise") if abstained else None
     )

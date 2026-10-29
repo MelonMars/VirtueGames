@@ -45,9 +45,14 @@ python original/bet_on_yourself/singleturn/run.py --backend transformers \
 
 Run stage 1 or 2 separately to measure forecasts after evidence is available.
 The default stage is 0. Outputs go under
-`original/bet_on_yourself/singleturn/runs/run-NN/`; add
-`--extract-activations --activation-layers all` to capture activations. The
+`original/bet_on_yourself/singleturn/runs/run-NN/`; add `--extract-activations`
+to capture all-layer `resid_post` activations at both reported confidence
+values. These captures add a teacher-forced forward pass for each response.
+For completed Transformers runs without captures, see the
+[replay instructions](../multiturn/README.md#replay-activations-from-a-completed-run). The
 summary reports decision and factual-answer accuracy, answer and decision
 confidence Brier scores, calibration bins, confidence coverage, abstention rate
-and appropriateness, and wager payoff by category and family. All 50 items are
-development-only; their difficulty labels are provisional and model-dependent.
+and appropriateness, unanswerable-item abstention recall, and wager payoff by
+category and family. The shared bank has 70 items across 14 families; all are
+development-only, and their difficulty labels are provisional and
+model-dependent.

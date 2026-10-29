@@ -19,7 +19,8 @@ confidence adjustment rather than unrelated one-shot judgments.
 Score every round against the key applicable to the information available at
 that round. Report round-wise answer-confidence and decision-confidence Brier
 scores, decision and factual-answer accuracy, calibration/resolution,
-abstention rate and appropriateness, and changes in forecast and wager.
+abstention rate and appropriateness, abstention recall on unanswerable items,
+and changes in forecast and wager.
 Abstentions are excluded from answer-confidence Brier scoring and included in
 decision-confidence Brier scoring. Repeated samples for a round branch from the
 same exact history; do not allow sibling continuations to contaminate one
@@ -33,8 +34,11 @@ runs the episode and saves `samples.jsonl`, `transcripts.jsonl`, `summary.json`,
 one identical message prefix. Sample 0 supplies the reference answer carried
 into the next evidence round; sibling answers do not alter that history.
 
-The bundled `cases.json` is a 50-question factual development bank: 10 easy,
-15 medium, 10 hard-edge, 5 unanswerable, and 10 false-premise questions. The
+The bundled `cases.json` is a 70-question factual development bank across 14
+families: 14 easy, 25 medium, 16 hard-edge, 5 unanswerable, and 10
+false-premise questions. New families cover U.S. founding documents, space
+telescope history, the end-Cretaceous extinction, volcanic eruptions, and early
+aviation. The
 keyed answers and accepted aliases are checked against the final `Answer:` line
 after simple text normalization. This automatic matcher is suitable for concise answers; review
 the raw responses for paraphrases before drawing conclusions. The cases are
@@ -57,8 +61,31 @@ python original/bet_on_yourself/multiturn/run.py --backend transformers \
   --model MODEL --device cuda --thinking off --n-samples 4 --temperature 0.7
 ```
 
-Add `--extract-activations --activation-layers all` to save activation samples.
+Add `--extract-activations` to capture all-layer `resid_post` activations at the
+answer-confidence and decision-confidence values. This follows the repository's
+other contrastive extraction workflows: layerwise residual-stream states at a
+small set of shared semantic positions. It adds a teacher-forced forward pass
+for each response. Override `--activation-layers`, `--activation-types`, or
+`--activation-positions` when you intentionally want a different capture. The
+two saved positions are listed in `activations/index.jsonl` in answer-then-
+decision confidence order.
 Run outputs are placed under
 `original/bet_on_yourself/multiturn/runs/run-NN/` by default. The bank and
 protocol need an independent audit and family-level train/development/test
 splits before benchmark or steering conclusions are drawn.
+
+### Replay activations from a completed run
+
+For a completed Transformers run that saved `samples.jsonl` and
+`transcripts.jsonl`, replay those exact responses through the checkpoint and
+save activations without regenerating answers:
+
+```sh
+python original/bet_on_yourself/replay_activations.py PATH/TO/RUN \
+  --layers all --positions confidence-tokens
+```
+
+Replay defaults to the model revision and dtype recorded in the run metadata.
+The output is written to `RUN/activation-replay/activations/`; use `--out` to
+choose a different new directory. The replay manifest records any samples that
+could not be captured. GGUF runs cannot be replayed by this Transformers tool.

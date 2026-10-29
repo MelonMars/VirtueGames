@@ -1,6 +1,6 @@
 {
   "protocol": "bet-on-yourself-multiturn-v1",
-  "title": "Bet On Yourself factual-question development bank (50 cases)",
+  "title": "Bet On Yourself factual-question development bank (70 cases)",
   "cases": [
     {
       "id": "boy_easy_carbon_atomic_number",
@@ -1158,6 +1158,469 @@
       ],
       "sources": [
         "https://science.nasa.gov/mars/exploration/overview/"
+      ]
+    },
+    {
+      "id": "boy_us_founding_documents_declaration_adopted",
+      "family": "us_founding_documents",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Declaration adoption date",
+      "question": "On what date did the Continental Congress adopt the Declaration of Independence?",
+      "answer": "July 4, 1776",
+      "accepted_answers": [
+        "July 4, 1776",
+        "July 4 1776",
+        "4 July 1776",
+        "1776"
+      ],
+      "stages": [
+        "The Continental Congress debated a declaration in the summer of 1776. This case file does not yet state the adoption date.",
+        "The Congress considered revisions over several days in early July 1776. The excerpt here omits the final adoption date.",
+        "The National Archives states that the Continental Congress adopted the Declaration on July 4, 1776."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_us_founding_documents_declaration_signatures",
+      "family": "us_founding_documents",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Declaration signatories",
+      "question": "How many delegates eventually signed the engrossed Declaration of Independence?",
+      "answer": "56",
+      "accepted_answers": [
+        "56",
+        "fifty-six",
+        "fifty six"
+      ],
+      "stages": [
+        "The Declaration was adopted in 1776 and later copied onto parchment. The number of signers is not given here.",
+        "The signing took place over time, and not all delegates were present on the first signing date. This excerpt gives no total.",
+        "The National Archives reports that 56 delegates eventually signed the engrossed Declaration."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_us_founding_documents_declaration_drafter",
+      "family": "us_founding_documents",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Primary Declaration drafter",
+      "question": "Who drafted the first version of the Declaration of Independence?",
+      "answer": "Thomas Jefferson",
+      "accepted_answers": [
+        "Thomas Jefferson",
+        "Jefferson"
+      ],
+      "stages": [
+        "A committee was appointed to prepare a statement explaining independence. This file does not identify the principal drafter.",
+        "The drafting committee had five members, but the excerpt does not say which member wrote the first draft.",
+        "The National Archives identifies Thomas Jefferson as the writer of the first draft."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_us_founding_documents_lee_resolution_date",
+      "family": "us_founding_documents",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Lee Resolution date",
+      "question": "On what date did the Continental Congress adopt the Lee Resolution declaring independence?",
+      "answer": "July 2, 1776",
+      "accepted_answers": [
+        "July 2, 1776",
+        "July 2 1776",
+        "2 July 1776",
+        "1776"
+      ],
+      "stages": [
+        "A resolution proposing independence was introduced in Congress in June 1776. No adoption date is included yet.",
+        "The resolution was debated before the Declaration was adopted. This excerpt does not give the date of the vote.",
+        "The National Archives says the Lee Resolution was adopted on July 2, 1776."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_space_telescope_history_hubble_launch_date",
+      "family": "space_telescope_history",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Hubble launch date",
+      "question": "On what date was the Hubble Space Telescope launched?",
+      "answer": "April 24, 1990",
+      "accepted_answers": [
+        "April 24, 1990",
+        "April 24 1990",
+        "24 April 1990",
+        "1990"
+      ],
+      "stages": [
+        "Hubble was developed over many years as a space observatory. No launch date is stated in this case file.",
+        "The telescope launched aboard a Space Shuttle mission in 1990. The excerpt does not give the day.",
+        "NASA records that Hubble launched on April 24, 1990."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/"
+      ]
+    },
+    {
+      "id": "boy_space_telescope_history_hubble_shuttle",
+      "family": "space_telescope_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Hubble launch vehicle",
+      "question": "Which Space Shuttle carried the Hubble Space Telescope into orbit?",
+      "answer": "Discovery",
+      "accepted_answers": [
+        "Discovery",
+        "Space Shuttle Discovery"
+      ],
+      "stages": [
+        "Hubble reached orbit aboard a Space Shuttle. This file does not name the orbiter.",
+        "The launch occurred during mission STS-31. The excerpt omits the name of the shuttle.",
+        "NASA states that Space Shuttle Discovery carried Hubble during STS-31."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/"
+      ]
+    },
+    {
+      "id": "boy_space_telescope_history_hubble_mission",
+      "family": "space_telescope_history",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Hubble launch mission number",
+      "question": "What was the Space Shuttle mission designation for Hubble’s launch?",
+      "answer": "STS-31",
+      "accepted_answers": [
+        "STS-31",
+        "STS 31",
+        "STS31"
+      ],
+      "stages": [
+        "Hubble was launched aboard a Space Shuttle. This file does not state the mission number.",
+        "The launch took place in April 1990 aboard Discovery. The mission designation is omitted here.",
+        "NASA identifies the launch mission as STS-31."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/"
+      ]
+    },
+    {
+      "id": "boy_space_telescope_history_hubble_deployment_date",
+      "family": "space_telescope_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Hubble deployment date",
+      "question": "On what date was Hubble released from Space Shuttle Discovery into orbit?",
+      "answer": "April 25, 1990",
+      "accepted_answers": [
+        "April 25, 1990",
+        "April 25 1990",
+        "25 April 1990"
+      ],
+      "stages": [
+        "Hubble launched inside Discovery’s payload bay. This file does not give its release date.",
+        "The shuttle launched on April 24, 1990. This excerpt does not say when Hubble was deployed.",
+        "NASA’s timeline says Hubble was deployed on April 25, 1990."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/"
+      ]
+    },
+    {
+      "id": "boy_cretaceous_extinction_cretaceous_date",
+      "family": "cretaceous_extinction",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "End-Cretaceous extinction date",
+      "question": "Approximately how many million years ago did the end-Cretaceous mass extinction occur?",
+      "answer": "66 million years ago",
+      "accepted_answers": [
+        "66 million years ago",
+        "66 million",
+        "66"
+      ],
+      "stages": [
+        "The fossil record preserves several major extinction events. This file does not give the date of the end-Cretaceous event.",
+        "The event occurred tens of millions of years ago, near the end of the Cretaceous. The exact rounded estimate is omitted.",
+        "The Smithsonian dates the end of the Cretaceous to about 66 million years ago."
+      ],
+      "sources": [
+        "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time"
+      ]
+    },
+    {
+      "id": "boy_cretaceous_extinction_nonavian_dinosaurs",
+      "family": "cretaceous_extinction",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Non-avian dinosaurs at end Cretaceous",
+      "question": "Which dinosaur group is identified as having gone extinct at the end of the Cretaceous: all dinosaurs, or all non-avian dinosaurs?",
+      "answer": "All non-avian dinosaurs",
+      "accepted_answers": [
+        "all non-avian dinosaurs",
+        "non-avian dinosaurs",
+        "all nonavian dinosaurs"
+      ],
+      "stages": [
+        "A major extinction occurred at the end of the Cretaceous. This file does not specify which dinosaur groups disappeared.",
+        "Some familiar extinct reptiles are often grouped together in casual speech, but this excerpt does not distinguish them.",
+        "The Smithsonian identifies all non-avian dinosaurs as among the groups that went extinct."
+      ],
+      "sources": [
+        "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time"
+      ]
+    },
+    {
+      "id": "boy_cretaceous_extinction_cretaceous_marine_reptiles",
+      "family": "cretaceous_extinction",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Cretaceous marine reptiles",
+      "question": "Did mosasaurs survive the end-Cretaceous mass extinction?",
+      "answer": "No",
+      "accepted_answers": [
+        "no",
+        "they did not survive",
+        "mosasaurs went extinct"
+      ],
+      "stages": [
+        "Mosasaurs were marine reptiles that lived during the Cretaceous. This file does not say whether they survived the end-Cretaceous event.",
+        "The extinction affected marine and terrestrial habitats, but this excerpt does not list individual groups.",
+        "The Smithsonian lists mosasaurs among groups that went extinct at the end of the Cretaceous."
+      ],
+      "sources": [
+        "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time"
+      ]
+    },
+    {
+      "id": "boy_cretaceous_extinction_cretaceous_pterosaurs",
+      "family": "cretaceous_extinction",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Cretaceous pterosaurs",
+      "question": "Did pterosaurs survive the end-Cretaceous mass extinction?",
+      "answer": "No",
+      "accepted_answers": [
+        "no",
+        "they did not survive",
+        "pterosaurs went extinct"
+      ],
+      "stages": [
+        "Pterosaurs were flying reptiles. This file does not state their fate at the end of the Cretaceous.",
+        "A mass extinction occurred at the end of the Cretaceous, but this excerpt does not identify the affected flying reptiles.",
+        "The Smithsonian lists pterosaurs among the groups that went extinct at the end of the Cretaceous."
+      ],
+      "sources": [
+        "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time"
+      ]
+    },
+    {
+      "id": "boy_volcanic_eruptions_st_helens_date",
+      "family": "volcanic_eruptions",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Mount St. Helens eruption date",
+      "question": "On what date did the climactic 1980 eruption of Mount St. Helens occur?",
+      "answer": "May 18, 1980",
+      "accepted_answers": [
+        "May 18, 1980",
+        "May 18 1980",
+        "18 May 1980"
+      ],
+      "stages": [
+        "Mount St. Helens became highly active in 1980. This case file does not give the date of its major eruption.",
+        "The climactic eruption occurred in May 1980. The excerpt omits the day.",
+        "The USGS identifies the climactic eruption date as May 18, 1980."
+      ],
+      "sources": [
+        "https://pubs.usgs.gov/gip/msh/climactic.html"
+      ]
+    },
+    {
+      "id": "boy_volcanic_eruptions_st_helens_quake",
+      "family": "volcanic_eruptions",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Earthquake magnitude before eruption",
+      "question": "What was the magnitude of the earthquake that preceded the Mount St. Helens landslide and eruption on May 18, 1980?",
+      "answer": "5.1",
+      "accepted_answers": [
+        "5.1",
+        "magnitude 5.1",
+        "5.1 magnitude"
+      ],
+      "stages": [
+        "An earthquake preceded the major Mount St. Helens eruption. This file does not state its magnitude.",
+        "The earthquake occurred beneath the volcano shortly before the north flank collapsed. No magnitude is included here.",
+        "The USGS reports that the triggering earthquake had magnitude 5.1."
+      ],
+      "sources": [
+        "https://pubs.usgs.gov/gip/msh/climactic.html"
+      ]
+    },
+    {
+      "id": "boy_volcanic_eruptions_st_helens_time",
+      "family": "volcanic_eruptions",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Mount St. Helens eruption time",
+      "question": "At approximately what local time did the Mount St. Helens north flank begin to collapse on May 18, 1980?",
+      "answer": "8:32 a.m. PDT",
+      "accepted_answers": [
+        "8:32 a.m. PDT",
+        "8:32 am PDT",
+        "8:32 PDT",
+        "8:32"
+      ],
+      "stages": [
+        "The north flank of Mount St. Helens collapsed during the climactic 1980 eruption. The time is not given here.",
+        "The collapse began in the morning, after an earthquake beneath the volcano. The excerpt gives no clock time.",
+        "The USGS places the start of the collapse at about 8:32 a.m. Pacific Daylight Time."
+      ],
+      "sources": [
+        "https://pubs.usgs.gov/gip/msh/climactic.html"
+      ]
+    },
+    {
+      "id": "boy_volcanic_eruptions_st_helens_fatalities",
+      "family": "volcanic_eruptions",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Mount St. Helens fatalities",
+      "question": "How many people died in the May 18, 1980 Mount St. Helens eruption?",
+      "answer": "57",
+      "accepted_answers": [
+        "57",
+        "fifty-seven",
+        "fifty seven"
+      ],
+      "stages": [
+        "The 1980 eruption caused widespread devastation. This file does not include the number of fatalities.",
+        "The event caused loss of life, but the excerpt omits the total.",
+        "The USGS reports 57 fatalities from the eruption."
+      ],
+      "sources": [
+        "https://pubs.usgs.gov/gip/msh/climactic.html"
+      ]
+    },
+    {
+      "id": "boy_early_aviation_wright_first_flight_date",
+      "family": "early_aviation",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Wright first powered flight date",
+      "question": "On what date did the Wright brothers make the first powered flight?",
+      "answer": "December 17, 1903",
+      "accepted_answers": [
+        "December 17, 1903",
+        "December 17 1903",
+        "17 December 1903",
+        "1903"
+      ],
+      "stages": [
+        "The Wright brothers conducted early aviation experiments in North Carolina. This file does not state the date of their first powered flight.",
+        "The first powered flight occurred in 1903. The exact date is omitted here.",
+        "The Library of Congress dates the first powered flight to December 17, 1903."
+      ],
+      "sources": [
+        "https://www.loc.gov/collections/wright-brothers-negatives/about-this-collection/"
+      ]
+    },
+    {
+      "id": "boy_early_aviation_wright_first_pilot",
+      "family": "early_aviation",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Pilot of first powered flight",
+      "question": "Which Wright brother piloted the first powered flight?",
+      "answer": "Orville Wright",
+      "accepted_answers": [
+        "Orville Wright",
+        "Orville"
+      ],
+      "stages": [
+        "The Wright brothers developed and tested powered aircraft. This file does not identify the pilot of the first powered flight.",
+        "One brother piloted the first powered flight at Kitty Hawk. The excerpt does not name him.",
+        "The Library of Congress identifies Orville Wright as the pilot of the first powered flight."
+      ],
+      "sources": [
+        "https://www.loc.gov/collections/wright-brothers-negatives/about-this-collection/"
+      ]
+    },
+    {
+      "id": "boy_early_aviation_wright_first_flight_location",
+      "family": "early_aviation",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "First powered flight location",
+      "question": "At what North Carolina location did the Wright brothers make their first powered flight?",
+      "answer": "Kitty Hawk",
+      "accepted_answers": [
+        "Kitty Hawk",
+        "Kitty Hawk, North Carolina",
+        "Kitty Hawk NC"
+      ],
+      "stages": [
+        "The Wright brothers tested aircraft in North Carolina. This file does not identify the location of their first powered flight.",
+        "The first powered flight took place on the North Carolina coast. The town or area is not stated here.",
+        "The Library of Congress places the first powered flight at Kitty Hawk, North Carolina."
+      ],
+      "sources": [
+        "https://www.loc.gov/collections/wright-brothers-negatives/about-this-collection/"
+      ]
+    },
+    {
+      "id": "boy_early_aviation_wright_brothers_occupation",
+      "family": "early_aviation",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Wright brothers’ original trade",
+      "question": "What trade did the Wright brothers practice before their aviation work?",
+      "answer": "Bicycle mechanics",
+      "accepted_answers": [
+        "bicycle mechanics",
+        "bicycle repair shop operators",
+        "bicycle shop owners",
+        "bicycle repair"
+      ],
+      "stages": [
+        "The Wright brothers worked on aviation in addition to earlier business activities. This file does not state their prior trade.",
+        "They operated a business in Dayton, Ohio, before becoming known for aircraft. The trade is omitted here.",
+        "The Library of Congress describes the Wright brothers as operators of a bicycle repair shop and factory."
+      ],
+      "sources": [
+        "https://www.loc.gov/collections/wright-brothers-negatives/about-this-collection/"
       ]
     }
   ]

@@ -58,6 +58,43 @@ class TransformersModel:
             max_tokens=max_tokens, seed=seed, activation_contexts=[activation_context])
         return {"choices": [{"message": {"content": contents[0]}}]}
 
+    def replay_response(self, messages, response, *, context, temperature=0.0, seed=None):
+        """Capture a saved response by teacher-forcing it after its original prompt."""
+        if self.activation_recorder is None:
+            raise RuntimeError("Response replay requires activation extraction to be enabled")
+        template_kwargs = {} if self.thinking == "auto" else {"enable_thinking": self.thinking == "on"}
+        prompt_ids = self.tokenizer.apply_chat_template(
+            messages, tokenize=True, add_generation_prompt=True,
+            return_tensors="pt", **template_kwargs)
+        if isinstance(prompt_ids, dict):
+            prompt_ids = prompt_ids["input_ids"]
+        prompt_ids = prompt_ids.to(self.model.device)
+        full_messages = list(messages) + [{"role": "assistant", "content": response}]
+        full_ids = self.tokenizer.apply_chat_template(
+            full_messages, tokenize=True, add_generation_prompt=False,
+            return_tensors="pt", **template_kwargs)
+        if isinstance(full_ids, dict):
+            full_ids = full_ids["input_ids"]
+        full_ids = full_ids.to(self.model.device)
+        prompt_length = prompt_ids.shape[-1]
+        if full_ids.shape[-1] <= prompt_length or not self.torch.equal(
+                full_ids[:, :prompt_length], prompt_ids):
+            raise ValueError("Saved transcript does not reproduce the generation prompt token prefix")
+        tokens = full_ids
+        eos_ids = self.tokenizer.eos_token_id
+        eos_ids = set(eos_ids if isinstance(eos_ids, (list, tuple)) else [eos_ids])
+        while tokens.shape[-1] > prompt_length and int(tokens[0, -1]) in eos_ids:
+            tokens = tokens[:, :-1]
+        prompt_length = prompt_ids.shape[-1]
+        if tokens.shape[-1] > self.n_ctx:
+            raise ValueError("Saved prompt and response exceed the model context length")
+        if tokens.shape[-1] <= prompt_length:
+            raise ValueError("Cannot capture an empty response")
+        started = time.perf_counter()
+        self.activation_recorder.capture(tokens, prompt_length, context=context,
+                                         seed=seed, temperature=temperature)
+        self.performance["extraction_seconds"] += time.perf_counter() - started
+
     def create_chat_completions(self, *, messages, temperature=0.0,
                                 max_tokens=1024, seed=None, activation_contexts):
         """Generate a batch sharing one prompt. Seed belongs to the whole batch."""

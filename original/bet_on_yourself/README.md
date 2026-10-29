@@ -4,6 +4,18 @@ This game has two interaction forms: [singleturn](singleturn/README.md) and
 [multiturn](multiturn/README.md). The singleturn form elicits one wager at a
 fixed evidence state; the multiturn form tracks wagers as evidence arrives.
 
+Both forms support optional TransformerLens activation capture with
+`--extract-activations`. This captures every layer's `resid_post` at the
+answer-confidence and decision-confidence tokens, keyed to the question,
+family, evidence stage, and sample. The shared capture positions make
+contrastive comparisons straightforward without saving every token in the
+response.
+For completed Transformers runs that saved transcripts but not activations,
+`replay_activations.py` replays the stored prompts and responses through the
+recorded model checkpoint. See the multiturn README for the command and
+storage notes. These activations are inputs for later contrastive direction
+analysis; they do not by themselves produce or validate a steering direction.
+
 ## Question
 
 Does the model's stated confidence—and, if used, its wager—track the probability

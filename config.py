@@ -19,7 +19,7 @@ def parse_config(argv=None, *, max_tokens=2048, out="runs", variance=False,
     parser.add_argument("--activation-layers", default="last", help="Zero-based layers: last, all, or comma-separated indices")
     parser.add_argument("--activation-types", default="resid_post", help="Comma-separated resid_pre,resid_post,attn_out,mlp_out")
     parser.add_argument("--activation-positions", default="last-prompt-token",
-                        help="last-prompt-token, last-token, prompt, response, all, numeric indices, or answer-tokens with signed offsets (e.g. answer-tokens-1,answer-tokens)")
+                        help="last-prompt-token, first-response, last-token, prompt, response, all, confidence-tokens, numeric indices, or answer-tokens with signed offsets")
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
     parser.add_argument("--dtype", choices=("auto", "float32", "float16", "bfloat16"), default="auto")
     parser.add_argument("--revision", default="main", help="Transformers checkpoint revision (use a commit for reproducibility)")
