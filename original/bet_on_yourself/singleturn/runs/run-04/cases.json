@@ -1,0 +1,1626 @@
+{
+  "protocol": "bet-on-yourself-multiturn-v1",
+  "cases": [
+    {
+      "id": "boy_easy_carbon_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Carbon's atomic number",
+      "question": "What is the atomic number of carbon?",
+      "answer": "6",
+      "accepted_answers": [
+        "6",
+        "six"
+      ],
+      "stages": [
+        "Carbon's chemical symbol is C. No table of element numbers has been supplied yet.",
+        "A periodic table excerpt identifies carbon as element C in period 2 and group 14.",
+        "The National Institute of Standards and Technology's atomic data table lists carbon's atomic number as 6."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/carbontable1.htm"
+      ]
+    },
+    {
+      "id": "boy_medium_portsmouth_treaty_year",
+      "family": "treaty_dates",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Treaty of Portsmouth",
+      "question": "In what year was the Treaty of Portsmouth, which ended the Russo-Japanese War, signed? Give the year only.",
+      "answer": "1905",
+      "accepted_answers": [
+        "1905"
+      ],
+      "stages": [
+        "The Treaty of Portsmouth ended the Russo-Japanese War. No date is included in this case file yet.",
+        "The U.S. Department of State's historical account says the agreement was signed in September, but this excerpt omits the year.",
+        "The treaty text in the U.S. Foreign Relations series is dated Portsmouth, August 23 (September 5), 1905. Both dates refer to the same signing."
+      ],
+      "sources": [
+        "https://history.state.gov/milestones/1899-1913/portsmouth-treaty",
+        "https://history.state.gov/historicaldocuments/frus1905/d915"
+      ]
+    },
+    {
+      "id": "boy_hard_praseodymium_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Praseodymium's atomic number",
+      "question": "What is the atomic number of praseodymium?",
+      "answer": "59",
+      "accepted_answers": [
+        "59",
+        "fifty-nine",
+        "fifty nine"
+      ],
+      "stages": [
+        "Praseodymium is a chemical element with symbol Pr. No atomic number is provided in the case file yet.",
+        "A reference table places praseodymium among the lanthanides, between cerium and neodymium.",
+        "The National Institute of Standards and Technology's atomic data table lists praseodymium's atomic number as 59."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/praseodymiumtable1.htm"
+      ]
+    },
+    {
+      "id": "boy_hard_apollo11_launch_time",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Apollo 11 launch time",
+      "question": "At what UTC time did Apollo 11 launch on July 16, 1969? Give the time to the nearest minute.",
+      "answer": "13:32 UTC",
+      "accepted_answers": [
+        "13:32",
+        "13:32 utc",
+        "13:32 gmt",
+        "1:32 pm utc",
+        "1:32 pm gmt"
+      ],
+      "stages": [
+        "Apollo 11 launched on July 16, 1969, from Kennedy Space Center. This file does not yet state the launch time.",
+        "NASA's mission summary gives the local launch time as 9:32 a.m. EDT. Convert to UTC if you know the offset.",
+        "NASA's mission report records range zero at 13:32:00 GMT on July 16, 1969."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo11info.html",
+        "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_11a_Summary.htm"
+      ]
+    },
+    {
+      "id": "boy_unanswerable_shakespeare_favorite_color",
+      "family": "historical_unknowns",
+      "split": "development",
+      "category": "unanswerable",
+      "difficulty": "edge",
+      "title": "Shakespeare's favorite color",
+      "question": "What was William Shakespeare's favorite color?",
+      "answer": "Abstain",
+      "accepted_answers": [
+        "abstain",
+        "unknown",
+        "not known",
+        "not documented",
+        "no reliable evidence",
+        "cannot be determined",
+        "can't be determined"
+      ],
+      "stages": [
+        "The question concerns Shakespeare's personal preference. This case file provides no contemporary statement of a favorite color.",
+        "The surviving biographical record discussed in standard Shakespeare references does not identify a favorite color.",
+        "No reliable historical source in this evidence packet establishes a favorite color. Do not invent one; an explicit abstention is accepted."
+      ],
+      "sources": [
+        "https://www.shakespeare.org.uk/explore-shakespeare/shakespedia/william-shakespeare/william-shakespeare/"
+      ]
+    },
+    {
+      "id": "boy_false_premise_einstein_nobel",
+      "family": "nobel_history",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "Einstein and the Nobel Prize",
+      "question": "In what year did Albert Einstein receive the Nobel Prize for his theory of relativity?",
+      "answer": "He did not receive the Nobel Prize for relativity; it was awarded for the law of the photoelectric effect.",
+      "accepted_answers": [
+        "not for relativity",
+        "never for relativity",
+        "he did not receive it for relativity",
+        "not awarded for relativity",
+        "photoelectric effect, not relativity",
+        "photoelectric effect"
+      ],
+      "stages": [
+        "The question assumes Einstein received a Nobel Prize for relativity. No award citation is included in this case file yet.",
+        "The Nobel Foundation lists a 1921 Physics Prize for Einstein, but this excerpt does not include its motivation.",
+        "The Nobel Foundation says the prize was awarded for his services to theoretical physics, especially the discovery of the law of the photoelectric effect. It was not awarded for relativity."
+      ],
+      "sources": [
+        "https://www.nobelprize.org/prizes/physics/1921/summary/"
+      ]
+    },
+    {
+      "id": "boy_easy_hydrogen_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Hydrogen's atomic number",
+      "question": "What is the atomic number of hydrogen?",
+      "answer": "1",
+      "accepted_answers": [
+        "1",
+        "one"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Hydrogen's chemical symbol is H. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Hydrogen (H) at atomic number 1."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_easy_helium_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Helium's atomic number",
+      "question": "What is the atomic number of helium?",
+      "answer": "2",
+      "accepted_answers": [
+        "2",
+        "two"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Helium's chemical symbol is He. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Helium (He) at atomic number 2."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_easy_nitrogen_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Nitrogen's atomic number",
+      "question": "What is the atomic number of nitrogen?",
+      "answer": "7",
+      "accepted_answers": [
+        "7",
+        "seven"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Nitrogen's chemical symbol is N. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Nitrogen (N) at atomic number 7."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_easy_oxygen_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Oxygen's atomic number",
+      "question": "What is the atomic number of oxygen?",
+      "answer": "8",
+      "accepted_answers": [
+        "8",
+        "eight"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Oxygen's chemical symbol is O. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Oxygen (O) at atomic number 8."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_easy_sodium_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Sodium's atomic number",
+      "question": "What is the atomic number of sodium?",
+      "answer": "11",
+      "accepted_answers": [
+        "11",
+        "eleven"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Sodium's chemical symbol is Na. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Sodium (Na) at atomic number 11."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_easy_silicon_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Silicon's atomic number",
+      "question": "What is the atomic number of silicon?",
+      "answer": "14",
+      "accepted_answers": [
+        "14",
+        "fourteen"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Silicon's chemical symbol is Si. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Silicon (Si) at atomic number 14."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_easy_calcium_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Calcium's atomic number",
+      "question": "What is the atomic number of calcium?",
+      "answer": "20",
+      "accepted_answers": [
+        "20",
+        "twenty"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Calcium's chemical symbol is Ca. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Calcium (Ca) at atomic number 20."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_easy_iron_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Iron's atomic number",
+      "question": "What is the atomic number of iron?",
+      "answer": "26",
+      "accepted_answers": [
+        "26",
+        "twenty-six"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Iron's chemical symbol is Fe. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Iron (Fe) at atomic number 26."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_easy_gold_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Gold's atomic number",
+      "question": "What is the atomic number of gold?",
+      "answer": "79",
+      "accepted_answers": [
+        "79",
+        "seventy-nine"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Gold's chemical symbol is Au. Atomic number counts protons in an atom's nucleus.",
+        "The NIST atomic-number table lists Gold (Au) at atomic number 79."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_medium_guadalupe_hidalgo_year",
+      "family": "treaty_dates",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Treaty of Guadalupe Hidalgo",
+      "question": "In what year was the Treaty of Guadalupe Hidalgo signed?",
+      "answer": "1848",
+      "accepted_answers": [
+        "1848"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The treaty ended the Mexican-American War.",
+        "The U.S. Department of State records that it was signed on February 2, 1848."
+      ],
+      "sources": [
+        "https://history.state.gov/historicaldocuments/frus1902app2/d11"
+      ]
+    },
+    {
+      "id": "boy_medium_us_constitution_signing_year",
+      "family": "us_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Signing of the U.S. Constitution",
+      "question": "In what year was the U.S. Constitution signed?",
+      "answer": "1787",
+      "accepted_answers": [
+        "1787"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The Constitution was drafted at the Philadelphia Convention.",
+        "The National Archives records that delegates signed it on September 17, 1787."
+      ],
+      "sources": [
+        "https://www.archives.gov/founding-docs/constitution/how-was-it-made"
+      ]
+    },
+    {
+      "id": "boy_medium_declaration_adoption_year",
+      "family": "us_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Declaration of Independence adoption",
+      "question": "In what year did the Continental Congress adopt the Declaration of Independence?",
+      "answer": "1776",
+      "accepted_answers": [
+        "1776"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The adoption took place during the American Revolution.",
+        "The National Archives records that Congress adopted it on July 4, 1776."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_medium_treaty_paris_year",
+      "family": "treaty_dates",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Treaty of Paris",
+      "question": "In what year was the formal Treaty of Paris ending the American Revolutionary War signed?",
+      "answer": "1783",
+      "accepted_answers": [
+        "1783"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The peace negotiations followed the American Revolutionary War.",
+        "The U.S. Department of State records the formal Treaty of Paris as signed on September 3, 1783."
+      ],
+      "sources": [
+        "https://history.state.gov/milestones/1776-1783/treaty"
+      ]
+    },
+    {
+      "id": "boy_medium_un_charter_year",
+      "family": "international_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "United Nations Charter",
+      "question": "In what year was the Charter of the United Nations signed?",
+      "answer": "1945",
+      "accepted_answers": [
+        "1945"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The Charter was signed at the San Francisco Conference.",
+        "The United Nations records that it was signed on June 26, 1945."
+      ],
+      "sources": [
+        "https://www.un.org/en/about-us/un-charter"
+      ]
+    },
+    {
+      "id": "boy_medium_apollo8_launch_year",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Apollo 8 launch",
+      "question": "In what year did Apollo 8 launch?",
+      "answer": "1968",
+      "accepted_answers": [
+        "1968"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 8 was the first crewed mission to orbit the Moon.",
+        "NASA gives Apollo 8's launch date as December 21, 1968."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo.html"
+      ]
+    },
+    {
+      "id": "boy_medium_apollo12_launch_year",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Apollo 12 launch",
+      "question": "In what year did Apollo 12 launch?",
+      "answer": "1969",
+      "accepted_answers": [
+        "1969"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 12 was the second crewed lunar landing mission.",
+        "NASA gives Apollo 12's launch date as November 14, 1969."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo.html"
+      ]
+    },
+    {
+      "id": "boy_medium_apollo13_launch_year",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Apollo 13 launch",
+      "question": "In what year did Apollo 13 launch?",
+      "answer": "1970",
+      "accepted_answers": [
+        "1970"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 13 was a crewed lunar mission that returned without landing.",
+        "NASA gives Apollo 13's launch date as April 11, 1970."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo.html"
+      ]
+    },
+    {
+      "id": "boy_medium_apollo14_launch_year",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Apollo 14 launch",
+      "question": "In what year did Apollo 14 launch?",
+      "answer": "1971",
+      "accepted_answers": [
+        "1971"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 14 landed in the Fra Mauro region of the Moon.",
+        "NASA gives Apollo 14's launch date as January 31, 1971."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo.html"
+      ]
+    },
+    {
+      "id": "boy_medium_apollo15_launch_year",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Apollo 15 launch",
+      "question": "In what year did Apollo 15 launch?",
+      "answer": "1971",
+      "accepted_answers": [
+        "1971"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 15 was the first Apollo mission to use a lunar rover.",
+        "NASA gives Apollo 15's launch date as July 26, 1971."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo.html"
+      ]
+    },
+    {
+      "id": "boy_medium_apollo16_launch_year",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Apollo 16 launch",
+      "question": "In what year did Apollo 16 launch?",
+      "answer": "1972",
+      "accepted_answers": [
+        "1972"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 16 landed in the lunar highlands.",
+        "NASA gives Apollo 16's launch date as April 16, 1972."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo.html"
+      ]
+    },
+    {
+      "id": "boy_medium_apollo17_launch_year",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Apollo 17 launch",
+      "question": "In what year did Apollo 17 launch?",
+      "answer": "1972",
+      "accepted_answers": [
+        "1972"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 17 was the final Apollo lunar landing mission.",
+        "NASA gives Apollo 17's launch date as December 7, 1972."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo.html"
+      ]
+    },
+    {
+      "id": "boy_medium_marie_curie_chemistry_nobel_year",
+      "family": "nobel_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Marie Curie's Chemistry Nobel",
+      "question": "In what year was Marie Curie awarded the Nobel Prize in Chemistry?",
+      "answer": "1911",
+      "accepted_answers": [
+        "1911"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Marie Curie received Nobel Prizes in two different scientific fields.",
+        "The Nobel Foundation records her Chemistry prize as the 1911 award."
+      ],
+      "sources": [
+        "https://www.nobelprize.org/prizes/chemistry/1911/summary/"
+      ]
+    },
+    {
+      "id": "boy_medium_watson_crick_wilkins_nobel_year",
+      "family": "nobel_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "DNA structure Nobel",
+      "question": "In what year did Francis Crick, James Watson, and Maurice Wilkins receive the Nobel Prize for discoveries concerning nucleic acids?",
+      "answer": "1962",
+      "accepted_answers": [
+        "1962"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The award was in Physiology or Medicine.",
+        "The Nobel Foundation records the joint award as the 1962 Nobel Prize in Physiology or Medicine."
+      ],
+      "sources": [
+        "https://www.nobelprize.org/prizes/medicine/1962/summary"
+      ]
+    },
+    {
+      "id": "boy_hard_terbium_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Terbium's atomic number",
+      "question": "What is the atomic number of terbium?",
+      "answer": "65",
+      "accepted_answers": [
+        "65",
+        "sixty-five",
+        "sixty five"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Terbium (Tb) is a chemical element. Its atomic number is not stated here.",
+        "The NIST atomic-number table lists Terbium (Tb) at atomic number 65."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_hard_promethium_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Promethium's atomic number",
+      "question": "What is the atomic number of promethium?",
+      "answer": "61",
+      "accepted_answers": [
+        "61",
+        "sixty-one",
+        "sixty one"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Promethium (Pm) is a chemical element. Its atomic number is not stated here.",
+        "The NIST atomic-number table lists Promethium (Pm) at atomic number 61."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_hard_ytterbium_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Ytterbium's atomic number",
+      "question": "What is the atomic number of ytterbium?",
+      "answer": "70",
+      "accepted_answers": [
+        "70",
+        "seventy",
+        "seventy"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Ytterbium (Yb) is a chemical element. Its atomic number is not stated here.",
+        "The NIST atomic-number table lists Ytterbium (Yb) at atomic number 70."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_hard_lutetium_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Lutetium's atomic number",
+      "question": "What is the atomic number of lutetium?",
+      "answer": "71",
+      "accepted_answers": [
+        "71",
+        "seventy-one",
+        "seventy one"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Lutetium (Lu) is a chemical element. Its atomic number is not stated here.",
+        "The NIST atomic-number table lists Lutetium (Lu) at atomic number 71."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_hard_tantalum_atomic_number",
+      "family": "chemistry_elements",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Tantalum's atomic number",
+      "question": "What is the atomic number of tantalum?",
+      "answer": "73",
+      "accepted_answers": [
+        "73",
+        "seventy-three",
+        "seventy three"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Tantalum (Ta) is a chemical element. Its atomic number is not stated here.",
+        "The NIST atomic-number table lists Tantalum (Ta) at atomic number 73."
+      ],
+      "sources": [
+        "https://physics.nist.gov/PhysRefData/Handbook/Tables/atomic_number_a.htm"
+      ]
+    },
+    {
+      "id": "boy_hard_apollo12_launch_utc",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Apollo 12 launch time in UTC",
+      "question": "At what UTC time did Apollo 12 launch on November 14, 1969? Give the time to the nearest minute.",
+      "answer": "16:22 UTC",
+      "accepted_answers": [
+        "16:22",
+        "16:22 utc",
+        "16:22 gmt",
+        "4:22 pm utc",
+        "4:22 pm gmt"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 12 launched from Kennedy Space Center in Florida.",
+        "NASA gives the local time as 11:22 a.m. EST, or 16:22 UTC."
+      ],
+      "sources": [
+        "https://www.nasa.gov/missions/apollo/apollo-12-the-pinpoint-mission/"
+      ]
+    },
+    {
+      "id": "boy_hard_apollo13_launch_utc",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Apollo 13 launch time in UTC",
+      "question": "At what UTC time did Apollo 13 launch on April 11, 1970? Give the time to the nearest minute.",
+      "answer": "19:13 UTC",
+      "accepted_answers": [
+        "19:13",
+        "19:13 utc",
+        "19:13 gmt",
+        "7:13 pm utc",
+        "7:13 pm gmt"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 13 launched from Kennedy Space Center in Florida.",
+        "NASA's Apollo chronology records the launch at 19:13 GMT on April 11, 1970."
+      ],
+      "sources": [
+        "https://www.nasa.gov/wp-content/uploads/2023/04/sp-4029.pdf"
+      ]
+    },
+    {
+      "id": "boy_hard_apollo17_launch_utc",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Apollo 17 launch time in UTC",
+      "question": "At what UTC time did Apollo 17 launch on December 7, 1972? Give the time to the nearest minute.",
+      "answer": "05:33 UTC",
+      "accepted_answers": [
+        "05:33",
+        "5:33",
+        "05:33 utc",
+        "05:33 gmt",
+        "5:33 am utc",
+        "5:33 am gmt"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "Apollo 17 was the final crewed lunar landing mission in the Apollo program.",
+        "NASA records the local launch as 12:33 a.m. EST, or 05:33 UTC."
+      ],
+      "sources": [
+        "https://www.nasa.gov/mission/apollo-17/"
+      ]
+    },
+    {
+      "id": "boy_unanswerable_newton_favorite_color",
+      "family": "historical_unknowns",
+      "split": "development",
+      "category": "unanswerable",
+      "difficulty": "edge",
+      "title": "Isaac Newton's favorite color",
+      "question": "What was Isaac Newton's favorite color?",
+      "answer": "Abstain",
+      "accepted_answers": [
+        "abstain",
+        "unknown",
+        "not known",
+        "not documented",
+        "no reliable evidence",
+        "cannot be determined",
+        "can't be determined"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "This asks about a personal preference rather than a public event or documented achievement.",
+        "Isaac Newton's biography is extensive, but this packet provides no reliable record of a favorite color."
+      ],
+      "sources": [
+        "https://www.britannica.com/biography/Isaac-Newton"
+      ]
+    },
+    {
+      "id": "boy_unanswerable_homer_favorite_food",
+      "family": "historical_unknowns",
+      "split": "development",
+      "category": "unanswerable",
+      "difficulty": "edge",
+      "title": "Homer's favorite food",
+      "question": "What was the poet Homer's favorite food?",
+      "answer": "Abstain",
+      "accepted_answers": [
+        "abstain",
+        "unknown",
+        "not known",
+        "not documented",
+        "no reliable evidence",
+        "cannot be determined",
+        "can't be determined"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "This asks about a personal preference rather than a public event or documented achievement.",
+        "Homer's historical identity and biography are uncertain; no reliable source in this packet establishes a favorite food."
+      ],
+      "sources": [
+        "https://www.britannica.com/biography/Homer-Greek-poet"
+      ]
+    },
+    {
+      "id": "boy_unanswerable_cleopatra_favorite_song",
+      "family": "historical_unknowns",
+      "split": "development",
+      "category": "unanswerable",
+      "difficulty": "edge",
+      "title": "Cleopatra's favorite song",
+      "question": "What was Cleopatra VII's favorite song?",
+      "answer": "Abstain",
+      "accepted_answers": [
+        "abstain",
+        "unknown",
+        "not known",
+        "not documented",
+        "no reliable evidence",
+        "cannot be determined",
+        "can't be determined"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "This asks about a personal preference rather than a public event or documented achievement.",
+        "No reliable evidence in this packet records Cleopatra VII's favorite song. Do not infer a preference from later portrayals."
+      ],
+      "sources": [
+        "https://www.britannica.com/biography/Cleopatra-queen-of-Egypt"
+      ]
+    },
+    {
+      "id": "boy_unanswerable_joan_of_arc_favorite_flower",
+      "family": "historical_unknowns",
+      "split": "development",
+      "category": "unanswerable",
+      "difficulty": "edge",
+      "title": "Joan of Arc's favorite flower",
+      "question": "What was Joan of Arc's favorite flower?",
+      "answer": "Abstain",
+      "accepted_answers": [
+        "abstain",
+        "unknown",
+        "not known",
+        "not documented",
+        "no reliable evidence",
+        "cannot be determined",
+        "can't be determined"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "This asks about a personal preference rather than a public event or documented achievement.",
+        "The historical record in this packet does not establish a favorite flower for Joan of Arc."
+      ],
+      "sources": [
+        "https://www.britannica.com/biography/Saint-Joan-of-Arc"
+      ]
+    },
+    {
+      "id": "boy_false_premise_newton_nobel",
+      "family": "nobel_history",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "Newton and the Nobel Prize",
+      "question": "In what year did Isaac Newton receive the Nobel Prize in Physics?",
+      "answer": "Newton did not receive a Nobel Prize; the first prizes were awarded in 1901, long after his lifetime.",
+      "accepted_answers": [
+        "did not receive",
+        "never received",
+        "no nobel prize",
+        "first awarded in 1901",
+        "not alive when prizes began"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The question assumes Newton received a Nobel Prize.",
+        "Newton died in 1727. The Nobel Foundation says the first Nobel Prizes were awarded in 1901."
+      ],
+      "sources": [
+        "https://www.nobelprize.org/prizes/themes/the-very-first-nobel-prizes/"
+      ]
+    },
+    {
+      "id": "boy_false_premise_invented_electricity",
+      "family": "history_of_science",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "Who invented electricity?",
+      "question": "Who invented electricity?",
+      "answer": "No one invented electricity; it is a natural phenomenon. Benjamin Franklin studied it but did not invent it.",
+      "accepted_answers": [
+        "no one invented electricity",
+        "nobody invented electricity",
+        "natural phenomenon",
+        "franklin did not invent electricity"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The wording assumes electricity was invented by a person.",
+        "Electricity is a natural phenomenon. Franklin's experiments advanced its study; they did not create or invent it."
+      ],
+      "sources": [
+        "https://www.fi.edu/history-resources/benjamin-franklin"
+      ]
+    },
+    {
+      "id": "boy_false_premise_galileo_telescope",
+      "family": "history_of_science",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "Galileo and the telescope",
+      "question": "In what year did Galileo invent the telescope?",
+      "answer": "Galileo did not invent the telescope; he improved an instrument based on Dutch designs.",
+      "accepted_answers": [
+        "did not invent the telescope",
+        "not the inventor of the telescope",
+        "dutch designs",
+        "improved the telescope"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The question assumes Galileo was the telescope's inventor.",
+        "Historical accounts describe the telescope as originating in the Netherlands before Galileo improved and used one."
+      ],
+      "sources": [
+        "https://www.britannica.com/technology/telescope/The-telescope-in-the-West"
+      ]
+    },
+    {
+      "id": "boy_false_premise_lincoln_declaration",
+      "family": "us_history",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "Lincoln and the Declaration",
+      "question": "On what date did Abraham Lincoln sign the Declaration of Independence?",
+      "answer": "Abraham Lincoln did not sign it; the Declaration was adopted in 1776, before he was born.",
+      "accepted_answers": [
+        "did not sign",
+        "never signed",
+        "before lincoln was born",
+        "signed in 1776 by the founders"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The question assumes Lincoln was present for the Declaration's signing.",
+        "The National Archives dates the Declaration to 1776; Abraham Lincoln was born in 1809."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence",
+        "https://www.whitehouse.gov/about-the-white-house/presidents/abraham-lincoln/"
+      ]
+    },
+    {
+      "id": "boy_false_premise_apollo_mars",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "Apollo 11 and Mars",
+      "question": "On what date did Apollo 11 land on Mars?",
+      "answer": "Apollo 11 did not land on Mars; it landed on the Moon on July 20, 1969.",
+      "accepted_answers": [
+        "did not land on mars",
+        "never landed on mars",
+        "landed on the moon",
+        "moon on july 20 1969"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The question assumes Apollo 11 reached Mars.",
+        "NASA records Apollo 11's target and landing as the Moon, with touchdown on July 20, 1969."
+      ],
+      "sources": [
+        "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo11info.html"
+      ]
+    },
+    {
+      "id": "boy_false_premise_curie_chemistry_1903",
+      "family": "nobel_history",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "Marie Curie's Nobel category",
+      "question": "In what year did Marie Curie receive the Nobel Prize in Chemistry in 1903?",
+      "answer": "The premise combines two prizes: Curie shared the 1903 Physics Prize and received the Chemistry Prize in 1911.",
+      "accepted_answers": [
+        "1903 physics and 1911 chemistry",
+        "1911 chemistry",
+        "not chemistry in 1903",
+        "physics in 1903"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The question combines a year with a Nobel category.",
+        "The Nobel Foundation records Curie's Physics award in 1903 and her Chemistry award in 1911."
+      ],
+      "sources": [
+        "https://www.nobelprize.org/prizes/physics/1903/summary/",
+        "https://www.nobelprize.org/prizes/chemistry/1911/summary/"
+      ]
+    },
+    {
+      "id": "boy_false_premise_darwin_nobel",
+      "family": "nobel_history",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "Darwin and the Nobel Prize",
+      "question": "In what year did Charles Darwin receive the Nobel Prize for his theory of evolution?",
+      "answer": "Charles Darwin did not receive a Nobel Prize; the first prizes were awarded in 1901, after his death.",
+      "accepted_answers": [
+        "did not receive",
+        "never received",
+        "no nobel prize",
+        "after his death",
+        "first awarded in 1901"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The question assumes Darwin received a Nobel Prize.",
+        "Darwin died in 1882, and the Nobel Foundation records the first awards in 1901."
+      ],
+      "sources": [
+        "https://www.nobelprize.org/prizes/themes/the-very-first-nobel-prizes/",
+        "https://www.britannica.com/biography/Charles-Darwin"
+      ]
+    },
+    {
+      "id": "boy_false_premise_great_wall_moon",
+      "family": "common_myths",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "The Great Wall from the Moon",
+      "question": "In what year did astronauts first see the Great Wall of China from the Moon with the naked eye?",
+      "answer": "No year: the Great Wall is not visible to the naked eye from the Moon.",
+      "accepted_answers": [
+        "not visible to the naked eye",
+        "not visible from the moon",
+        "no year",
+        "cannot be seen from the moon"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The question assumes a specific observation occurred.",
+        "This is a common myth; the Great Wall is not visible to the unaided eye from the Moon."
+      ],
+      "sources": [
+        "https://www.nasa.gov/image-article/great-wall/"
+      ]
+    },
+    {
+      "id": "boy_false_premise_first_person_mars",
+      "family": "spaceflight_history",
+      "split": "development",
+      "category": "false_premise",
+      "difficulty": "medium",
+      "title": "First person on Mars",
+      "question": "Who was the first person to walk on Mars?",
+      "answer": "No person has walked on Mars.",
+      "accepted_answers": [
+        "no person has walked on mars",
+        "nobody has walked on mars",
+        "no one has walked on mars",
+        "no human has walked on mars"
+      ],
+      "stages": [
+        "No reference excerpt is provided yet. Answer from your existing knowledge if you can; estimate your confidence.",
+        "The question assumes a crewed Mars landing has occurred.",
+        "Mars has not been visited by humans; robotic missions have explored its surface."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mars/exploration/overview/"
+      ]
+    },
+    {
+      "id": "boy_us_founding_documents_declaration_adopted",
+      "family": "us_founding_documents",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Declaration adoption date",
+      "question": "On what date did the Continental Congress adopt the Declaration of Independence?",
+      "answer": "July 4, 1776",
+      "accepted_answers": [
+        "July 4, 1776",
+        "July 4 1776",
+        "4 July 1776",
+        "1776"
+      ],
+      "stages": [
+        "The Continental Congress debated a declaration in the summer of 1776. This case file does not yet state the adoption date.",
+        "The Congress considered revisions over several days in early July 1776. The excerpt here omits the final adoption date.",
+        "The National Archives states that the Continental Congress adopted the Declaration on July 4, 1776."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_us_founding_documents_declaration_signatures",
+      "family": "us_founding_documents",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Declaration signatories",
+      "question": "How many delegates eventually signed the engrossed Declaration of Independence?",
+      "answer": "56",
+      "accepted_answers": [
+        "56",
+        "fifty-six",
+        "fifty six"
+      ],
+      "stages": [
+        "The Declaration was adopted in 1776 and later copied onto parchment. The number of signers is not given here.",
+        "The signing took place over time, and not all delegates were present on the first signing date. This excerpt gives no total.",
+        "The National Archives reports that 56 delegates eventually signed the engrossed Declaration."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_us_founding_documents_declaration_drafter",
+      "family": "us_founding_documents",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Primary Declaration drafter",
+      "question": "Who drafted the first version of the Declaration of Independence?",
+      "answer": "Thomas Jefferson",
+      "accepted_answers": [
+        "Thomas Jefferson",
+        "Jefferson"
+      ],
+      "stages": [
+        "A committee was appointed to prepare a statement explaining independence. This file does not identify the principal drafter.",
+        "The drafting committee had five members, but the excerpt does not say which member wrote the first draft.",
+        "The National Archives identifies Thomas Jefferson as the writer of the first draft."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_us_founding_documents_lee_resolution_date",
+      "family": "us_founding_documents",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Lee Resolution date",
+      "question": "On what date did the Continental Congress adopt the Lee Resolution declaring independence?",
+      "answer": "July 2, 1776",
+      "accepted_answers": [
+        "July 2, 1776",
+        "July 2 1776",
+        "2 July 1776",
+        "1776"
+      ],
+      "stages": [
+        "A resolution proposing independence was introduced in Congress in June 1776. No adoption date is included yet.",
+        "The resolution was debated before the Declaration was adopted. This excerpt does not give the date of the vote.",
+        "The National Archives says the Lee Resolution was adopted on July 2, 1776."
+      ],
+      "sources": [
+        "https://www.archives.gov/milestone-documents/declaration-of-independence"
+      ]
+    },
+    {
+      "id": "boy_space_telescope_history_hubble_launch_date",
+      "family": "space_telescope_history",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Hubble launch date",
+      "question": "On what date was the Hubble Space Telescope launched?",
+      "answer": "April 24, 1990",
+      "accepted_answers": [
+        "April 24, 1990",
+        "April 24 1990",
+        "24 April 1990",
+        "1990"
+      ],
+      "stages": [
+        "Hubble was developed over many years as a space observatory. No launch date is stated in this case file.",
+        "The telescope launched aboard a Space Shuttle mission in 1990. The excerpt does not give the day.",
+        "NASA records that Hubble launched on April 24, 1990."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/"
+      ]
+    },
+    {
+      "id": "boy_space_telescope_history_hubble_shuttle",
+      "family": "space_telescope_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Hubble launch vehicle",
+      "question": "Which Space Shuttle carried the Hubble Space Telescope into orbit?",
+      "answer": "Discovery",
+      "accepted_answers": [
+        "Discovery",
+        "Space Shuttle Discovery"
+      ],
+      "stages": [
+        "Hubble reached orbit aboard a Space Shuttle. This file does not name the orbiter.",
+        "The launch occurred during mission STS-31. The excerpt omits the name of the shuttle.",
+        "NASA states that Space Shuttle Discovery carried Hubble during STS-31."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/"
+      ]
+    },
+    {
+      "id": "boy_space_telescope_history_hubble_mission",
+      "family": "space_telescope_history",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Hubble launch mission number",
+      "question": "What was the Space Shuttle mission designation for Hubble\u2019s launch?",
+      "answer": "STS-31",
+      "accepted_answers": [
+        "STS-31",
+        "STS 31",
+        "STS31"
+      ],
+      "stages": [
+        "Hubble was launched aboard a Space Shuttle. This file does not state the mission number.",
+        "The launch took place in April 1990 aboard Discovery. The mission designation is omitted here.",
+        "NASA identifies the launch mission as STS-31."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/"
+      ]
+    },
+    {
+      "id": "boy_space_telescope_history_hubble_deployment_date",
+      "family": "space_telescope_history",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Hubble deployment date",
+      "question": "On what date was Hubble released from Space Shuttle Discovery into orbit?",
+      "answer": "April 25, 1990",
+      "accepted_answers": [
+        "April 25, 1990",
+        "April 25 1990",
+        "25 April 1990"
+      ],
+      "stages": [
+        "Hubble launched inside Discovery\u2019s payload bay. This file does not give its release date.",
+        "The shuttle launched on April 24, 1990. This excerpt does not say when Hubble was deployed.",
+        "NASA\u2019s timeline says Hubble was deployed on April 25, 1990."
+      ],
+      "sources": [
+        "https://science.nasa.gov/mission/hubble/overview/hubble-timeline/hubble-history-timeline-full-text/"
+      ]
+    },
+    {
+      "id": "boy_cretaceous_extinction_cretaceous_date",
+      "family": "cretaceous_extinction",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "End-Cretaceous extinction date",
+      "question": "Approximately how many million years ago did the end-Cretaceous mass extinction occur?",
+      "answer": "66 million years ago",
+      "accepted_answers": [
+        "66 million years ago",
+        "66 million",
+        "66"
+      ],
+      "stages": [
+        "The fossil record preserves several major extinction events. This file does not give the date of the end-Cretaceous event.",
+        "The event occurred tens of millions of years ago, near the end of the Cretaceous. The exact rounded estimate is omitted.",
+        "The Smithsonian dates the end of the Cretaceous to about 66 million years ago."
+      ],
+      "sources": [
+        "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time"
+      ]
+    },
+    {
+      "id": "boy_cretaceous_extinction_nonavian_dinosaurs",
+      "family": "cretaceous_extinction",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Non-avian dinosaurs at end Cretaceous",
+      "question": "Which dinosaur group is identified as having gone extinct at the end of the Cretaceous: all dinosaurs, or all non-avian dinosaurs?",
+      "answer": "All non-avian dinosaurs",
+      "accepted_answers": [
+        "all non-avian dinosaurs",
+        "non-avian dinosaurs",
+        "all nonavian dinosaurs"
+      ],
+      "stages": [
+        "A major extinction occurred at the end of the Cretaceous. This file does not specify which dinosaur groups disappeared.",
+        "Some familiar extinct reptiles are often grouped together in casual speech, but this excerpt does not distinguish them.",
+        "The Smithsonian identifies all non-avian dinosaurs as among the groups that went extinct."
+      ],
+      "sources": [
+        "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time"
+      ]
+    },
+    {
+      "id": "boy_cretaceous_extinction_cretaceous_marine_reptiles",
+      "family": "cretaceous_extinction",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Cretaceous marine reptiles",
+      "question": "Did mosasaurs survive the end-Cretaceous mass extinction?",
+      "answer": "No",
+      "accepted_answers": [
+        "no",
+        "they did not survive",
+        "mosasaurs went extinct"
+      ],
+      "stages": [
+        "Mosasaurs were marine reptiles that lived during the Cretaceous. This file does not say whether they survived the end-Cretaceous event.",
+        "The extinction affected marine and terrestrial habitats, but this excerpt does not list individual groups.",
+        "The Smithsonian lists mosasaurs among groups that went extinct at the end of the Cretaceous."
+      ],
+      "sources": [
+        "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time"
+      ]
+    },
+    {
+      "id": "boy_cretaceous_extinction_cretaceous_pterosaurs",
+      "family": "cretaceous_extinction",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Cretaceous pterosaurs",
+      "question": "Did pterosaurs survive the end-Cretaceous mass extinction?",
+      "answer": "No",
+      "accepted_answers": [
+        "no",
+        "they did not survive",
+        "pterosaurs went extinct"
+      ],
+      "stages": [
+        "Pterosaurs were flying reptiles. This file does not state their fate at the end of the Cretaceous.",
+        "A mass extinction occurred at the end of the Cretaceous, but this excerpt does not identify the affected flying reptiles.",
+        "The Smithsonian lists pterosaurs among the groups that went extinct at the end of the Cretaceous."
+      ],
+      "sources": [
+        "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time"
+      ]
+    },
+    {
+      "id": "boy_volcanic_eruptions_st_helens_date",
+      "family": "volcanic_eruptions",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Mount St. Helens eruption date",
+      "question": "On what date did the climactic 1980 eruption of Mount St. Helens occur?",
+      "answer": "May 18, 1980",
+      "accepted_answers": [
+        "May 18, 1980",
+        "May 18 1980",
+        "18 May 1980"
+      ],
+      "stages": [
+        "Mount St. Helens became highly active in 1980. This case file does not give the date of its major eruption.",
+        "The climactic eruption occurred in May 1980. The excerpt omits the day.",
+        "The USGS identifies the climactic eruption date as May 18, 1980."
+      ],
+      "sources": [
+        "https://pubs.usgs.gov/gip/msh/climactic.html"
+      ]
+    },
+    {
+      "id": "boy_volcanic_eruptions_st_helens_quake",
+      "family": "volcanic_eruptions",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Earthquake magnitude before eruption",
+      "question": "What was the magnitude of the earthquake that preceded the Mount St. Helens landslide and eruption on May 18, 1980?",
+      "answer": "5.1",
+      "accepted_answers": [
+        "5.1",
+        "magnitude 5.1",
+        "5.1 magnitude"
+      ],
+      "stages": [
+        "An earthquake preceded the major Mount St. Helens eruption. This file does not state its magnitude.",
+        "The earthquake occurred beneath the volcano shortly before the north flank collapsed. No magnitude is included here.",
+        "The USGS reports that the triggering earthquake had magnitude 5.1."
+      ],
+      "sources": [
+        "https://pubs.usgs.gov/gip/msh/climactic.html"
+      ]
+    },
+    {
+      "id": "boy_volcanic_eruptions_st_helens_time",
+      "family": "volcanic_eruptions",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Mount St. Helens eruption time",
+      "question": "At approximately what local time did the Mount St. Helens north flank begin to collapse on May 18, 1980?",
+      "answer": "8:32 a.m. PDT",
+      "accepted_answers": [
+        "8:32 a.m. PDT",
+        "8:32 am PDT",
+        "8:32 PDT",
+        "8:32"
+      ],
+      "stages": [
+        "The north flank of Mount St. Helens collapsed during the climactic 1980 eruption. The time is not given here.",
+        "The collapse began in the morning, after an earthquake beneath the volcano. The excerpt gives no clock time.",
+        "The USGS places the start of the collapse at about 8:32 a.m. Pacific Daylight Time."
+      ],
+      "sources": [
+        "https://pubs.usgs.gov/gip/msh/climactic.html"
+      ]
+    },
+    {
+      "id": "boy_volcanic_eruptions_st_helens_fatalities",
+      "family": "volcanic_eruptions",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Mount St. Helens fatalities",
+      "question": "How many people died in the May 18, 1980 Mount St. Helens eruption?",
+      "answer": "57",
+      "accepted_answers": [
+        "57",
+        "fifty-seven",
+        "fifty seven"
+      ],
+      "stages": [
+        "The 1980 eruption caused widespread devastation. This file does not include the number of fatalities.",
+        "The event caused loss of life, but the excerpt omits the total.",
+        "The USGS reports 57 fatalities from the eruption."
+      ],
+      "sources": [
+        "https://pubs.usgs.gov/gip/msh/climactic.html"
+      ]
+    },
+    {
+      "id": "boy_early_aviation_wright_first_flight_date",
+      "family": "early_aviation",
+      "split": "development",
+      "category": "easy_verifiable",
+      "difficulty": "easy",
+      "title": "Wright first powered flight date",
+      "question": "On what date did the Wright brothers make the first powered flight?",
+      "answer": "December 17, 1903",
+      "accepted_answers": [
+        "December 17, 1903",
+        "December 17 1903",
+        "17 December 1903",
+        "1903"
+      ],
+      "stages": [
+        "The Wright brothers conducted early aviation experiments in North Carolina. This file does not state the date of their first powered flight.",
+        "The first powered flight occurred in 1903. The exact date is omitted here.",
+        "The Library of Congress dates the first powered flight to December 17, 1903."
+      ],
+      "sources": [
+        "https://www.loc.gov/collections/wright-brothers-negatives/about-this-collection/"
+      ]
+    },
+    {
+      "id": "boy_early_aviation_wright_first_pilot",
+      "family": "early_aviation",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "Pilot of first powered flight",
+      "question": "Which Wright brother piloted the first powered flight?",
+      "answer": "Orville Wright",
+      "accepted_answers": [
+        "Orville Wright",
+        "Orville"
+      ],
+      "stages": [
+        "The Wright brothers developed and tested powered aircraft. This file does not identify the pilot of the first powered flight.",
+        "One brother piloted the first powered flight at Kitty Hawk. The excerpt does not name him.",
+        "The Library of Congress identifies Orville Wright as the pilot of the first powered flight."
+      ],
+      "sources": [
+        "https://www.loc.gov/collections/wright-brothers-negatives/about-this-collection/"
+      ]
+    },
+    {
+      "id": "boy_early_aviation_wright_first_flight_location",
+      "family": "early_aviation",
+      "split": "development",
+      "category": "medium_factual",
+      "difficulty": "medium",
+      "title": "First powered flight location",
+      "question": "At what North Carolina location did the Wright brothers make their first powered flight?",
+      "answer": "Kitty Hawk",
+      "accepted_answers": [
+        "Kitty Hawk",
+        "Kitty Hawk, North Carolina",
+        "Kitty Hawk NC"
+      ],
+      "stages": [
+        "The Wright brothers tested aircraft in North Carolina. This file does not identify the location of their first powered flight.",
+        "The first powered flight took place on the North Carolina coast. The town or area is not stated here.",
+        "The Library of Congress places the first powered flight at Kitty Hawk, North Carolina."
+      ],
+      "sources": [
+        "https://www.loc.gov/collections/wright-brothers-negatives/about-this-collection/"
+      ]
+    },
+    {
+      "id": "boy_early_aviation_wright_brothers_occupation",
+      "family": "early_aviation",
+      "split": "development",
+      "category": "hard_edge",
+      "difficulty": "hard",
+      "title": "Wright brothers\u2019 original trade",
+      "question": "What trade did the Wright brothers practice before their aviation work?",
+      "answer": "Bicycle mechanics",
+      "accepted_answers": [
+        "bicycle mechanics",
+        "bicycle repair shop operators",
+        "bicycle shop owners",
+        "bicycle repair"
+      ],
+      "stages": [
+        "The Wright brothers worked on aviation in addition to earlier business activities. This file does not state their prior trade.",
+        "They operated a business in Dayton, Ohio, before becoming known for aircraft. The trade is omitted here.",
+        "The Library of Congress describes the Wright brothers as operators of a bicycle repair shop and factory."
+      ],
+      "sources": [
+        "https://www.loc.gov/collections/wright-brothers-negatives/about-this-collection/"
+      ]
+    }
+  ]
+}

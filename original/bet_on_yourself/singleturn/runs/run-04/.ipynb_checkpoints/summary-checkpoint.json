@@ -1,0 +1,1781 @@
+{
+  "protocol": "bet-on-yourself-singleturn-v1",
+  "bank_protocol": "bet-on-yourself-multiturn-v1",
+  "stage": 0,
+  "n_cases": 70,
+  "n_families": 14,
+  "n_samples": 4,
+  "overall": {
+    "n": 280,
+    "answer_parse_coverage": 280,
+    "confidence_coverage": 280,
+    "wager_coverage": 280,
+    "accuracy": 0.6357142857142857,
+    "answer_accuracy": 0.575,
+    "confidence_brier_coverage": 210,
+    "mean_brier": 0.2534642857142857,
+    "decision_confidence_coverage": 280,
+    "decision_brier_coverage": 280,
+    "mean_decision_brier": 0.2791389285714286,
+    "mean_decision_confidence": 88.83214285714286,
+    "mean_confidence": 92.02380952380952,
+    "mean_reported_confidence": 74.87142857142857,
+    "abstention_count": 70,
+    "abstention_rate": 0.25,
+    "appropriate_abstention_count": 31,
+    "abstention_appropriateness": 0.44285714285714284,
+    "unanswerable_count": 20,
+    "unanswerable_abstention_recall": 0.7,
+    "mean_wager": 6.935714285714286,
+    "mean_wager_payoff": 2.835714285714286,
+    "outcomes": {
+      "6": 4,
+      "1905": 4,
+      "57": 4,
+      "13:32": 4,
+      "Abstain": 68,
+      "1921": 4,
+      "1": 4,
+      "2": 4,
+      "7": 4,
+      "8": 4,
+      "11": 4,
+      "14": 4,
+      "20": 4,
+      "26": 4,
+      "79": 4,
+      "1848": 4,
+      "1787": 4,
+      "1776": 4,
+      "1783": 4,
+      "1945": 4,
+      "1968": 4,
+      "1969": 8,
+      "1970": 4,
+      "1971": 8,
+      "1972": 8,
+      "1911": 4,
+      "1962": 4,
+      "65": 4,
+      "67": 4,
+      "70": 4,
+      "71": 4,
+      "73": 4,
+      "14:32": 2,
+      "14:32 UTC": 2,
+      "09:11 UTC": 3,
+      "09:31 UTC": 1,
+      "10:33 UTC": 3,
+      "21:30 UTC": 1,
+      "Blue": 4,
+      "No definitive information on Homer's favorite food is available.": 1,
+      "No definitive information on Homer's favorite food is known.": 1,
+      "Unknown, but likely barley or bread, common in ancient Greece.": 1,
+      "Unknown, but likely a simple dish like bread or olive oil, common in ancient Greece.": 1,
+      "Benjamin Franklin": 1,
+      "Michael Faraday": 2,
+      "1609": 4,
+      "April 15, 1861": 1,
+      "July 4, 1776": 4,
+      "1903": 4,
+      "51 delegates eventually signed the engrossed Declaration of Independence.": 3,
+      "51": 1,
+      "June 7, 1776": 3,
+      "July 2, 1776": 1,
+      "Discovery": 1,
+      "Atlantis": 3,
+      "STS-31": 4,
+      "July 25, 1990": 4,
+      "Approximately 66 million years ago.": 2,
+      "all non-avian dinosaurs": 3,
+      "All non-avian dinosaurs": 1,
+      "8:12 AM": 3,
+      "57 people died in the May 18, 1980 Mount St. Helens eruption.": 1,
+      "April 17, 1903": 1,
+      "Orville Wright": 4,
+      "Kitty Hawk": 1,
+      "Bicycle repair and manufacturing": 3,
+      "Bicycle repair and sales": 1
+    },
+    "parse_failures": 0,
+    "calibration": {
+      "n": 210,
+      "base_accuracy": 0.7,
+      "bins": [
+        {
+          "lower": 0,
+          "upper": 9,
+          "n": 5,
+          "mean_confidence": 0.0,
+          "observed_accuracy": 0.2
+        },
+        {
+          "lower": 30,
+          "upper": 39,
+          "n": 1,
+          "mean_confidence": 30.0,
+          "observed_accuracy": 1.0
+        },
+        {
+          "lower": 50,
+          "upper": 59,
+          "n": 8,
+          "mean_confidence": 50.0,
+          "observed_accuracy": 1.0
+        },
+        {
+          "lower": 60,
+          "upper": 69,
+          "n": 1,
+          "mean_confidence": 60.0,
+          "observed_accuracy": 0.0
+        },
+        {
+          "lower": 70,
+          "upper": 79,
+          "n": 10,
+          "mean_confidence": 70.0,
+          "observed_accuracy": 0.2
+        },
+        {
+          "lower": 80,
+          "upper": 89,
+          "n": 4,
+          "mean_confidence": 80.0,
+          "observed_accuracy": 0.0
+        },
+        {
+          "lower": 90,
+          "upper": 99,
+          "n": 181,
+          "mean_confidence": 98.42541436464089,
+          "observed_accuracy": 0.7458563535911602
+        }
+      ],
+      "resolution": 0.03519337016574585
+    },
+    "decision_calibration": {
+      "n": 280,
+      "base_accuracy": 0.6357142857142857,
+      "bins": [
+        {
+          "lower": 0,
+          "upper": 9,
+          "n": 2,
+          "mean_confidence": 0.0,
+          "observed_accuracy": 1.0
+        },
+        {
+          "lower": 30,
+          "upper": 39,
+          "n": 1,
+          "mean_confidence": 33.0,
+          "observed_accuracy": 0.0
+        },
+        {
+          "lower": 50,
+          "upper": 59,
+          "n": 36,
+          "mean_confidence": 50.0,
+          "observed_accuracy": 0.3888888888888889
+        },
+        {
+          "lower": 60,
+          "upper": 69,
+          "n": 3,
+          "mean_confidence": 60.0,
+          "observed_accuracy": 0.6666666666666666
+        },
+        {
+          "lower": 70,
+          "upper": 79,
+          "n": 18,
+          "mean_confidence": 70.0,
+          "observed_accuracy": 0.2222222222222222
+        },
+        {
+          "lower": 80,
+          "upper": 89,
+          "n": 8,
+          "mean_confidence": 82.5,
+          "observed_accuracy": 0.25
+        },
+        {
+          "lower": 90,
+          "upper": 99,
+          "n": 212,
+          "mean_confidence": 98.77358490566037,
+          "observed_accuracy": 0.7264150943396226
+        }
+      ],
+      "resolution": 0.03170517263509177
+    }
+  },
+  "by_category": {
+    "easy_verifiable": {
+      "n": 56,
+      "answer_parse_coverage": 56,
+      "confidence_coverage": 56,
+      "wager_coverage": 56,
+      "accuracy": 0.75,
+      "answer_accuracy": 0.75,
+      "confidence_brier_coverage": 42,
+      "mean_brier": 0.011964285714285715,
+      "decision_confidence_coverage": 56,
+      "decision_brier_coverage": 56,
+      "mean_decision_brier": 0.17609642857142857,
+      "mean_decision_confidence": 92.46428571428571,
+      "mean_confidence": 97.5,
+      "mean_reported_confidence": 77.51785714285714,
+      "abstention_count": 14,
+      "abstention_rate": 0.25,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": 0.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 7.875,
+      "mean_wager_payoff": 6.589285714285714,
+      "outcomes": {
+        "6": 4,
+        "1": 4,
+        "2": 4,
+        "7": 4,
+        "8": 4,
+        "11": 4,
+        "14": 4,
+        "20": 4,
+        "26": 4,
+        "79": 4,
+        "Abstain": 14,
+        "July 4, 1776": 1,
+        "April 17, 1903": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 42,
+        "base_accuracy": 1.0,
+        "bins": [
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 2,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 40,
+            "mean_confidence": 99.875,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 56,
+        "base_accuracy": 0.75,
+        "bins": [
+          {
+            "lower": 30,
+            "upper": 39,
+            "n": 1,
+            "mean_confidence": 33.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 7,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 0.2857142857142857
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 48,
+            "mean_confidence": 99.89583333333333,
+            "observed_accuracy": 0.8333333333333334
+          }
+        ],
+        "resolution": 0.042942176870748305
+      }
+    },
+    "false_premise": {
+      "n": 40,
+      "answer_parse_coverage": 40,
+      "confidence_coverage": 40,
+      "wager_coverage": 40,
+      "accuracy": 0.425,
+      "answer_accuracy": 0.0,
+      "confidence_brier_coverage": 23,
+      "mean_brier": 0.9218478260869566,
+      "decision_confidence_coverage": 40,
+      "decision_brier_coverage": 40,
+      "mean_decision_brier": 0.5300625,
+      "mean_decision_confidence": 97.625,
+      "mean_confidence": 95.8695652173913,
+      "mean_reported_confidence": 57.625,
+      "abstention_count": 17,
+      "abstention_rate": 0.425,
+      "appropriate_abstention_count": 17,
+      "abstention_appropriateness": 1.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 4.625,
+      "mean_wager_payoff": -4.125,
+      "outcomes": {
+        "1921": 4,
+        "Abstain": 17,
+        "Benjamin Franklin": 1,
+        "Michael Faraday": 2,
+        "1609": 4,
+        "April 15, 1861": 1,
+        "July 4, 1776": 3,
+        "1903": 4,
+        "1969": 4
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 23,
+        "base_accuracy": 0.0,
+        "bins": [
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 1,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 22,
+            "mean_confidence": 96.5909090909091,
+            "observed_accuracy": 0.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 40,
+        "base_accuracy": 0.425,
+        "bins": [
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 1,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 39,
+            "mean_confidence": 98.07692307692308,
+            "observed_accuracy": 0.4358974358974359
+          }
+        ],
+        "resolution": 0.004631410256410257
+      }
+    },
+    "hard_edge": {
+      "n": 64,
+      "answer_parse_coverage": 64,
+      "confidence_coverage": 64,
+      "wager_coverage": 64,
+      "accuracy": 0.5625,
+      "answer_accuracy": 0.5625,
+      "confidence_brier_coverage": 59,
+      "mean_brier": 0.2986440677966102,
+      "decision_confidence_coverage": 64,
+      "decision_brier_coverage": 64,
+      "mean_decision_brier": 0.3900390625,
+      "mean_decision_confidence": 94.140625,
+      "mean_confidence": 88.98305084745763,
+      "mean_reported_confidence": 84.375,
+      "abstention_count": 5,
+      "abstention_rate": 0.078125,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": 0.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 6.71875,
+      "mean_wager_payoff": 1.875,
+      "outcomes": {
+        "57": 4,
+        "13:32": 4,
+        "65": 4,
+        "67": 4,
+        "70": 4,
+        "71": 4,
+        "73": 4,
+        "14:32": 2,
+        "14:32 UTC": 2,
+        "09:11 UTC": 3,
+        "09:31 UTC": 1,
+        "10:33 UTC": 3,
+        "21:30 UTC": 1,
+        "June 7, 1776": 3,
+        "July 2, 1776": 1,
+        "STS-31": 4,
+        "all non-avian dinosaurs": 3,
+        "All non-avian dinosaurs": 1,
+        "Abstain": 5,
+        "8:12 AM": 3,
+        "Bicycle repair and manufacturing": 3,
+        "Bicycle repair and sales": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 59,
+        "base_accuracy": 0.6101694915254238,
+        "bins": [
+          {
+            "lower": 0,
+            "upper": 9,
+            "n": 4,
+            "mean_confidence": 0.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 2,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 53,
+            "mean_confidence": 96.41509433962264,
+            "observed_accuracy": 0.6415094339622641
+          }
+        ],
+        "resolution": 0.03127489931867334
+      },
+      "decision_calibration": {
+        "n": 64,
+        "base_accuracy": 0.5625,
+        "bins": [
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 5,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.4
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 4,
+            "mean_confidence": 85.0,
+            "observed_accuracy": 0.5
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 55,
+            "mean_confidence": 97.0,
+            "observed_accuracy": 0.5818181818181818
+          }
+        ],
+        "resolution": 0.0026278409090909074
+      }
+    },
+    "medium_factual": {
+      "n": 100,
+      "answer_parse_coverage": 100,
+      "confidence_coverage": 100,
+      "wager_coverage": 100,
+      "accuracy": 0.69,
+      "answer_accuracy": 0.69,
+      "confidence_brier_coverage": 80,
+      "mean_brier": 0.13865624999999998,
+      "decision_confidence_coverage": 100,
+      "decision_brier_coverage": 100,
+      "mean_decision_brier": 0.156625,
+      "mean_decision_confidence": 85.15,
+      "mean_confidence": 92.0625,
+      "mean_reported_confidence": 81.88,
+      "abstention_count": 20,
+      "abstention_rate": 0.2,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": 0.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 8.26,
+      "mean_wager_payoff": 4.7,
+      "outcomes": {
+        "1905": 4,
+        "1848": 4,
+        "1787": 4,
+        "1776": 4,
+        "1783": 4,
+        "1945": 4,
+        "1968": 4,
+        "1969": 4,
+        "1970": 4,
+        "1971": 8,
+        "1972": 8,
+        "1911": 4,
+        "1962": 4,
+        "51 delegates eventually signed the engrossed Declaration of Independence.": 3,
+        "51": 1,
+        "Abstain": 20,
+        "Discovery": 1,
+        "Atlantis": 3,
+        "July 25, 1990": 4,
+        "Approximately 66 million years ago.": 2,
+        "57 people died in the May 18, 1980 Mount St. Helens eruption.": 1,
+        "Orville Wright": 4,
+        "Kitty Hawk": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 80,
+        "base_accuracy": 0.8625,
+        "bins": [
+          {
+            "lower": 0,
+            "upper": 9,
+            "n": 1,
+            "mean_confidence": 0.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 30,
+            "upper": 39,
+            "n": 1,
+            "mean_confidence": 30.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 6,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 3,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 3,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 66,
+            "mean_confidence": 99.77272727272727,
+            "observed_accuracy": 0.9242424242424242
+          }
+        ],
+        "resolution": 0.06082859848484848
+      },
+      "decision_calibration": {
+        "n": 100,
+        "base_accuracy": 0.69,
+        "bins": [
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 24,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 0.2916666666666667
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 7,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.14285714285714285
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 3,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 66,
+            "mean_confidence": 99.77272727272727,
+            "observed_accuracy": 0.9242424242424242
+          }
+        ],
+        "resolution": 0.10953311688311687
+      }
+    },
+    "unanswerable": {
+      "n": 20,
+      "answer_parse_coverage": 20,
+      "confidence_coverage": 20,
+      "wager_coverage": 20,
+      "accuracy": 0.7,
+      "answer_accuracy": 0.7,
+      "confidence_brier_coverage": 6,
+      "mean_brier": 0.46833333333333327,
+      "decision_confidence_coverage": 20,
+      "decision_brier_coverage": 20,
+      "mean_decision_brier": 0.3235,
+      "mean_decision_confidence": 62.5,
+      "mean_confidence": 68.33333333333333,
+      "mean_reported_confidence": 36.5,
+      "abstention_count": 14,
+      "abstention_rate": 0.7,
+      "appropriate_abstention_count": 14,
+      "abstention_appropriateness": 1.0,
+      "unanswerable_count": 20,
+      "unanswerable_abstention_recall": 0.7,
+      "mean_wager": 3.0,
+      "mean_wager_payoff": 0.0,
+      "outcomes": {
+        "Abstain": 12,
+        "Blue": 4,
+        "No definitive information on Homer's favorite food is available.": 1,
+        "No definitive information on Homer's favorite food is known.": 1,
+        "Unknown, but likely barley or bread, common in ancient Greece.": 1,
+        "Unknown, but likely a simple dish like bread or olive oil, common in ancient Greece.": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 6,
+        "base_accuracy": 0.0,
+        "bins": [
+          {
+            "lower": 60,
+            "upper": 69,
+            "n": 1,
+            "mean_confidence": 60.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 5,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 20,
+        "base_accuracy": 0.7,
+        "bins": [
+          {
+            "lower": 0,
+            "upper": 9,
+            "n": 2,
+            "mean_confidence": 0.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 5,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 60,
+            "upper": 69,
+            "n": 3,
+            "mean_confidence": 60.0,
+            "observed_accuracy": 0.6666666666666666
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 6,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.16666666666666666
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 4,
+            "mean_confidence": 100.0,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.135
+      }
+    }
+  },
+  "by_family": {
+    "chemistry_elements": {
+      "n": 64,
+      "answer_parse_coverage": 64,
+      "confidence_coverage": 64,
+      "wager_coverage": 64,
+      "accuracy": 0.875,
+      "answer_accuracy": 0.875,
+      "confidence_brier_coverage": 64,
+      "mean_brier": 0.0625390625,
+      "decision_confidence_coverage": 64,
+      "decision_brier_coverage": 64,
+      "mean_decision_brier": 0.1250390625,
+      "mean_decision_confidence": 99.921875,
+      "mean_confidence": 93.671875,
+      "mean_reported_confidence": 93.671875,
+      "abstention_count": 0,
+      "abstention_rate": 0.0,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": null,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 9.609375,
+      "mean_wager_payoff": 7.734375,
+      "outcomes": {
+        "6": 4,
+        "57": 4,
+        "1": 4,
+        "2": 4,
+        "7": 4,
+        "8": 4,
+        "11": 4,
+        "14": 4,
+        "20": 4,
+        "26": 4,
+        "79": 4,
+        "65": 4,
+        "67": 4,
+        "70": 4,
+        "71": 4,
+        "73": 4
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 64,
+        "base_accuracy": 0.875,
+        "bins": [
+          {
+            "lower": 0,
+            "upper": 9,
+            "n": 4,
+            "mean_confidence": 0.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 60,
+            "mean_confidence": 99.91666666666667,
+            "observed_accuracy": 0.9333333333333333
+          }
+        ],
+        "resolution": 0.051041666666666666
+      },
+      "decision_calibration": {
+        "n": 64,
+        "base_accuracy": 0.875,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 64,
+            "mean_confidence": 99.921875,
+            "observed_accuracy": 0.875
+          }
+        ],
+        "resolution": 0.0
+      }
+    },
+    "common_myths": {
+      "n": 4,
+      "answer_parse_coverage": 4,
+      "confidence_coverage": 4,
+      "wager_coverage": 4,
+      "accuracy": 0.0,
+      "answer_accuracy": 0.0,
+      "confidence_brier_coverage": 4,
+      "mean_brier": 0.7675000000000001,
+      "decision_confidence_coverage": 4,
+      "decision_brier_coverage": 4,
+      "mean_decision_brier": 0.7675000000000001,
+      "mean_decision_confidence": 87.5,
+      "mean_confidence": 87.5,
+      "mean_reported_confidence": 87.5,
+      "abstention_count": 0,
+      "abstention_rate": 0.0,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": null,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 5.0,
+      "mean_wager_payoff": -5.0,
+      "outcomes": {
+        "1969": 4
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 4,
+        "base_accuracy": 0.0,
+        "bins": [
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 1,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 3,
+            "mean_confidence": 90.0,
+            "observed_accuracy": 0.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 4,
+        "base_accuracy": 0.0,
+        "bins": [
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 1,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 3,
+            "mean_confidence": 90.0,
+            "observed_accuracy": 0.0
+          }
+        ],
+        "resolution": 0.0
+      }
+    },
+    "cretaceous_extinction": {
+      "n": 16,
+      "answer_parse_coverage": 16,
+      "confidence_coverage": 16,
+      "wager_coverage": 16,
+      "accuracy": 0.375,
+      "answer_accuracy": 0.375,
+      "confidence_brier_coverage": 6,
+      "mean_brier": 0.08375,
+      "decision_confidence_coverage": 16,
+      "decision_brier_coverage": 16,
+      "mean_decision_brier": 0.188125,
+      "mean_decision_confidence": 61.875,
+      "mean_confidence": 82.5,
+      "mean_reported_confidence": 57.1875,
+      "abstention_count": 10,
+      "abstention_rate": 0.625,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": 0.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 5.8125,
+      "mean_wager_payoff": -0.1875,
+      "outcomes": {
+        "Approximately 66 million years ago.": 2,
+        "Abstain": 10,
+        "all non-avian dinosaurs": 3,
+        "All non-avian dinosaurs": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 6,
+        "base_accuracy": 1.0,
+        "bins": [
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 2,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 4,
+            "mean_confidence": 98.75,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 16,
+        "base_accuracy": 0.375,
+        "bins": [
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 12,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 0.16666666666666666
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 4,
+            "mean_confidence": 97.5,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.13020833333333334
+      }
+    },
+    "early_aviation": {
+      "n": 16,
+      "answer_parse_coverage": 16,
+      "confidence_coverage": 16,
+      "wager_coverage": 16,
+      "accuracy": 0.625,
+      "answer_accuracy": 0.625,
+      "confidence_brier_coverage": 10,
+      "mean_brier": 0.1765,
+      "decision_confidence_coverage": 16,
+      "decision_brier_coverage": 16,
+      "mean_decision_brier": 0.18274375,
+      "mean_decision_confidence": 58.3125,
+      "mean_confidence": 65.0,
+      "mean_reported_confidence": 52.25,
+      "abstention_count": 6,
+      "abstention_rate": 0.375,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": 0.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 4.625,
+      "mean_wager_payoff": 1.375,
+      "outcomes": {
+        "Abstain": 6,
+        "April 17, 1903": 1,
+        "Orville Wright": 4,
+        "Kitty Hawk": 1,
+        "Bicycle repair and manufacturing": 3,
+        "Bicycle repair and sales": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 10,
+        "base_accuracy": 1.0,
+        "bins": [
+          {
+            "lower": 30,
+            "upper": 39,
+            "n": 1,
+            "mean_confidence": 30.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 5,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 4,
+            "mean_confidence": 92.5,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 16,
+        "base_accuracy": 0.625,
+        "bins": [
+          {
+            "lower": 30,
+            "upper": 39,
+            "n": 1,
+            "mean_confidence": 33.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 11,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 0.5454545454545454
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 2,
+            "mean_confidence": 85.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 2,
+            "mean_confidence": 90.0,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.06392045454545454
+      }
+    },
+    "historical_unknowns": {
+      "n": 20,
+      "answer_parse_coverage": 20,
+      "confidence_coverage": 20,
+      "wager_coverage": 20,
+      "accuracy": 0.7,
+      "answer_accuracy": 0.7,
+      "confidence_brier_coverage": 6,
+      "mean_brier": 0.46833333333333327,
+      "decision_confidence_coverage": 20,
+      "decision_brier_coverage": 20,
+      "mean_decision_brier": 0.3235,
+      "mean_decision_confidence": 62.5,
+      "mean_confidence": 68.33333333333333,
+      "mean_reported_confidence": 36.5,
+      "abstention_count": 14,
+      "abstention_rate": 0.7,
+      "appropriate_abstention_count": 14,
+      "abstention_appropriateness": 1.0,
+      "unanswerable_count": 20,
+      "unanswerable_abstention_recall": 0.7,
+      "mean_wager": 3.0,
+      "mean_wager_payoff": 0.0,
+      "outcomes": {
+        "Abstain": 12,
+        "Blue": 4,
+        "No definitive information on Homer's favorite food is available.": 1,
+        "No definitive information on Homer's favorite food is known.": 1,
+        "Unknown, but likely barley or bread, common in ancient Greece.": 1,
+        "Unknown, but likely a simple dish like bread or olive oil, common in ancient Greece.": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 6,
+        "base_accuracy": 0.0,
+        "bins": [
+          {
+            "lower": 60,
+            "upper": 69,
+            "n": 1,
+            "mean_confidence": 60.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 5,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 20,
+        "base_accuracy": 0.7,
+        "bins": [
+          {
+            "lower": 0,
+            "upper": 9,
+            "n": 2,
+            "mean_confidence": 0.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 5,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 60,
+            "upper": 69,
+            "n": 3,
+            "mean_confidence": 60.0,
+            "observed_accuracy": 0.6666666666666666
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 6,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.16666666666666666
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 4,
+            "mean_confidence": 100.0,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.135
+      }
+    },
+    "history_of_science": {
+      "n": 8,
+      "answer_parse_coverage": 8,
+      "confidence_coverage": 8,
+      "wager_coverage": 8,
+      "accuracy": 0.125,
+      "answer_accuracy": 0.0,
+      "confidence_brier_coverage": 7,
+      "mean_brier": 0.89,
+      "decision_confidence_coverage": 8,
+      "decision_brier_coverage": 8,
+      "mean_decision_brier": 0.77875,
+      "mean_decision_confidence": 95.0,
+      "mean_confidence": 94.28571428571429,
+      "mean_reported_confidence": 95.0,
+      "abstention_count": 1,
+      "abstention_rate": 0.125,
+      "appropriate_abstention_count": 1,
+      "abstention_appropriateness": 1.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 6.25,
+      "mean_wager_payoff": -3.75,
+      "outcomes": {
+        "Abstain": 1,
+        "Benjamin Franklin": 1,
+        "Michael Faraday": 2,
+        "1609": 4
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 7,
+        "base_accuracy": 0.0,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 7,
+            "mean_confidence": 94.28571428571429,
+            "observed_accuracy": 0.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 8,
+        "base_accuracy": 0.125,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 8,
+            "mean_confidence": 95.0,
+            "observed_accuracy": 0.125
+          }
+        ],
+        "resolution": 0.0
+      }
+    },
+    "international_history": {
+      "n": 4,
+      "answer_parse_coverage": 4,
+      "confidence_coverage": 4,
+      "wager_coverage": 4,
+      "accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "confidence_brier_coverage": 4,
+      "mean_brier": 0.0,
+      "decision_confidence_coverage": 4,
+      "decision_brier_coverage": 4,
+      "mean_decision_brier": 0.0,
+      "mean_decision_confidence": 100.0,
+      "mean_confidence": 100.0,
+      "mean_reported_confidence": 100.0,
+      "abstention_count": 0,
+      "abstention_rate": 0.0,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": null,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 10.0,
+      "mean_wager_payoff": 10.0,
+      "outcomes": {
+        "1945": 4
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 4,
+        "base_accuracy": 1.0,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 4,
+            "mean_confidence": 100.0,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 4,
+        "base_accuracy": 1.0,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 4,
+            "mean_confidence": 100.0,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.0
+      }
+    },
+    "nobel_history": {
+      "n": 24,
+      "answer_parse_coverage": 24,
+      "confidence_coverage": 24,
+      "wager_coverage": 24,
+      "accuracy": 0.6666666666666666,
+      "answer_accuracy": 0.3333333333333333,
+      "confidence_brier_coverage": 16,
+      "mean_brier": 0.49390625,
+      "decision_confidence_coverage": 24,
+      "decision_brier_coverage": 24,
+      "mean_decision_brier": 0.32927083333333335,
+      "mean_decision_confidence": 99.79166666666667,
+      "mean_confidence": 99.6875,
+      "mean_reported_confidence": 66.45833333333333,
+      "abstention_count": 8,
+      "abstention_rate": 0.3333333333333333,
+      "appropriate_abstention_count": 8,
+      "abstention_appropriateness": 1.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 6.458333333333333,
+      "mean_wager_payoff": 0.20833333333333334,
+      "outcomes": {
+        "1921": 4,
+        "1911": 4,
+        "1962": 4,
+        "Abstain": 8,
+        "1903": 4
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 16,
+        "base_accuracy": 0.5,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 16,
+            "mean_confidence": 99.6875,
+            "observed_accuracy": 0.5
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 24,
+        "base_accuracy": 0.6666666666666666,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 24,
+            "mean_confidence": 99.79166666666667,
+            "observed_accuracy": 0.6666666666666666
+          }
+        ],
+        "resolution": 0.0
+      }
+    },
+    "space_telescope_history": {
+      "n": 16,
+      "answer_parse_coverage": 16,
+      "confidence_coverage": 16,
+      "wager_coverage": 16,
+      "accuracy": 0.3125,
+      "answer_accuracy": 0.3125,
+      "confidence_brier_coverage": 12,
+      "mean_brier": 0.4622916666666667,
+      "decision_confidence_coverage": 16,
+      "decision_brier_coverage": 16,
+      "mean_decision_brier": 0.59671875,
+      "mean_decision_confidence": 92.8125,
+      "mean_confidence": 90.41666666666667,
+      "mean_reported_confidence": 67.8125,
+      "abstention_count": 4,
+      "abstention_rate": 0.25,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": 0.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 5.625,
+      "mean_wager_payoff": -1.875,
+      "outcomes": {
+        "Abstain": 4,
+        "Discovery": 1,
+        "Atlantis": 3,
+        "STS-31": 4,
+        "July 25, 1990": 4
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 12,
+        "base_accuracy": 0.4166666666666667,
+        "bins": [
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 2,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 1,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 9,
+            "mean_confidence": 96.11111111111111,
+            "observed_accuracy": 0.5555555555555556
+          }
+        ],
+        "resolution": 0.05787037037037038
+      },
+      "decision_calibration": {
+        "n": 16,
+        "base_accuracy": 0.3125,
+        "bins": [
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 2,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 1,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 13,
+            "mean_confidence": 97.3076923076923,
+            "observed_accuracy": 0.38461538461538464
+          }
+        ],
+        "resolution": 0.022536057692307696
+      }
+    },
+    "spaceflight_history": {
+      "n": 52,
+      "answer_parse_coverage": 52,
+      "confidence_coverage": 52,
+      "wager_coverage": 52,
+      "accuracy": 0.7692307692307693,
+      "answer_accuracy": 0.6153846153846154,
+      "confidence_brier_coverage": 44,
+      "mean_brier": 0.24857954545454544,
+      "decision_confidence_coverage": 52,
+      "decision_brier_coverage": 52,
+      "mean_decision_brier": 0.21033653846153846,
+      "mean_decision_confidence": 98.5576923076923,
+      "mean_confidence": 98.29545454545455,
+      "mean_reported_confidence": 83.17307692307692,
+      "abstention_count": 8,
+      "abstention_rate": 0.15384615384615385,
+      "appropriate_abstention_count": 8,
+      "abstention_appropriateness": 1.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 7.019230769230769,
+      "mean_wager_payoff": 4.519230769230769,
+      "outcomes": {
+        "13:32": 4,
+        "1968": 4,
+        "1969": 4,
+        "1970": 4,
+        "1971": 8,
+        "1972": 8,
+        "14:32": 2,
+        "14:32 UTC": 2,
+        "09:11 UTC": 3,
+        "09:31 UTC": 1,
+        "10:33 UTC": 3,
+        "21:30 UTC": 1,
+        "Abstain": 8
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 44,
+        "base_accuracy": 0.7272727272727273,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 44,
+            "mean_confidence": 98.29545454545455,
+            "observed_accuracy": 0.7272727272727273
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 52,
+        "base_accuracy": 0.7692307692307693,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 52,
+            "mean_confidence": 98.5576923076923,
+            "observed_accuracy": 0.7692307692307693
+          }
+        ],
+        "resolution": 0.0
+      }
+    },
+    "treaty_dates": {
+      "n": 12,
+      "answer_parse_coverage": 12,
+      "confidence_coverage": 12,
+      "wager_coverage": 12,
+      "accuracy": 1.0,
+      "answer_accuracy": 1.0,
+      "confidence_brier_coverage": 12,
+      "mean_brier": 0.0,
+      "decision_confidence_coverage": 12,
+      "decision_brier_coverage": 12,
+      "mean_decision_brier": 0.0,
+      "mean_decision_confidence": 100.0,
+      "mean_confidence": 100.0,
+      "mean_reported_confidence": 100.0,
+      "abstention_count": 0,
+      "abstention_rate": 0.0,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": null,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 10.0,
+      "mean_wager_payoff": 10.0,
+      "outcomes": {
+        "1905": 4,
+        "1848": 4,
+        "1783": 4
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 12,
+        "base_accuracy": 1.0,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 12,
+            "mean_confidence": 100.0,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 12,
+        "base_accuracy": 1.0,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 12,
+            "mean_confidence": 100.0,
+            "observed_accuracy": 1.0
+          }
+        ],
+        "resolution": 0.0
+      }
+    },
+    "us_founding_documents": {
+      "n": 16,
+      "answer_parse_coverage": 16,
+      "confidence_coverage": 16,
+      "wager_coverage": 16,
+      "accuracy": 0.3125,
+      "answer_accuracy": 0.3125,
+      "confidence_brier_coverage": 9,
+      "mean_brier": 0.33666666666666667,
+      "decision_confidence_coverage": 16,
+      "decision_brier_coverage": 16,
+      "mean_decision_brier": 0.34375,
+      "mean_decision_confidence": 68.75,
+      "mean_confidence": 76.66666666666667,
+      "mean_reported_confidence": 63.9375,
+      "abstention_count": 7,
+      "abstention_rate": 0.4375,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": 0.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 5.3125,
+      "mean_wager_payoff": -2.1875,
+      "outcomes": {
+        "Abstain": 7,
+        "July 4, 1776": 1,
+        "51 delegates eventually signed the engrossed Declaration of Independence.": 3,
+        "51": 1,
+        "June 7, 1776": 3,
+        "July 2, 1776": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 9,
+        "base_accuracy": 0.5555555555555556,
+        "bins": [
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 1,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 3,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.6666666666666666
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 2,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 3,
+            "mean_confidence": 90.0,
+            "observed_accuracy": 0.6666666666666666
+          }
+        ],
+        "resolution": 0.09876543209876543
+      },
+      "decision_calibration": {
+        "n": 16,
+        "base_accuracy": 0.3125,
+        "bins": [
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 5,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 0.2
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 6,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.3333333333333333
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 2,
+            "mean_confidence": 80.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 3,
+            "mean_confidence": 90.0,
+            "observed_accuracy": 0.6666666666666666
+          }
+        ],
+        "resolution": 0.03984375
+      }
+    },
+    "us_history": {
+      "n": 12,
+      "answer_parse_coverage": 12,
+      "confidence_coverage": 12,
+      "wager_coverage": 12,
+      "accuracy": 0.6666666666666666,
+      "answer_accuracy": 0.6666666666666666,
+      "confidence_brier_coverage": 12,
+      "mean_brier": 0.3333333333333333,
+      "decision_confidence_coverage": 12,
+      "decision_brier_coverage": 12,
+      "mean_decision_brier": 0.3333333333333333,
+      "mean_decision_confidence": 100.0,
+      "mean_confidence": 100.0,
+      "mean_reported_confidence": 100.0,
+      "abstention_count": 0,
+      "abstention_rate": 0.0,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": null,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 10.0,
+      "mean_wager_payoff": 3.3333333333333335,
+      "outcomes": {
+        "1787": 4,
+        "1776": 4,
+        "April 15, 1861": 1,
+        "July 4, 1776": 3
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 12,
+        "base_accuracy": 0.6666666666666666,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 12,
+            "mean_confidence": 100.0,
+            "observed_accuracy": 0.6666666666666666
+          }
+        ],
+        "resolution": 0.0
+      },
+      "decision_calibration": {
+        "n": 12,
+        "base_accuracy": 0.6666666666666666,
+        "bins": [
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 12,
+            "mean_confidence": 100.0,
+            "observed_accuracy": 0.6666666666666666
+          }
+        ],
+        "resolution": 0.0
+      }
+    },
+    "volcanic_eruptions": {
+      "n": 16,
+      "answer_parse_coverage": 16,
+      "confidence_coverage": 16,
+      "wager_coverage": 16,
+      "accuracy": 0.0625,
+      "answer_accuracy": 0.0625,
+      "confidence_brier_coverage": 4,
+      "mean_brier": 0.8575,
+      "decision_confidence_coverage": 16,
+      "decision_brier_coverage": 16,
+      "mean_decision_brier": 0.6603125,
+      "mean_decision_confidence": 80.625,
+      "mean_confidence": 67.5,
+      "mean_reported_confidence": 34.375,
+      "abstention_count": 12,
+      "abstention_rate": 0.75,
+      "appropriate_abstention_count": 0,
+      "abstention_appropriateness": 0.0,
+      "unanswerable_count": 0,
+      "unanswerable_abstention_recall": null,
+      "mean_wager": 3.4375,
+      "mean_wager_payoff": -2.8125,
+      "outcomes": {
+        "Abstain": 12,
+        "8:12 AM": 3,
+        "57 people died in the May 18, 1980 Mount St. Helens eruption.": 1
+      },
+      "parse_failures": 0,
+      "calibration": {
+        "n": 4,
+        "base_accuracy": 0.25,
+        "bins": [
+          {
+            "lower": 0,
+            "upper": 9,
+            "n": 1,
+            "mean_confidence": 0.0,
+            "observed_accuracy": 1.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 3,
+            "mean_confidence": 90.0,
+            "observed_accuracy": 0.0
+          }
+        ],
+        "resolution": 0.1875
+      },
+      "decision_calibration": {
+        "n": 16,
+        "base_accuracy": 0.0625,
+        "bins": [
+          {
+            "lower": 50,
+            "upper": 59,
+            "n": 3,
+            "mean_confidence": 50.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 70,
+            "upper": 79,
+            "n": 4,
+            "mean_confidence": 70.0,
+            "observed_accuracy": 0.25
+          },
+          {
+            "lower": 80,
+            "upper": 89,
+            "n": 2,
+            "mean_confidence": 85.0,
+            "observed_accuracy": 0.0
+          },
+          {
+            "lower": 90,
+            "upper": 99,
+            "n": 7,
+            "mean_confidence": 98.57142857142857,
+            "observed_accuracy": 0.0
+          }
+        ],
+        "resolution": 0.01171875
+      }
+    }
+  },
+  "interpretation": "Development bank only. Each sample receives the same standalone prompt at the selected evidence stage. Answer-confidence Brier covers factual-answer attempts; decision-confidence Brier scores the full decision, including abstentions. Decision accuracy and wager payoff count abstention as correct on unanswerable and false-premise items. Factual answer matching uses declared aliases and simple normalized substring matching.",
+  "performance": {
+    "generation_seconds": 598.8644805288641,
+    "extraction_seconds": 56.91613620414864,
+    "generated_tokens": 12683,
+    "responses": 280,
+    "token_limit_hits": 0,
+    "last_batch_token_limit_hits": [
+      0
+    ]
+  }
+}
