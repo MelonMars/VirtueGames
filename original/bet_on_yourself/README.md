@@ -16,6 +16,36 @@ recorded model checkpoint. See the multiturn README for the command and
 storage notes. These activations are inputs for later contrastive direction
 analysis; they do not by themselves produce or validate a steering direction.
 
+## Calibration direction milestone
+
+First create a single-turn run with activation capture enabled:
+
+```sh
+python original/bet_on_yourself/singleturn/run.py --backend transformers \
+  --model MODEL --device cuda --thinking off --stage 0 \
+  --n-samples 4 --temperature 0.7 --extract-activations
+```
+
+On a single-turn activation run, `analyze_calibration.py` fits all-layer
+candidate axes from training-family activations and signed confidence error,
+ranks them by correlation on separate validation families, and reserves test
+families. `steer_calibration.py` then sweeps only those selected candidates on
+the reserved families, reporting paired answer/decision Brier changes, answer
+and decision accuracy, abstention, and per-family results.
+
+```sh
+python original/bet_on_yourself/analyze_calibration.py PATH/TO/RUN --top-k 2
+python original/bet_on_yourself/steer_calibration.py PATH/TO/RUN \
+  --analysis-dir PATH/TO/RUN/calibration_analysis \
+  --alphas=-4,-2,-1,0,1,2,4
+```
+
+This is family-held-out candidate screening within a development bank, not a
+final untouched benchmark. The sweep re-generates the reserved items with
+paired seeds and checks that zero-strength steering reproduces the unsteered
+output. Treat a lower Brier score as useful only if accuracy and abstention
+also remain acceptable.
+
 ## Question
 
 Does the model's stated confidence—and, if used, its wager—track the probability

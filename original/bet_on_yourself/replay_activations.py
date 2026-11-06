@@ -6,9 +6,13 @@ but were originally generated without --extract-activations.
 import argparse
 import json
 from pathlib import Path
+import sys
 from types import SimpleNamespace
 
 from tqdm import tqdm
+
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from runs import read_jsonl, write_json
 from transformers_backend import TransformersModel

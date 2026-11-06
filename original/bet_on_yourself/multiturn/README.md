@@ -68,7 +68,8 @@ small set of shared semantic positions. It adds a teacher-forced forward pass
 for each response. Override `--activation-layers`, `--activation-types`, or
 `--activation-positions` when you intentionally want a different capture. The
 two saved positions are listed in `activations/index.jsonl` in answer-then-
-decision confidence order.
+decision confidence order. For single-turn candidate discovery and a
+held-out-family steering sweep, see the [calibration direction workflow](../README.md#calibration-direction-milestone).
 Run outputs are placed under
 `original/bet_on_yourself/multiturn/runs/run-NN/` by default. The bank and
 protocol need an independent audit and family-level train/development/test

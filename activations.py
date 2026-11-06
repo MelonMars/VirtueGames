@@ -207,8 +207,11 @@ class ActivationRecorder:
                           answer_token_index=answer_token_index,
                           skip_reason="answer_token_not_found" if answer_token_index is None else None)
         if confidence_token_indices is not None:
+            confidence_slots = [slot for slot, index in enumerate(confidence_token_indices)
+                                if index is not None]
             record.update(position_selection=self.config.activation_positions,
                           confidence_token_indices=confidence_token_indices,
+                          confidence_slots=confidence_slots,
                           skip_reason=("confidence_fields_not_found"
                                        if not any(i is not None for i in confidence_token_indices) else None))
         with (self.directory / "index.jsonl").open('a', encoding='utf-8') as stream:
