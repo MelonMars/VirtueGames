@@ -36,7 +36,11 @@ def run(args):
         raise ValueError('Direction provenance mismatch')
     if any(i not in splits or splits[i][1]!='train' for i in trained):
         raise ValueError('Direction includes non-training items')
-    items=[q for q in bank if q['split']==args.split]
+    interventions = [x for x in args.interventions.split(',') if x] or source.get('selected_interventions', [])
+    trained_interventions = json.loads(metadata.get('interventions', '[]'))
+    if trained_interventions and not set(interventions) <= set(trained_interventions):
+        raise ValueError('Held-out intervention filter differs from direction provenance')
+    items=[q for q in bank if q['split']==args.split and q['intervention'] in interventions]
     if not items or {splits[i][0] for i in trained} & {q['split_group'] for q in items}:
         raise ValueError('Missing held-out items or family leakage')
     hook=f'blocks.{args.layer}.hook_resid_post'
@@ -54,7 +58,7 @@ def run(args):
     out=next_run_dir(args.out or args.run_dir / 'steering_check')
     plan=dict(scoring_version=SCORING_VERSION, support_coordinates=SUPPORT_COORDINATES, source_config_hash=source['config_hash'], split_hash=source['split_hash'],
         direction=str(args.direction.resolve()), direction_sha256=hashlib.sha256(args.direction.read_bytes()).hexdigest(),
-        split=args.split, held_out_ids=[q['id'] for q in items], alphas=alphas, hook=hook, slot=args.slot,
+        split=args.split, held_out_ids=[q['id'] for q in items], interventions=interventions, alphas=alphas, hook=hook, slot=args.slot,
         seed_policy='base_seed for every paired intervention; deterministic temperature 0', scaling='raw', site='decode')
     write_json(out / 'config.json',plan)
     write_json(out / 'status.json',dict(status='running',started=utc_now()))
@@ -95,7 +99,7 @@ def run(args):
     return out
 
 
-if __name__ == '__main__':
+def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('run_dir',type=Path)
     p.add_argument('direction',type=Path)
@@ -103,6 +107,11 @@ if __name__ == '__main__':
     p.add_argument('--slot',type=int,choices=(0,1),default=1)
     p.add_argument('--alphas',default='-1,-0.5,0,0.5,1')
     p.add_argument('--split',choices=('val','test'),default='val')
+    p.add_argument('--interventions',default='',help='Comma-separated intervention names; defaults to source run selection')
     p.add_argument('--device',choices=('auto','cpu','cuda'),default='auto')
     p.add_argument('--out',type=Path)
-    print(run(p.parse_args()))
+    print(run(p.parse_args(argv)))
+
+
+if __name__ == '__main__':
+    main()

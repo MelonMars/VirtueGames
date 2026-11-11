@@ -10,7 +10,7 @@ from runs import read_jsonl, write_json
 from evidence.protocol import PROTOCOL, load_bank, digest
 
 
-def analyze(run_dir, *, variant='posterior'):
+def analyze(run_dir, *, variant='posterior', interventions=None, negatives=None):
     import torch
     from safetensors.torch import load_file, save_file
     run_dir = Path(run_dir)
@@ -27,8 +27,14 @@ def analyze(run_dir, *, variant='posterior'):
     splits = {q['id']: [q['split_group'], q['split']] for q in bank}
     if digest(splits) != config['split_hash']:
         raise ValueError('Split provenance mismatch')
+    interventions = sorted(set(interventions or config.get('selected_interventions', [])))
+    negatives = list(negatives or ('under_update','over_update'))
+    if not interventions or set(interventions) - {q['intervention'] for q in bank}:
+        raise ValueError('Select known interventions from the source run')
+    if not negatives or set(negatives) - {'under_update','over_update'}:
+        raise ValueError('Negatives must be under_update and/or over_update')
     eligible = {i['id'] for i in read_jsonl(run_dir / 'variance.jsonl') if i['contrastive'] and splits[i['id']][1]=='train'}
-    rows = [r for r in read_jsonl(run_dir / 'samples.jsonl') if r['id'] in eligible and r['scored'] and r['condition']=='neutral']
+    rows = [r for r in read_jsonl(run_dir / 'samples.jsonl') if r['id'] in eligible and r['intervention'] in interventions and r['scored'] and r['condition']=='neutral']
     index = {(r['context']['id'],r['context']['condition'],r['context']['sample']):r
              for r in read_jsonl(run_dir / 'activations/index.jsonl')}
     def state(qid, phase, sample):
@@ -51,7 +57,7 @@ def analyze(run_dir, *, variant='posterior'):
     out = run_dir / ('directions_' + variant)
     out.mkdir(exist_ok=True)
     vectors, provenance = {}, {}
-    for negative in ('under_update','over_update'):
+    for negative in negatives:
         differences = defaultdict(list)
         ids = []
         for qid, labels in per_item.items():
@@ -67,26 +73,36 @@ def analyze(run_dir, *, variant='posterior'):
         vectors[negative] = {k:torch.stack(v).mean(0) for k,v in differences.items()}
         provenance[negative] = sorted(ids)
     cosine = {}
-    for hook in vectors['under_update']:
-        a,b = vectors['under_update'][hook],vectors['over_update'][hook]
-        cosine[hook] = [None if x.norm()==0 or y.norm()==0 else float(torch.nn.functional.cosine_similarity(x,y,dim=0))
-                        for x,y in zip(a[0],b[0])]
+    if {'under_update','over_update'} <= set(vectors):
+        for hook in vectors['under_update']:
+            a,b = vectors['under_update'][hook],vectors['over_update'][hook]
+            cosine[hook] = [None if x.norm()==0 or y.norm()==0 else float(torch.nn.functional.cosine_similarity(x,y,dim=0))
+                            for x,y in zip(a[0],b[0])]
     for negative, values in vectors.items():
         save_file(values, str(out / (negative+'.safetensors')), metadata=dict(
             training_items=json.dumps(provenance[negative]), split_hash=config['split_hash'],
-            config_hash=config['config_hash'], variant=variant, scaling='raw', slots='answer-token-1,answer-token'))
+            config_hash=config['config_hash'], variant=variant, scaling='raw', slots='answer-token-1,answer-token',
+            interventions=json.dumps(interventions), negative=negative))
     answer_counts = {label: dict(Counter(r['posterior']['parsed']['answer'] for r in rows if r['label'] == label))
                      for label in ('correct_update', 'under_update', 'over_update')}
     write_json(out / 'report.json', dict(answer_counts_by_label=answer_counts, protocol=PROTOCOL, variant=variant, training_items=provenance,
-        train_groups=sorted({splits[i][0] for ids in provenance.values() for i in ids}),
+        train_groups=sorted({splits[i][0] for ids in provenance.values() for i in ids}), interventions=interventions, negatives=negatives,
         config_hash=config['config_hash'], split_hash=config['split_hash'], cosine_by_hook_and_slot=cosine,
         interpretation='Near -1 supports one signed axis; near zero supports distinct axes. Answer vocabulary and suspension frequency are confounds; geometry alone does not establish a virtue.'))
     return out
 
 
-if __name__ == '__main__':
+def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('run_dir',type=Path)
     p.add_argument('--variant',choices=('posterior','delta'),default='posterior')
-    a=p.parse_args()
-    print(analyze(a.run_dir,variant=a.variant))
+    p.add_argument('--interventions',default='',help='Comma-separated intervention names; defaults to source run selection')
+    p.add_argument('--negatives',default='under_update,over_update',help='Comma-separated contrast labels')
+    a=p.parse_args(argv)
+    interventions=[x for x in a.interventions.split(',') if x] or None
+    negatives=[x for x in a.negatives.split(',') if x]
+    print(analyze(a.run_dir,variant=a.variant,interventions=interventions,negatives=negatives))
+
+
+if __name__ == '__main__':
+    main()

@@ -35,3 +35,42 @@ The games should share a common evidence discipline and similar interaction
 shape, but the key manipulation is challenge validity. Resistance to false
 pushback and responsiveness to valid evidence are distinct outcomes and must
 remain separately reportable.
+
+## Activation steering pilot
+
+The pilot uses the shared bank and scorer in `evidence/`, selecting four
+evidence-responsive situations: `reason_removed`, `reason_replaced`,
+`opposite_evidence`, and `irrelevant`. These include justified suspension,
+preserving a belief supported by replacement evidence, warranted reversal,
+and warranted holding when the challenge is irrelevant. The runner retains the
+bank's family-disjoint train, validation, and test splits.
+
+Collect stochastic trajectories and all-layer residual activations on the GPU
+host (capture requires the Transformers backend):
+
+```sh
+python original/change_your_mind/run.py --backend transformers --model MODEL \
+  --device cuda --n-samples 8 --temperature 0.7 --seed 0 \
+  --extract-activations
+```
+
+Fit both train-only contrasts and evaluate each on validation families:
+
+```sh
+python original/change_your_mind/analyze_directions.py original/change_your_mind/runs/run-00
+python original/change_your_mind/steering_check.py \
+  original/change_your_mind/runs/run-00 \
+  original/change_your_mind/runs/run-00/directions_posterior/under_update.safetensors \
+  --layer LAYER --split val --device cuda
+python original/change_your_mind/steering_check.py \
+  original/change_your_mind/runs/run-00 \
+  original/change_your_mind/runs/run-00/directions_posterior/over_update.safetensors \
+  --layer LAYER --split val --device cuda
+```
+
+After selecting layers and alpha ranges on validation, use `--split test` once
+for the held-out result. Captures are `resid_post` at every layer in both shared
+answer-token slots. `under_update` contrasts correct judgments with clinging to
+the initial answer or revising too little; `over_update` contrasts them with
+unwarranted suspension or unsupported reversal. Directions use training
+families only.

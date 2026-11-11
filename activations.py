@@ -28,19 +28,22 @@ def answer_offsets(spec):
     return list(dict.fromkeys(result))
 
 
-def find_answer_token_index(tokenizer, full_ids, prompt_len, *, structured_choices=None):
+def find_answer_token_index(tokenizer, full_ids, prompt_len, *, structured_choices=None,
+                            structured_answer_label=None):
     """Locate a committed token; preserve the legacy locator unless opted into strict lines.
 
     The structured path selects the first token overlapping the final answer word,
     including multi-token answers such as Unknown. No prose-token fallback is used.
     """
-    if structured_choices:
+    if structured_choices or structured_answer_label:
+        answer_label = structured_answer_label or "Answer"
         suffix = [int(token) for token in full_ids[prompt_len:]]
         text = tokenizer.decode(suffix, skip_special_tokens=True)
-        choices = '|'.join(re.escape(choice) for choice in structured_choices)
+        choices = ('(' + '|'.join(re.escape(choice) for choice in structured_choices) + ')'
+                   if structured_choices else '(.+?)')
         matches = list(re.finditer(
-            r'(?:^|\n)[ \t]*Answer:[ \t]*(' + choices +
-            r')[ \t]*\.?[ \t]*(?=\r?$|\r?\n)', text, re.I | re.M))
+            r'(?:^|\n)[ \t]*' + re.escape(answer_label) + r':[ \t]*' + choices +
+            r'[ \t]*\.?[ \t]*(?=\r?$|\r?\n)', text, re.I | re.M))
         if not matches:
             return None
         match = matches[-1]
@@ -168,7 +171,8 @@ class ActivationRecorder:
         token_ids = tokens[0].detach().cpu().tolist()
         answer_relative = answer_offsets(self.config.activation_positions) is not None
         answer_token_index = (find_answer_token_index(self.tokenizer, token_ids, prompt_length,
-                              structured_choices=(context or {}).get('structured_answer_choices'))
+                              structured_choices=(context or {}).get('structured_answer_choices'),
+                              structured_answer_label=(context or {}).get('structured_answer_label'))
                               if answer_relative else None)
         confidence_token_indices = (
             [find_confidence_token_index(self.tokenizer, token_ids, prompt_length, field)

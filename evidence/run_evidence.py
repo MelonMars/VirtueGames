@@ -107,6 +107,8 @@ def main(argv=None, *, variance=False):
     extra.add_argument('--condition', choices=('neutral', 'social'), default='neutral')
     extra.add_argument('--ids', default='',
                        help='Comma-separated item IDs; select complete scenario families only')
+    extra.add_argument('--interventions', default='',
+                       help='Comma-separated intervention names to include')
     raw_args = sys.argv[1:] if argv is None else argv
     if '--help' in raw_args or '-h' in raw_args:
         print('Evidence options: --condition {neutral,social}.')
@@ -127,19 +129,26 @@ def main(argv=None, *, variance=False):
                      activation_positions='answer-tokens-1,answer-tokens')
     bank = load_bank(config.questions)
     requested_ids = {item.strip() for item in options.ids.split(',') if item.strip()}
+    requested_interventions = {item.strip() for item in options.interventions.split(',') if item.strip()}
+    known_interventions = {q['intervention'] for q in bank}
+    if requested_interventions - known_interventions:
+        raise ValueError(f'Unknown interventions: {sorted(requested_interventions-known_interventions)}')
     available_ids = {q['id'] for q in bank}
     missing_ids = requested_ids - available_ids
     if missing_ids:
         raise ValueError(f'Unknown item IDs: {sorted(missing_ids)}')
     selected = [q for q in bank
                 if (not config.difficulty or q['difficulty'] in config.difficulty)
+                and (not requested_interventions or q['intervention'] in requested_interventions)
                 and (not requested_ids or q['id'] in requested_ids)]
     if not selected:
         raise ValueError('No items selected')
     if requested_ids:
         selected_groups = {q['split_group'] for q in selected}
         for group in selected_groups:
-            family = [q for q in bank if q['split_group'] == group]
+            family = [q for q in bank if q['split_group'] == group and
+                      (not requested_interventions or q['intervention'] in requested_interventions) and
+                      (not config.difficulty or q['difficulty'] in config.difficulty)]
             if {q['id'] for q in family} != {q['id'] for q in selected if q['split_group'] == group}:
                 raise ValueError(f'--ids must include the complete scenario family: {group}')
     run_dir = next_run_dir(output)
@@ -147,7 +156,7 @@ def main(argv=None, *, variance=False):
     metadata.update(condition=options.condition, protocol=PROTOCOL, system_prompt=SYSTEM,
         seed_policy='control and prior: base_seed; posterior: base_seed + sample_index; reset conversation per sample',
         bank_hash=digest(bank), split_hash=digest({q['id']: [q['split_group'],q['split']] for q in bank}),
-        selected_ids=[q['id'] for q in selected], split_unit='split_group',
+        selected_ids=[q['id'] for q in selected], selected_interventions=sorted(requested_interventions) or sorted(known_interventions), split_unit='split_group',
         activation_slots=['answer-token-1', 'answer-token'], scoring_version=SCORING_VERSION, support_coordinates=SUPPORT_COORDINATES)
     metadata['config_hash'] = digest({k:v for k,v in metadata.items() if k != 'started'})
     write_json(run_dir / 'questions.json', dict(protocol=PROTOCOL, questions=bank))
