@@ -113,12 +113,34 @@ def main(argv=None):
         record = record_by_key.get(sample_key)
         if record is None or not record.get("file"):
             continue
-        slots = record.get("confidence_slots", [])
         positions = record.get("positions", [])
-        if len(slots) != len(positions):
-            raise ValueError(f"Activation position/slot mismatch: {sample_key}")
-        slot_to_tensor = {semantic_slot: tensor_slot
-                          for tensor_slot, semantic_slot in enumerate(slots)}
+        # `positions` contains only indices that were found, while some older
+        # recorder builds wrote `confidence_slots` as the list of *present*
+        # confidence fields before position filtering. If one field was
+        # missing those arrays could differ in length (and the remaining
+        # position could be assigned to the wrong semantic confidence).
+        # Prefer the original token indices, which let us map each saved
+        # tensor position back to answer/decision unambiguously.
+        confidence_indices = record.get("confidence_token_indices")
+        if confidence_indices is not None:
+            slot_to_tensor = {}
+            for tensor_slot, position in enumerate(positions):
+                matching = [semantic_slot for semantic_slot, token_index
+                            in enumerate(confidence_indices) if token_index == position]
+                if len(matching) != 1:
+                    raise ValueError(
+                        f"Cannot map captured confidence position {position} to a unique field: {sample_key}"
+                    )
+                slot_to_tensor[matching[0]] = tensor_slot
+        else:
+            slots = record.get("confidence_slots", [])
+            if len(slots) != len(positions):
+                raise ValueError(
+                    f"Activation position/slot mismatch for {sample_key}; this run lacks the token-index metadata "
+                    "needed to disambiguate missing confidence fields. Re-run with the current activation recorder."
+                )
+            slot_to_tensor = {semantic_slot: tensor_slot
+                              for tensor_slot, semantic_slot in enumerate(slots)}
         if not slot_to_tensor:
             continue
         with safe_open(str(run_dir / "activations" / record["file"]), framework="pt", device="cpu") as tensor_file:
