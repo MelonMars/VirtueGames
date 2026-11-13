@@ -15,6 +15,9 @@ from tqdm import tqdm
 from config import RunConfig
 from llm import generate, load_model
 from original.bet_on_yourself.multiturn.protocol import parse_decision, score_decision
+from original.bet_on_yourself.singleturn.commit_confidence import (
+    PROTOCOL as COMMIT_CONFIDENCE_PROTOCOL, CONFIDENCE_SYSTEM, assemble_response,
+)
 from runs import next_run_dir, utc_now, write_json
 
 
@@ -24,7 +27,7 @@ def read_jsonl(path):
 
 
 class ResidualAddition:
-    """Add alpha times a unit vector at the current decode position."""
+    """Add a unit vector at generated tokens, or once at the prompt's last token."""
     def __init__(self, vector, alpha, site="decode"):
         self.vector, self.alpha, self.site = vector, alpha, site
         self.calls = self.applications = 0
@@ -33,6 +36,10 @@ class ResidualAddition:
         first = self.calls == 0
         self.calls += 1
         if self.site == "prompt" and not first:
+            return value
+        if self.site == "decode" and first:
+            # TransformerLens sees the prompt prefill before cached decode
+            # calls. Leave that prefill untouched when testing decode steering.
             return value
         if value.ndim != 3 or value.shape[-1] != self.vector.numel():
             raise ValueError("Direction width does not match the residual stream")
@@ -114,6 +121,9 @@ def main(argv=None):
     analysis_dir = (args.analysis_dir or run_dir / "calibration_analysis").resolve()
     analysis = json.loads((analysis_dir / "report.json").read_text(encoding="utf-8"))
     source = json.loads((run_dir / "config.json").read_text(encoding="utf-8"))
+    commit_confidence = source.get("protocol") == COMMIT_CONFIDENCE_PROTOCOL
+    if commit_confidence:
+        raise ValueError("Use steer_commit_confidence.py for answer-first runs; it selects alpha on validation before testing")
     if analysis.get("source_run") != str(run_dir):
         raise ValueError("Analysis provenance does not match the source run")
     if source != analysis.get("source_config"):
@@ -184,8 +194,13 @@ def main(argv=None):
     cases = {case["id"]: case for case in cases_data["cases"]}
     for row in samples:
         key = (row["id"], row["stage"], row["sample"])
-        if key not in prompt_by_key or row["id"] not in cases:
-            raise ValueError(f"Missing prompt or answer key for test sample {key}")
+        if row["id"] not in cases:
+            raise ValueError(f"Missing answer key for test sample {key}")
+        if commit_confidence:
+            if not row.get("confidence_prompt") or not row.get("answer"):
+                raise ValueError(f"Missing committed answer/confidence prompt for test sample {key}")
+        elif key not in prompt_by_key:
+            raise ValueError(f"Missing prompt for test sample {key}")
 
     run_meta = read_jsonl(run_dir / "activations" / "index.jsonl")[0]
     values = {field.name: source[field.name] for field in fields(RunConfig) if field.name in source}
@@ -205,7 +220,9 @@ def main(argv=None):
         analysis_seed=analysis["seed"], test_families=sorted(test_families),
         held_out_items=item_ids, candidate_directions=[{k: v for k, v in spec.items() if k != "vector"}
             for spec in candidate_specs], alphas=alphas, site=args.site, n_samples=n_samples,
-        steering_rule="unit resid_post vector added at the final token position during prompt/decode; each candidate swept separately",
+        steering_rule=("unit resid_post vector added during confidence-and-wager generation for a fixed committed answer"
+                       if commit_confidence else
+                       "unit resid_post vector added at the final token position during prompt/decode; each candidate swept separately"),
         selection_rule="directions and layers were selected on validation families only",
         generation=config.metadata("bet-on-yourself-calibration-steering", len(item_ids)),
         seed_policy="fixed per source item/sample across baseline and every direction/alpha")
@@ -233,24 +250,35 @@ def main(argv=None):
                     tqdm(total=total, desc="Calibration steering", unit="generation") as progress:
                 for row in source_order:
                     key = (row["id"], row["stage"], row["sample"])
-                    prompt = prompt_by_key[key]
-                    user = prompt[1]["content"]
-                    system = prompt[0]["content"]
+                    if commit_confidence:
+                        system = CONFIDENCE_SYSTEM
+                        user = row["confidence_prompt"]
+                    else:
+                        prompt = prompt_by_key[key]
+                        user = prompt[1]["content"]
+                        system = prompt[0]["content"]
                     seed = args.seed + test_index[row["id"]] * n_samples + int(row["sample"])
                     gen_kwargs = dict(seed=seed, temperature=config.temperature, max_tokens=config.max_tokens)
-                    baseline_text = generate(llm, system, user, **gen_kwargs)
+                    baseline_phase = generate(llm, system, user, **gen_kwargs)
+                    baseline_text = (assemble_response(row["answer_response"], baseline_phase)[0]
+                                     if commit_confidence else baseline_phase)
                     baseline_score = score_response(baseline_text, cases[row["id"]])
                     baseline_by_key[key] = baseline_score
                     progress.update(1)
                     baseline_row = dict(id=row["id"], family=row["family"], stage=row["stage"],
                         sample=row["sample"], seed=seed, target="baseline", direction_key=None,
-                        layer=None, alpha=0.0, raw=baseline_text, **baseline_score)
+                        layer=None, alpha=0.0, raw=baseline_text,
+                        confidence_phase_raw=baseline_phase if commit_confidence else None,
+                        committed_answer=row.get("answer") if commit_confidence else None,
+                        **baseline_score)
                     stream.write(json.dumps(baseline_row) + "\n")
                     for spec in candidate_specs:
                         for alpha in alphas:
                             addition = ResidualAddition(spec["vector"], alpha, args.site)
                             with bridge.hooks(fwd_hooks=[(spec["hook"], addition)]):
-                                text = generate(llm, system, user, **gen_kwargs)
+                                steered_phase = generate(llm, system, user, **gen_kwargs)
+                            text = (assemble_response(row["answer_response"], steered_phase)[0]
+                                    if commit_confidence else steered_phase)
                             if not addition.applications:
                                 raise RuntimeError(f"Steering hook did not fire for {spec['key']}")
                             if alpha == 0 and text != baseline_text:
@@ -259,7 +287,10 @@ def main(argv=None):
                             result = dict(id=row["id"], family=row["family"], stage=row["stage"],
                                 sample=row["sample"], seed=seed, target=spec["target"],
                                 direction_key=spec["key"], layer=spec["layer"], alpha=alpha,
-                                hook_applications=addition.applications, raw=text, **score)
+                                hook_applications=addition.applications, raw=text,
+                                confidence_phase_raw=steered_phase if commit_confidence else None,
+                                committed_answer=row.get("answer") if commit_confidence else None,
+                                **score)
                             result["paired_answer_brier_change"] = (
                                 score["confidence_brier"] - baseline_score["confidence_brier"]
                                 if score["confidence_brier"] is not None and baseline_score["confidence_brier"] is not None else None)

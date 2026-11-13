@@ -26,12 +26,18 @@ python original/bet_on_yourself/singleturn/run.py --backend transformers \
   --n-samples 4 --temperature 0.7 --extract-activations
 ```
 
-On a single-turn activation run, `analyze_calibration.py` fits all-layer
-candidate axes from training-family activations and signed confidence error,
-ranks them by correlation on separate validation families, and reserves test
-families. `steer_calibration.py` then sweeps only those selected candidates on
-the reserved families, reporting paired answer/decision Brier changes, answer
-and decision accuracy, abstention, and per-family results.
+On a single-turn activation run, `analyze_calibration.py` fits candidate axes
+from training-family activations and signed confidence error, ranks them on
+separate validation families, and reserves test families. It searches the
+middle half of the captured layers by default. The original `run.py` captures
+confidence while answering in one response; for a cleaner calibration test,
+prefer `singleturn/run_commit_confidence.py`, which commits the answer first
+and captures activations only while confidence and wager are produced for that
+fixed answer. `steer_calibration.py` supports both run formats and, for the
+one-response protocol, steers the full generated response. Use
+`steer_commit_confidence.py` for the answer-first protocol: it tunes the
+direction and alpha on validation families, then evaluates the selected
+intervention once on reserved test families.
 
 ```sh
 python original/bet_on_yourself/analyze_calibration.py PATH/TO/RUN --top-k 2

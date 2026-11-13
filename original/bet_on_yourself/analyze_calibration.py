@@ -17,6 +17,7 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from runs import read_jsonl, write_json
+from original.bet_on_yourself.singleturn.commit_confidence import PROTOCOL as COMMIT_CONFIDENCE_PROTOCOL
 
 
 def family_split(families, seed, validation_fraction, test_fraction):
@@ -81,8 +82,8 @@ def main(argv=None):
     status = json.loads((run_dir / "status.json").read_text(encoding="utf-8"))
     if status.get("status") != "complete":
         raise ValueError("Analyze a completed run")
-    if config.get("protocol") != "bet-on-yourself-singleturn-v1":
-        raise ValueError("Calibration direction analysis currently requires a single-turn Bet On Yourself run")
+    if config.get("protocol") not in ("bet-on-yourself-singleturn-v1", COMMIT_CONFIDENCE_PROTOCOL):
+        raise ValueError("Calibration direction analysis requires a supported single-turn Bet On Yourself run")
     if not config.get("extract_activations"):
         raise ValueError("Source run did not capture activations")
     if config.get("activation_positions") != "confidence-tokens":
