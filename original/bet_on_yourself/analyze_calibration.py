@@ -62,11 +62,19 @@ def main(argv=None):
     parser.add_argument("--test-fraction", type=float, default=0.2)
     parser.add_argument("--top-k", type=int, default=2,
                         help="Candidate directions retained per confidence field")
+    parser.add_argument("--layer-range", default="middle", metavar="START:END|middle|all",
+                        help="Search a zero-based range; default is the middle half of the captured layers")
     args = parser.parse_args(argv)
     if not 0 < args.validation_fraction < 1 or not 0 < args.test_fraction < 1:
         raise ValueError("Split fractions must be between zero and one")
     if args.top_k < 1:
         raise ValueError("--top-k must be positive")
+    layer_range = None
+    if args.layer_range not in ("middle", "all"):
+        match = re.fullmatch(r"(\d+):(\d+)", args.layer_range)
+        if not match or int(match.group(1)) >= int(match.group(2)):
+            raise ValueError("--layer-range must be 'middle', 'all', or a nonempty half-open range such as 8:24")
+        layer_range = (int(match.group(1)), int(match.group(2)))
 
     run_dir = args.run_dir.resolve()
     config = json.loads((run_dir / "config.json").read_text(encoding="utf-8"))
@@ -94,6 +102,29 @@ def main(argv=None):
         if key in record_by_key:
             raise ValueError(f"Duplicate activation key: {key}")
         record_by_key[key] = record
+
+    # Layer 0 and the final layer often behave differently from the internal
+    # computation where a useful calibration signal may be represented. Search
+    # the middle half by default; allow explicit all-layer/range searches too.
+    available_hooks = None
+    for record in records:
+        if record.get("file"):
+            with safe_open(str(run_dir / "activations" / record["file"]),
+                            framework="pt", device="cpu") as tensor_file:
+                available_hooks = [name for name in tensor_file.keys()
+                                   if re.fullmatch(r"blocks\.\d+\.hook_resid_post", name)]
+            if available_hooks:
+                break
+    if not available_hooks:
+        raise ValueError("No resid_post activation hooks found in the run")
+    n_layers = max(int(re.fullmatch(r"blocks\.(\d+)\.hook_resid_post", name)[1])
+                   for name in available_hooks) + 1
+    if args.layer_range == "middle":
+        layer_range = (n_layers // 4, (3 * n_layers + 3) // 4)
+    elif args.layer_range == "all":
+        layer_range = (0, n_layers)
+    if layer_range[1] > n_layers:
+        raise ValueError(f"Requested layer range ends at {layer_range[1]}, but the run has {n_layers} layers")
 
     families = {row["family"] for row in samples}
     splits = family_split(families, args.seed, args.validation_fraction, args.test_fraction)
@@ -146,6 +177,10 @@ def main(argv=None):
         with safe_open(str(run_dir / "activations" / record["file"]), framework="pt", device="cpu") as tensor_file:
             hook_names = [name for name in tensor_file.keys()
                           if re.fullmatch(r"blocks\.\d+\.hook_resid_post", name)]
+            if layer_range is not None:
+                hook_names = [name for name in hook_names
+                              if layer_range[0] <= int(re.fullmatch(r"blocks\.(\d+)\.hook_resid_post", name)[1])
+                              < layer_range[1]]
             for target, semantic_slot, confidence_field, outcome_field, brier_field, skip_abstain in target_specs:
                 if semantic_slot not in slot_to_tensor:
                     continue
@@ -258,6 +293,7 @@ def main(argv=None):
     write_json(out / "splits.json", {family: {"split": split} for family, split in sorted(splits.items())})
     write_json(out / "report.json", dict(source_run=str(run_dir), source_protocol=config["protocol"],
         source_config=config, seed=args.seed, split_unit="family", family_splits=splits,
+        layer_range=list(layer_range), layer_count=n_layers,
         item_counts={split: len({row["id"] for row in samples if splits[row["family"]] == split})
                      for split in ("train", "validation", "test")},
         method="For each layer/slot, fit the item-balanced covariance of resid_post with signed calibration error on train-family item means. Rank using validation-family item means. Positive error is overconfidence.",

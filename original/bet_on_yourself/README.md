@@ -40,6 +40,14 @@ python original/bet_on_yourself/steer_calibration.py PATH/TO/RUN \
   --alphas=-4,-2,-1,0,1,2,4
 ```
 
+By default, candidate discovery checks the middle half of the captured layers,
+so early and final layers cannot dominate selection. For a 33-layer model this
+means layers 8 through 24. To search a custom zero-based, half-open range (for
+example layers 8 through 23), pass `--layer-range 8:24`; pass `--layer-range all`
+to restore an all-layer search. The chosen range and layer count are recorded
+in `report.json`, and steering tests only the candidates selected from that
+range. Layer numbers are model-specific.
+
 This is family-held-out candidate screening within a development bank, not a
 final untouched benchmark. The sweep re-generates the reserved items with
 paired seeds and checks that zero-strength steering reproduces the unsteered
