@@ -27,7 +27,7 @@ def read_jsonl(path):
 
 
 class ResidualAddition:
-    """Add a unit vector at generated tokens, or once at the prompt's last token."""
+    """Add a unit vector at prompt/decode positions selected by `site`."""
     def __init__(self, vector, alpha, site="decode"):
         self.vector, self.alpha, self.site = vector, alpha, site
         self.calls = self.applications = 0

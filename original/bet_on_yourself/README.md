@@ -32,12 +32,13 @@ separate validation families, and reserves test families. It searches the
 middle half of the captured layers by default. The original `run.py` captures
 confidence while answering in one response; for a cleaner calibration test,
 prefer `singleturn/run_commit_confidence.py`, which commits the answer first
-and captures activations only while confidence and wager are produced for that
-fixed answer. `steer_calibration.py` supports both run formats and, for the
-one-response protocol, steers the full generated response. Use
-`steer_commit_confidence.py` for the answer-first protocol: it tunes the
-direction and alpha on validation families, then evaluates the selected
-intervention once on reserved test families.
+then asks for answer confidence, decision confidence, and wager in separate
+calls. It captures each forecast's prompt-final activation separately.
+`steer_calibration.py` is for the one-response protocol and steers the full
+generated response. Use `steer_commit_confidence.py` for the answer-first
+protocol: it tunes a target-specific direction and alpha on validation
+families, then evaluates the selected intervention once on reserved test
+families.
 
 ```sh
 python original/bet_on_yourself/analyze_calibration.py PATH/TO/RUN --top-k 2

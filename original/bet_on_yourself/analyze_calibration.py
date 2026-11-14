@@ -19,6 +19,8 @@ if __package__ in (None, ""):
 from runs import read_jsonl, write_json
 from original.bet_on_yourself.singleturn.commit_confidence import PROTOCOL as COMMIT_CONFIDENCE_PROTOCOL
 
+LEGACY_COMMIT_CONFIDENCE_PROTOCOL = "bet-on-yourself-commit-confidence-v1"
+
 
 def family_split(families, seed, validation_fraction, test_fraction):
     if len(families) < 5:
@@ -82,11 +84,16 @@ def main(argv=None):
     status = json.loads((run_dir / "status.json").read_text(encoding="utf-8"))
     if status.get("status") != "complete":
         raise ValueError("Analyze a completed run")
-    if config.get("protocol") not in ("bet-on-yourself-singleturn-v1", COMMIT_CONFIDENCE_PROTOCOL):
+    if config.get("protocol") not in ("bet-on-yourself-singleturn-v1",
+                                       LEGACY_COMMIT_CONFIDENCE_PROTOCOL,
+                                       COMMIT_CONFIDENCE_PROTOCOL):
         raise ValueError("Calibration direction analysis requires a supported single-turn Bet On Yourself run")
     if not config.get("extract_activations"):
         raise ValueError("Source run did not capture activations")
-    if config.get("activation_positions") != "confidence-tokens":
+    if config.get("protocol") == COMMIT_CONFIDENCE_PROTOCOL:
+        if config.get("activation_positions") != "last-prompt-token":
+            raise ValueError("The separated confidence protocol expects --activation-positions last-prompt-token")
+    elif config.get("activation_positions") != "confidence-tokens":
         raise ValueError("Capture with --activation-positions confidence-tokens")
     if config.get("activation_types") != "resid_post":
         raise ValueError("This analysis expects resid_post activations")
@@ -129,8 +136,9 @@ def main(argv=None):
 
     families = {row["family"] for row in samples}
     splits = family_split(families, args.seed, args.validation_fraction, args.test_fraction)
-    # Index candidates by target, layer hook, and fixed semantic slot:
-    # slot 0 = answer confidence; slot 1 = decision confidence.
+    # slot 0 = answer confidence; slot 1 = decision confidence. In v2, each
+    # field is captured from its own prompt-final state immediately before the
+    # model emits the numeric probability.
     observations = defaultdict(lambda: defaultdict(list))
     target_specs = (
         ("answer", 0, "confidence", "answer_matches_key", "confidence_brier", True),
@@ -138,61 +146,69 @@ def main(argv=None):
     )
     seen = set()
     for row in samples:
-        sample_key = (row["id"], f"fixed-stage-{row['stage']}", row["sample"])
+        sample_key = (row["id"], row["stage"], row["sample"])
         if sample_key in seen:
             raise ValueError(f"Duplicate sample key: {sample_key}")
         seen.add(sample_key)
-        record = record_by_key.get(sample_key)
-        if record is None or not record.get("file"):
-            continue
-        positions = record.get("positions", [])
-        # `positions` contains only indices that were found, while some older
-        # recorder builds wrote `confidence_slots` as the list of *present*
-        # confidence fields before position filtering. If one field was
-        # missing those arrays could differ in length (and the remaining
-        # position could be assigned to the wrong semantic confidence).
-        # Prefer the original token indices, which let us map each saved
-        # tensor position back to answer/decision unambiguously.
-        confidence_indices = record.get("confidence_token_indices")
-        if confidence_indices is not None:
-            slot_to_tensor = {}
-            for tensor_slot, position in enumerate(positions):
-                matching = [semantic_slot for semantic_slot, token_index
-                            in enumerate(confidence_indices) if token_index == position]
-                if len(matching) != 1:
-                    raise ValueError(
-                        f"Cannot map captured confidence position {position} to a unique field: {sample_key}"
-                    )
-                slot_to_tensor[matching[0]] = tensor_slot
+        if config.get("protocol") == COMMIT_CONFIDENCE_PROTOCOL:
+            target_records = []
+            for spec in target_specs:
+                target = spec[0]
+                condition = f"fixed-stage-{row['stage']}-{target}-confidence"
+                target_records.append((spec, record_by_key.get((row["id"], condition, row["sample"]))))
         else:
-            slots = record.get("confidence_slots", [])
-            if len(slots) != len(positions):
-                raise ValueError(
-                    f"Activation position/slot mismatch for {sample_key}; this run lacks the token-index metadata "
-                    "needed to disambiguate missing confidence fields. Re-run with the current activation recorder."
-                )
-            slot_to_tensor = {semantic_slot: tensor_slot
-                              for tensor_slot, semantic_slot in enumerate(slots)}
-        if not slot_to_tensor:
-            continue
-        with safe_open(str(run_dir / "activations" / record["file"]), framework="pt", device="cpu") as tensor_file:
-            hook_names = [name for name in tensor_file.keys()
-                          if re.fullmatch(r"blocks\.\d+\.hook_resid_post", name)]
-            if layer_range is not None:
-                hook_names = [name for name in hook_names
-                              if layer_range[0] <= int(re.fullmatch(r"blocks\.(\d+)\.hook_resid_post", name)[1])
-                              < layer_range[1]]
-            for target, semantic_slot, confidence_field, outcome_field, brier_field, skip_abstain in target_specs:
-                if semantic_slot not in slot_to_tensor:
-                    continue
-                confidence = row.get(confidence_field)
-                outcome = row.get(outcome_field)
-                if confidence is None or outcome is None or row.get(brier_field) is None:
-                    continue
-                if skip_abstain and row.get("is_abstention"):
-                    continue
-                error = float(confidence) / 100.0 - float(bool(outcome))
-                tensor_slot = slot_to_tensor[semantic_slot]
+            condition = f"fixed-stage-{row['stage']}"
+            record = record_by_key.get((row["id"], condition, row["sample"]))
+            target_records = [(spec, record) for spec in target_specs]
+
+        for spec, record in target_records:
+            target, semantic_slot, confidence_field, outcome_field, brier_field, skip_abstain = spec
+            if record is None or not record.get("file"):
+                continue
+            positions = record.get("positions", [])
+            if config.get("protocol") == COMMIT_CONFIDENCE_PROTOCOL:
+                if record.get("context", {}).get("confidence_field") != target:
+                    raise ValueError(f"Confidence capture field mismatch for {sample_key}: {target}")
+                if len(positions) != 1:
+                    raise ValueError(f"Expected one prompt-final activation for {sample_key}: {target}")
+                slot_to_tensor = {semantic_slot: 0}
+            else:
+                confidence_indices = record.get("confidence_token_indices")
+                if confidence_indices is not None:
+                    slot_to_tensor = {}
+                    for tensor_slot, position in enumerate(positions):
+                        matching = [semantic for semantic, token_index
+                                    in enumerate(confidence_indices) if token_index == position]
+                        if len(matching) != 1:
+                            raise ValueError(
+                                f"Cannot map captured confidence position {position} to a unique field: {sample_key}"
+                            )
+                        slot_to_tensor[matching[0]] = tensor_slot
+                else:
+                    slots = record.get("confidence_slots", [])
+                    if len(slots) != len(positions):
+                        raise ValueError(
+                            f"Activation position/slot mismatch for {sample_key}; this run lacks the token-index "
+                            "metadata needed to disambiguate missing confidence fields."
+                        )
+                    slot_to_tensor = {semantic: tensor_slot for tensor_slot, semantic in enumerate(slots)}
+            if semantic_slot not in slot_to_tensor:
+                continue
+            confidence = row.get(confidence_field)
+            outcome = row.get(outcome_field)
+            if confidence is None or outcome is None or row.get(brier_field) is None:
+                continue
+            if skip_abstain and row.get("is_abstention"):
+                continue
+            error = float(confidence) / 100.0 - float(bool(outcome))
+            tensor_slot = slot_to_tensor[semantic_slot]
+            with safe_open(str(run_dir / "activations" / record["file"]), framework="pt", device="cpu") as tensor_file:
+                hook_names = [name for name in tensor_file.keys()
+                              if re.fullmatch(r"blocks\.\d+\.hook_resid_post", name)]
+                if layer_range is not None:
+                    hook_names = [name for name in hook_names
+                                  if layer_range[0] <= int(re.fullmatch(r"blocks\.(\d+)\.hook_resid_post", name)[1])
+                                  < layer_range[1]]
                 for hook in hook_names:
                     tensor = tensor_file.get_tensor(hook)
                     if tensor.ndim != 3 or tensor.shape[0] != 1 or tensor_slot >= tensor.shape[1]:
@@ -282,10 +298,13 @@ def main(argv=None):
 
     if not direction_tensors:
         raise ValueError("No candidate directions had estimable, positive validation correlations")
+    activation_position = ("last-prompt-token before the numeric answer/decision confidence response"
+                           if config.get("protocol") == COMMIT_CONFIDENCE_PROTOCOL
+                           else "confidence-token positions")
     save_file(direction_tensors, str(out / "directions.safetensors"), metadata={
         "method": "training-family covariance with signed confidence error",
         "direction_orientation": "positive projection covaries with overconfidence; sweep both alpha signs",
-        "position_selection": "confidence-tokens; answer slot 0, decision slot 1",
+        "position_selection": activation_position,
         "normalization": "unit L2 norm",
         "training_families": json.dumps(sorted(f for f, split in splits.items() if split == "train")),
         "validation_families": json.dumps(sorted(f for f, split in splits.items() if split == "validation")),
@@ -297,7 +316,9 @@ def main(argv=None):
         layer_range=list(layer_range), layer_count=n_layers,
         item_counts={split: len({row["id"] for row in samples if splits[row["family"]] == split})
                      for split in ("train", "validation", "test")},
-        method="For each layer/slot, fit the item-balanced covariance of resid_post with signed calibration error on train-family item means. Rank using validation-family item means. Positive error is overconfidence.",
+        method=("For each layer/target, fit the item-balanced covariance of resid_post with signed calibration error on train-family item means. "
+                "For the separated-confidence protocol, activations are at the prompt-final position immediately before the numeric forecast. "
+                "Rank using validation-family item means. Positive error is overconfidence."),
         candidates=candidate_rows,
         selected_candidates={target: [r["direction_key"] for r in rows if "direction_key" in r]
                              for target, rows in candidate_rows.items()},

@@ -1,4 +1,4 @@
-"""Tune confidence-only steering on validation families and evaluate once on test families."""
+"""Tune each confidence intervention on validation and test it once on held-out families."""
 import argparse
 from collections import defaultdict
 from dataclasses import fields
@@ -16,7 +16,8 @@ from tqdm import tqdm
 from config import RunConfig
 from llm import generate, load_model
 from original.bet_on_yourself.singleturn.commit_confidence import (
-    PROTOCOL, CONFIDENCE_SYSTEM, assemble_response,
+    PROTOCOL, ANSWER_CONFIDENCE_SYSTEM, DECISION_CONFIDENCE_SYSTEM,
+    WAGER_SYSTEM, assemble_response,
 )
 from original.bet_on_yourself.steer_calibration import ResidualAddition, read_jsonl, score_response
 from runs import next_run_dir, utc_now, write_json
@@ -32,11 +33,8 @@ def family_mean(rows, field):
 
 
 def matched_family_mean(rows, baseline_rows, field):
-    """Compare candidates only when they score the same item/sample set."""
-    baseline_keys = {(row["id"], row["sample"]) for row in baseline_rows
-                     if row.get(field) is not None}
-    candidate_keys = {(row["id"], row["sample"]) for row in rows
-                      if row.get(field) is not None}
+    baseline_keys = {(row["id"], row["sample"]) for row in baseline_rows if row.get(field) is not None}
+    candidate_keys = {(row["id"], row["sample"]) for row in rows if row.get(field) is not None}
     if not baseline_keys or candidate_keys != baseline_keys:
         return None
     return family_mean(rows, field)
@@ -49,10 +47,9 @@ def main(argv=None):
     from transformer_lens.model_bridge import TransformerBridge
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("run_dir", type=Path, help="Answer-first confidence BOY run")
+    parser.add_argument("run_dir", type=Path, help="Separated-confidence BOY run")
     parser.add_argument("--analysis-dir", type=Path)
-    parser.add_argument("--alphas", default="-4,-2,-1,1,2,4",
-                        help="Validation sweep strengths; finite values of both signs")
+    parser.add_argument("--alphas", default="-4,-2,-1,1,2,4")
     parser.add_argument("--n-samples", type=int)
     parser.add_argument("--max-items", type=int)
     parser.add_argument("--seed", type=int, default=2701)
@@ -74,26 +71,25 @@ def main(argv=None):
     source = json.loads((run_dir / "config.json").read_text(encoding="utf-8"))
     analysis = json.loads((analysis_dir / "report.json").read_text(encoding="utf-8"))
     if source.get("protocol") != PROTOCOL:
-        raise ValueError(f"Expected {PROTOCOL}; use steer_calibration.py for the one-response protocol")
+        raise ValueError(f"Expected {PROTOCOL}; rerun with the separated-confidence runner")
     if analysis.get("source_run") != str(run_dir) or analysis.get("source_config") != source:
         raise ValueError("Analysis provenance does not match the source run")
     split_map = analysis["family_splits"]
-    for split in ("validation", "test"):
-        if not any(value == split for value in split_map.values()):
-            raise ValueError(f"No {split} families in the analysis split")
+    if any(not any(value == split for value in split_map.values()) for split in ("validation", "test")):
+        raise ValueError("Analysis must reserve validation and test families")
 
     direction_path = analysis_dir / "directions.safetensors"
-    with safe_open(str(direction_path), framework="pt", device="cpu") as file:
-        metadata = file.metadata() or {}
+    with safe_open(str(direction_path), framework="pt", device="cpu") as tensor_file:
+        tensor_metadata = tensor_file.metadata() or {}
     for split, metadata_key in (("test", "test_families"), ("train", "training_families"),
                                 ("validation", "validation_families")):
         expected = {family for family, value in split_map.items() if value == split}
-        if set(json.loads(metadata.get(metadata_key, "[]"))) != expected:
+        if set(json.loads(tensor_metadata.get(metadata_key, "[]"))) != expected:
             raise ValueError("Direction tensors do not match the report's family split")
     directions = load_file(str(direction_path), device="cpu")
-    candidate_keys = {key for values in analysis.get("selected_candidates", {}).values() for key in values}
-    if set(directions) != candidate_keys:
-        raise ValueError("Selected candidate list does not match saved direction tensors")
+    selected_keys = {key for values in analysis.get("selected_candidates", {}).values() for key in values}
+    if set(directions) != selected_keys:
+        raise ValueError("Selected candidate list does not match direction tensors")
     evidence = {row["direction_key"]: row for values in analysis.get("candidates", {}).values()
                 for row in values if row.get("direction_key")}
     candidates = []
@@ -101,7 +97,7 @@ def main(argv=None):
         for key in analysis.get("selected_candidates", {}).get(target, []):
             match = re.fullmatch(r"(answer|decision)\.layer_(\d+)\.hook_resid_post", key)
             if not match or match.group(1) != target:
-                raise ValueError(f"Invalid candidate key: {key}")
+                raise ValueError(f"Invalid direction key: {key}")
             vector = directions[key].float().flatten()
             if not torch.isfinite(vector).all() or abs(float(vector.norm()) - 1.0) > 1e-3:
                 raise ValueError(f"Expected a finite unit direction: {key}")
@@ -110,7 +106,7 @@ def main(argv=None):
                 validation_correlation=evidence.get(key, {}).get("validation_correlation"),
                 validation_r2=evidence.get(key, {}).get("validation_r2")))
     if not candidates:
-        raise ValueError("No selected directions")
+        raise ValueError("No selected candidate directions")
 
     cases_data = json.loads((run_dir / "cases.json").read_text(encoding="utf-8"))
     cases = {case["id"]: case for case in cases_data["cases"]}
@@ -124,10 +120,9 @@ def main(argv=None):
         if args.max_items is not None:
             item_ids = item_ids[:args.max_items]
             rows = [row for row in rows if row["id"] in set(item_ids)]
-        if not rows:
-            raise ValueError(f"No {split} samples remain after limits")
-        if any(not row.get("confidence_prompt") or not row.get("answer_response") for row in rows):
-            raise ValueError(f"Missing confidence phase prompt or fixed answer in {split} rows")
+        required = ("answer_response", "answer_confidence_prompt", "decision_confidence_prompt", "wager_prompt")
+        if not rows or any(not all(row.get(field) for field in required) for row in rows):
+            raise ValueError(f"Missing samples or phase prompts in {split} split")
         by_split[split] = rows
 
     run_meta = read_jsonl(run_dir / "activations" / "index.jsonl")[0]
@@ -143,30 +138,29 @@ def main(argv=None):
         values["revision"] = revision
     config = RunConfig(**values)
     out = next_run_dir(args.out or run_dir / "calibration_steering")
-    plan = dict(source_run=str(run_dir), analysis_dir=str(analysis_dir),
+    write_json(out / "config.json", dict(source_run=str(run_dir), analysis_dir=str(analysis_dir),
         analysis_seed=analysis["seed"], layer_range=analysis.get("layer_range"),
         validation_families=sorted(f for f, split in split_map.items() if split == "validation"),
         test_families=sorted(f for f, split in split_map.items() if split == "test"),
-        alphas=alphas, max_items=args.max_items, n_samples=n_samples,
-        answer_is_fixed=True, steering_scope="generated confidence-and-wager response only",
-        selection_rule="choose direction and alpha by equal-family validation Brier; evaluate selected choices once on test",
-        seed_policy="paired per item/sample; answer commitment is reused unchanged")
-    write_json(out / "config.json", plan)
+        alphas=alphas, n_samples=n_samples, max_items=args.max_items, answer_is_fixed=True,
+        steering_scope="numeric output of one confidence field only",
+        selection_rule="select target-specific layer/direction/alpha on validation; evaluate once on test",
+        seed_policy="paired per item and phase; answer and other forecast remain fixed"))
     write_json(out / "status.json", dict(status="running", started=utc_now()))
 
-    def scored(row, confidence_text):
-        response, _ = assemble_response(row["answer_response"], confidence_text)
+    def score_fields(row, answer_conf, decision_conf, wager):
+        response, _ = assemble_response(row["answer_response"], answer_conf, decision_conf, wager)
         return dict(id=row["id"], family=row["family"], category=row["category"],
             sample=row["sample"], committed_answer=row["answer"], raw=response,
-            confidence_phase_raw=confidence_text, **score_response(response, cases[row["id"]]))
+            answer_confidence_raw=answer_conf, decision_confidence_raw=decision_conf,
+            wager_raw=wager, **score_response(response, cases[row["id"]]))
 
-    def seed_for(row, split):
+    def seed_for(row, split, offset):
         item_seed = int(hashlib.sha256(row["id"].encode()).hexdigest()[:8], 16)
-        return args.seed + (0 if split == "validation" else 1000000) + item_seed * n_samples + int(row["sample"])
+        return args.seed + (0 if split == "validation" else 1000000) + item_seed * n_samples + int(row["sample"]) + offset
 
-    validation_records = []
-    selected = {}
-    test_records = []
+    validation_records, test_records = [], []
+    selected, sweep_diagnostics = {}, {}
     try:
         with load_model(config) as llm:
             if revision and getattr(llm.model.config, "_commit_hash", None) not in (None, revision):
@@ -178,124 +172,158 @@ def main(argv=None):
             for candidate in candidates:
                 if candidate["hook"] not in bridge.hook_dict:
                     raise ValueError(f"Model has no requested steering hook: {candidate['hook']}")
+
             val_rows, test_rows = by_split["validation"], by_split["test"]
-            work = len(val_rows) * (1 + len(candidates) * len(alphas)) + len(test_rows) * (1 + len(candidates))
-            with tqdm(total=work, desc="Confidence-only calibration steering", unit="generation") as bar:
+            work = len(val_rows) * (3 + len(candidates) * len(alphas)) + \
+                   len(test_rows) * (3 + len(candidates))
+            with tqdm(total=work, desc="Isolated confidence steering", unit="generation") as bar:
                 for row in val_rows:
-                    seed = seed_for(row, "validation")
-                    kwargs = dict(seed=seed, temperature=config.temperature, max_tokens=min(config.max_tokens, 96))
-                    base_text = generate(llm, CONFIDENCE_SYSTEM, row["confidence_prompt"], **kwargs)
-                    base = scored(row, base_text)
-                    base.update(split="validation", target="baseline", direction_key=None, layer=None, alpha=0.0)
-                    validation_records.append(base)
-                    bar.update(1)
+                    common = dict(temperature=config.temperature, max_tokens=8)
+                    answer_base = generate(llm, ANSWER_CONFIDENCE_SYSTEM,
+                        row["answer_confidence_prompt"], seed=seed_for(row, "validation", 1), **common)
+                    decision_base = generate(llm, DECISION_CONFIDENCE_SYSTEM,
+                        row["decision_confidence_prompt"], seed=seed_for(row, "validation", 2), **common)
+                    wager_base = generate(llm, WAGER_SYSTEM, row["wager_prompt"],
+                        seed=seed_for(row, "validation", 3), temperature=config.temperature, max_tokens=4)
+                    baseline = score_fields(row, answer_base, decision_base, wager_base)
+                    baseline.update(split="validation", target="baseline", direction_key=None,
+                                    layer=None, alpha=0.0)
+                    validation_records.append(baseline)
+                    bar.update(3)
                     for candidate in candidates:
+                        prompt_field = f"{candidate['target']}_confidence_prompt"
+                        system = (ANSWER_CONFIDENCE_SYSTEM if candidate["target"] == "answer"
+                                  else DECISION_CONFIDENCE_SYSTEM)
+                        phase_offset = 1 if candidate["target"] == "answer" else 2
                         for alpha in alphas:
-                            addition = ResidualAddition(candidate["vector"], alpha, "decode")
+                            addition = ResidualAddition(candidate["vector"], alpha,
+                                                        site="prompt-and-decode")
                             with bridge.hooks(fwd_hooks=[(candidate["hook"], addition)]):
-                                phase = generate(llm, CONFIDENCE_SYSTEM, row["confidence_prompt"], **kwargs)
+                                phase = generate(llm, system, row[prompt_field],
+                                    seed=seed_for(row, "validation", phase_offset), **common)
                             if not addition.applications:
-                                raise RuntimeError(f"Decode steering hook did not fire for {candidate['key']}")
-                            result = scored(row, phase)
+                                raise RuntimeError(f"Steering hook did not fire for {candidate['key']}")
+                            answer_value = phase if candidate["target"] == "answer" else answer_base
+                            decision_value = phase if candidate["target"] == "decision" else decision_base
+                            result = score_fields(row, answer_value, decision_value, wager_base)
                             result.update(split="validation", target=candidate["target"],
                                 direction_key=candidate["key"], layer=candidate["layer"], alpha=alpha)
                             validation_records.append(result)
                             bar.update(1)
 
-                # Select one direction/strength per calibration target using
-                # validation families only. Alpha zero is the fallback.
+                # Alpha/direction selection uses only validation and requires
+                # complete paired metric coverage against its baseline.
                 for target, metric in (("answer", "confidence_brier"), ("decision", "decision_brier")):
-                    baseline_rows = [r for r in validation_records if r["target"] == "baseline"]
+                    baseline_rows = [row for row in validation_records if row["target"] == "baseline"]
                     baseline_score = family_mean(baseline_rows, metric)
                     options = []
                     for candidate in candidates:
                         if candidate["target"] != target:
                             continue
                         for alpha in alphas:
-                            rows = [r for r in validation_records if r.get("direction_key") == candidate["key"]
-                                    and r["alpha"] == alpha]
-                            options.append((matched_family_mean(rows, baseline_rows, metric), candidate, alpha))
-                    options = [option for option in options if option[0] is not None]
-                    best = min(options, key=lambda option: option[0]) if options else None
-                    selected[target] = (dict(direction_key=best[1]["key"], alpha=best[2],
-                        validation_equal_family_brier=best[0], baseline_validation_equal_family_brier=baseline_score)
-                        if best and baseline_score is not None and best[0] < baseline_score else
-                        dict(direction_key=None, alpha=0.0,
-                             validation_equal_family_brier=baseline_score,
-                             baseline_validation_equal_family_brier=baseline_score))
+                            rows = [row for row in validation_records
+                                    if row.get("direction_key") == candidate["key"] and row["alpha"] == alpha]
+                            score = matched_family_mean(rows, baseline_rows, metric)
+                            if score is not None:
+                                options.append((score, candidate, alpha, len(rows)))
+                    options.sort(key=lambda item: item[0])
+                    sweep_diagnostics[target] = [dict(direction_key=item[1]["key"], layer=item[1]["layer"],
+                        alpha=item[2], validation_equal_family_brier=item[0],
+                        baseline_validation_equal_family_brier=baseline_score,
+                        improvement=(baseline_score - item[0] if baseline_score is not None else None),
+                        metric_coverage=item[3]) for item in options]
+                    best = options[0] if options else None
+                    if best and baseline_score is not None and best[0] < baseline_score:
+                        selected[target] = dict(direction_key=best[1]["key"], alpha=best[2],
+                            validation_equal_family_brier=best[0],
+                            baseline_validation_equal_family_brier=baseline_score,
+                            selection_reason="improved validation Brier")
+                    else:
+                        selected[target] = dict(direction_key=None, alpha=0.0,
+                            validation_equal_family_brier=baseline_score,
+                            baseline_validation_equal_family_brier=baseline_score,
+                            best_candidate_direction=best[1]["key"] if best else None,
+                            best_candidate_alpha=best[2] if best else None,
+                            best_candidate_validation_brier=best[0] if best else None,
+                            selection_reason=("no candidate improved validation Brier" if best
+                                              else "no candidate had complete paired coverage"))
 
-                selected_specs = {target: next((c for c in candidates
-                    if c["key"] == choice["direction_key"]), None)
-                    for target, choice in selected.items()}
+                # The test set is touched only after validation has frozen one
+                # direction/strength (or a no-op) for each forecast target.
                 for row in test_rows:
-                    seed = seed_for(row, "test")
-                    kwargs = dict(seed=seed, temperature=config.temperature, max_tokens=min(config.max_tokens, 96))
-                    base_text = generate(llm, CONFIDENCE_SYSTEM, row["confidence_prompt"], **kwargs)
-                    base = scored(row, base_text)
-                    base.update(split="test", target="baseline", direction_key=None, layer=None, alpha=0.0)
-                    test_records.append(base)
-                    bar.update(1)
+                    common = dict(temperature=config.temperature, max_tokens=8)
+                    answer_base = generate(llm, ANSWER_CONFIDENCE_SYSTEM,
+                        row["answer_confidence_prompt"], seed=seed_for(row, "test", 1), **common)
+                    decision_base = generate(llm, DECISION_CONFIDENCE_SYSTEM,
+                        row["decision_confidence_prompt"], seed=seed_for(row, "test", 2), **common)
+                    wager_base = generate(llm, WAGER_SYSTEM, row["wager_prompt"],
+                        seed=seed_for(row, "test", 3), temperature=config.temperature, max_tokens=4)
+                    baseline = score_fields(row, answer_base, decision_base, wager_base)
+                    baseline.update(split="test", target="baseline", direction_key=None,
+                                    layer=None, alpha=0.0)
+                    test_records.append(baseline)
+                    bar.update(3)
                     for target in ("answer", "decision"):
-                        candidate = selected_specs[target]
+                        choice = selected[target]
+                        candidate = next((item for item in candidates
+                                          if item["key"] == choice["direction_key"]), None)
                         if candidate is None:
                             continue
-                        alpha = selected[target]["alpha"]
-                        addition = ResidualAddition(candidate["vector"], alpha, "decode")
+                        system = ANSWER_CONFIDENCE_SYSTEM if target == "answer" else DECISION_CONFIDENCE_SYSTEM
+                        offset = 1 if target == "answer" else 2
+                        addition = ResidualAddition(candidate["vector"], choice["alpha"],
+                                                    site="prompt-and-decode")
                         with bridge.hooks(fwd_hooks=[(candidate["hook"], addition)]):
-                            phase = generate(llm, CONFIDENCE_SYSTEM, row["confidence_prompt"], **kwargs)
+                            phase = generate(llm, system, row[f"{target}_confidence_prompt"],
+                                seed=seed_for(row, "test", offset), **common)
                         if not addition.applications:
-                            raise RuntimeError(f"Decode steering hook did not fire for {candidate['key']}")
-                        result = scored(row, phase)
-                        result.update(split="test", target=target,
-                            direction_key=candidate["key"], layer=candidate["layer"], alpha=alpha)
+                            raise RuntimeError(f"Steering hook did not fire for {candidate['key']}")
+                        answer_value = phase if target == "answer" else answer_base
+                        decision_value = phase if target == "decision" else decision_base
+                        result = score_fields(row, answer_value, decision_value, wager_base)
+                        result.update(split="test", target=target, direction_key=candidate["key"],
+                            layer=candidate["layer"], alpha=choice["alpha"])
                         test_records.append(result)
                         bar.update(1)
 
         with (out / "samples.jsonl").open("w", encoding="utf-8") as stream:
             for row in validation_records + test_records:
                 stream.write(json.dumps(row) + "\n")
-        choices = {target: {**choice, **({"validation_correlation": next(
-            c["validation_correlation"] for c in candidates if c["key"] == choice["direction_key"])}
-            if choice["direction_key"] else {})} for target, choice in selected.items()}
-        baseline_test_rows = [r for r in test_records if r["target"] == "baseline"]
-        baseline_test_by_key = {(r["id"], r["sample"]): r for r in baseline_test_rows}
+        baseline_test = [row for row in test_records if row["target"] == "baseline"]
         test_interventions = {}
+        baseline_by_key = {(row["id"], row["sample"]): row for row in baseline_test}
         for target in ("answer", "decision"):
-            rows = [r for r in test_records if r["target"] == target]
-            paired = []
+            rows = [row for row in test_records if row["target"] == target]
+            if selected[target]["direction_key"] is None:
+                test_interventions[target] = dict(status="not_run_no_validation_improvement",
+                    reason=selected[target]["selection_reason"], metrics=None, metric_coverage=0,
+                    paired_equal_family_brier_change=None)
+                continue
+            metric = "confidence_brier" if target == "answer" else "decision_brier"
+            deltas = []
             for row in rows:
-                baseline = baseline_test_by_key[(row["id"], row["sample"])]
-                for metric in ("confidence_brier", "decision_brier"):
-                    if row.get(metric) is not None and baseline.get(metric) is not None:
-                        paired.append(dict(family=row["family"], metric=metric,
-                                           delta=row[metric] - baseline[metric]))
-            test_interventions[target] = dict(
-                metrics={metric: family_mean(rows, metric)
-                         for metric in ("confidence_brier", "decision_brier")},
-                metric_coverage={metric: sum(r.get(metric) is not None for r in rows)
-                                 for metric in ("confidence_brier", "decision_brier")},
-                paired_equal_family_brier_change={metric: family_mean(
-                    [dict(family=row["family"], change=row["delta"])
-                     for row in paired if row["metric"] == metric], "change")
-                    for metric in ("confidence_brier", "decision_brier")},
-                decision_accuracy=(sum(bool(r["decision_correct"]) for r in rows) / len(rows)
-                                   if rows else None),
-                abstention_rate=(sum(bool(r["is_abstention"]) for r in rows) / len(rows)
-                                 if rows else None))
-        summary = dict(source_run=str(run_dir), analysis_dir=str(analysis_dir),
-            selection="alpha and direction selected on validation families only",
-            test_evaluation="one selected intervention per target; fixed answers; test metrics not used for selection",
-            selected=choices,
+                baseline = baseline_by_key[(row["id"], row["sample"])]
+                if row.get(metric) is not None and baseline.get(metric) is not None:
+                    deltas.append(dict(family=row["family"], delta=row[metric] - baseline[metric]))
+            test_interventions[target] = dict(status="tested_once_after_validation_selection",
+                metrics={metric: family_mean(rows, metric)},
+                metric_coverage=sum(row.get(metric) is not None for row in rows),
+                paired_equal_family_brier_change=family_mean(deltas, "delta"),
+                direction_key=selected[target]["direction_key"], alpha=selected[target]["alpha"])
+
+        summary = dict(source_run=str(run_dir), analysis_dir=str(analysis_dir), selected=selected,
             validation=dict(baseline={metric: family_mean(
-                [r for r in validation_records if r["target"] == "baseline"], metric)
+                [row for row in validation_records if row["target"] == "baseline"], metric)
                 for metric in ("confidence_brier", "decision_brier")},
+                candidate_sweep=sweep_diagnostics,
                 candidate_sweep_count=len(validation_records) - len(by_split["validation"])),
-            test=dict(n=len(test_rows), baseline={metric: family_mean(
-                baseline_test_rows, metric)
+            test=dict(n=len(by_split["test"]), baseline={metric: family_mean(baseline_test, metric)
                 for metric in ("confidence_brier", "decision_brier")},
-                interventions=test_interventions),
-            test_families=sorted(f for f, split in split_map.items() if split == "test"),
-            test_item_ids=sorted({r["id"] for r in test_rows}))
+                interventions=test_interventions,
+                test_families=sorted(f for f, split in split_map.items() if split == "test"),
+                test_item_ids=sorted({row["id"] for row in by_split["test"]})),
+            selection_rule="direction and alpha selected on validation families only",
+            test_rule="only selected target-specific interventions evaluated on test; answer and other forecast fixed")
         write_json(out / "summary.json", summary)
         write_json(out / "status.json", dict(status="complete", finished=utc_now()))
     except BaseException as exc:

@@ -59,13 +59,13 @@ model-dependent.
 
 ## Answer-first confidence experiment
 
-`run_commit_confidence.py` separates the answer from its confidence report. The
-model first commits to an answer (or abstention) without a confidence prompt. A
-second call receives that fixed answer and asks only for answer confidence,
-decision confidence, and wager. With activation capture enabled, the runner
-skips capture during answer generation and records activations only for the
-second call's confidence tokens. A confidence intervention therefore cannot
-change the answer being evaluated.
+`run_commit_confidence.py` separates the answer, answer confidence, decision
+confidence, and wager into independent calls. The answer is committed first.
+Each later call receives that fixed answer, but asks for only one number. The
+two confidence activations are recorded separately at the final prompt token
+immediately before the model emits the numeric forecast. A confidence
+intervention therefore changes only its target forecast; it cannot change the
+answer, the other confidence value, or the wager.
 
 ```sh
 python original/bet_on_yourself/singleturn/run_commit_confidence.py \
@@ -77,10 +77,10 @@ Analyze the resulting run with `analyze_calibration.py`, then use
 `steer_commit_confidence.py` with its `calibration_analysis` directory. It
 sweeps candidate strengths on validation families, picks one direction and
 strength per confidence target, and evaluates those choices once on reserved
-test families. Steering regenerates confidence and wager only for each stored
-answer. Answer accuracy and abstention stay fixed; the main question is whether
-confidence Brier improves for that fixed answer. Steering leaves the confidence
-prompt untouched and applies only to generated confidence-phase tokens.
+test families. Steering changes only the numeric output for the selected
+confidence call, leaving the answer and other forecasts fixed. Answer accuracy
+and abstention stay fixed; the main question is whether confidence Brier
+improves for that fixed answer.
 
 ```sh
 python original/bet_on_yourself/analyze_calibration.py PATH/TO/RUN \

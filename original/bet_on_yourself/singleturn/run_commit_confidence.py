@@ -1,4 +1,4 @@
-"""Run answer-first, confidence-second Bet On Yourself single-turn episodes."""
+"""Run answer-first BOY episodes with separate confidence and wager calls."""
 import hashlib
 import sys
 from dataclasses import replace
@@ -10,12 +10,15 @@ if str(ROOT) not in sys.path:
 
 from tqdm import tqdm
 from config import parse_config
-from llm import generate
+from llm import generate, load_model
 from runs import jsonl_writer, model_runtime, next_run_dir, utc_now, write_json
-from original.bet_on_yourself.multiturn.protocol import PROTOCOL as BANK_PROTOCOL, load_bank, parse_decision, score_decision
+from original.bet_on_yourself.multiturn.protocol import (
+    PROTOCOL as BANK_PROTOCOL, load_bank, parse_decision, score_decision,
+)
 from original.bet_on_yourself.singleturn.commit_confidence import (
-    ANSWER_SYSTEM, CONFIDENCE_SYSTEM, PROTOCOL, answer_user_message,
-    assemble_response, confidence_user_message,
+    ANSWER_SYSTEM, ANSWER_CONFIDENCE_SYSTEM, DECISION_CONFIDENCE_SYSTEM,
+    WAGER_SYSTEM, PROTOCOL, answer_user_message, answer_confidence_prompt,
+    decision_confidence_prompt, wager_prompt, assemble_response,
 )
 from original.bet_on_yourself.singleturn.run import summarize
 
@@ -27,57 +30,82 @@ def run(llm, cases, config, run_dir, stage):
     total = len(cases) * config.n_samples
     with jsonl_writer(run_dir / "samples.jsonl") as write_sample, \
             jsonl_writer(run_dir / "transcripts.jsonl") as write_transcript, \
-            tqdm(total=total, desc="BOY answer then confidence", unit="sample") as bar:
+            tqdm(total=total, desc="BOY answer and confidence phases", unit="sample") as bar:
         for case_index, case in enumerate(cases):
             answer_prompt = answer_user_message(case, stage)
-            context = dict(id=case["id"], family=case["family"], category=case["category"],
-                           condition=f"fixed-stage-{stage}", answer_protocol=PROTOCOL)
             for sample in range(config.n_samples):
-                answer_seed = config.seed + case_index * 100000 + sample
-                confidence_seed = answer_seed + 50000
+                base_seed = config.seed + case_index * 100000 + sample
                 answer_raw = generate(llm, ANSWER_SYSTEM, answer_prompt,
                     temperature=config.temperature, max_tokens=min(config.max_tokens, 128),
-                    seed=answer_seed,
-                    activation_context={"skip_activation_capture": True})
+                    seed=base_seed, activation_context={"skip_activation_capture": True})
                 answer_parsed = parse_decision(answer_raw)
-                committed_answer = answer_parsed["answer"] or (answer_raw or "").strip()
-                confidence_prompt = confidence_user_message(case, stage, committed_answer)
-                confidence_context = dict(context, sample=sample, capture_phase="confidence")
-                confidence_raw = generate(llm, CONFIDENCE_SYSTEM, confidence_prompt,
-                    temperature=config.temperature, max_tokens=min(config.max_tokens, 96),
-                    seed=confidence_seed, activation_context=confidence_context)
-                response, answer = assemble_response(answer_raw, confidence_raw)
+                answer = answer_parsed["answer"] or (answer_raw or "").strip()
+                prompts = {
+                    "answer_confidence": answer_confidence_prompt(case, stage, answer),
+                    "decision_confidence": decision_confidence_prompt(case, stage, answer),
+                    "wager": wager_prompt(case, stage, answer),
+                }
+                context = dict(id=case["id"], family=case["family"], category=case["category"],
+                    sample=sample, answer_protocol=PROTOCOL, capture_phase=None)
+                answer_confidence_raw = generate(llm, ANSWER_CONFIDENCE_SYSTEM,
+                    prompts["answer_confidence"], temperature=config.temperature,
+                    max_tokens=8, seed=base_seed + 50000,
+                    activation_context=dict(context, condition=f"fixed-stage-{stage}-answer-confidence",
+                                            confidence_field="answer", capture_phase="answer_confidence"))
+                decision_confidence_raw = generate(llm, DECISION_CONFIDENCE_SYSTEM,
+                    prompts["decision_confidence"], temperature=config.temperature,
+                    max_tokens=8, seed=base_seed + 60000,
+                    activation_context=dict(context, condition=f"fixed-stage-{stage}-decision-confidence",
+                                            confidence_field="decision", capture_phase="decision_confidence"))
+                wager_raw = generate(llm, WAGER_SYSTEM, prompts["wager"],
+                    temperature=config.temperature, max_tokens=4, seed=base_seed + 70000,
+                    activation_context={"skip_activation_capture": True})
+
+                response, answer = assemble_response(answer_raw, answer_confidence_raw,
+                                                     decision_confidence_raw, wager_raw)
                 parsed = parse_decision(response)
                 scoring = (score_decision(answer, case) if parsed["parse_ok"] else dict(
                     answer_matches_key=None, is_abstention=False,
                     abstention_appropriate=None, decision_correct=None))
-                answer_brier = (
+                confidence_brier = (
                     (parsed["confidence"] / 100 - float(scoring["answer_matches_key"])) ** 2
                     if parsed["confidence_parse_ok"] and not scoring["is_abstention"]
                     and scoring["answer_matches_key"] is not None else None)
                 decision_brier = (
                     (parsed["decision_confidence"] / 100 - float(scoring["decision_correct"])) ** 2
-                    if parsed["decision_confidence_parse_ok"]
-                    and scoring["decision_correct"] is not None else None)
+                    if parsed["decision_confidence_parse_ok"] and scoring["decision_correct"] is not None
+                    else None)
                 payoff = (parsed["wager"] * (1 if scoring["decision_correct"] else -1)
                           if parsed["wager_parse_ok"] and scoring["decision_correct"] is not None else None)
                 row = dict(id=case["id"], family=case["family"], category=case["category"],
                     difficulty=case.get("difficulty"), split=case["split"], question=case["question"],
-                    stage=stage, sample=sample, seed=confidence_seed, answer_seed=answer_seed,
-                    confidence_seed=confidence_seed, answer_key=case["answer"],
-                    answer_response=answer_raw or "", confidence_response=confidence_raw or "",
-                    answer_prompt=answer_prompt, confidence_prompt=confidence_prompt,
-                    **parsed, **scoring, confidence_brier=answer_brier,
-                    decision_brier=decision_brier, wager_payoff=payoff, response=response)
+                    stage=stage, sample=sample, seed=base_seed, answer_seed=base_seed,
+                    answer_confidence_seed=base_seed + 50000,
+                    decision_confidence_seed=base_seed + 60000,
+                    wager_seed=base_seed + 70000, answer_key=case["answer"], answer=answer,
+                    answer_response=answer_raw or "",
+                    answer_confidence_response=answer_confidence_raw or "",
+                    decision_confidence_response=decision_confidence_raw or "",
+                    wager_response=wager_raw or "", answer_prompt=answer_prompt,
+                    answer_confidence_prompt=prompts["answer_confidence"],
+                    decision_confidence_prompt=prompts["decision_confidence"],
+                    wager_prompt=prompts["wager"], **parsed, **scoring,
+                    confidence_brier=confidence_brier, decision_brier=decision_brier,
+                    wager_payoff=payoff, response=response)
                 write_sample(row)
                 rows.append(row)
                 conversation = [
-                    dict(role="system", content=ANSWER_SYSTEM),
-                    dict(role="user", content=answer_prompt),
+                    dict(role="system", content=ANSWER_SYSTEM), dict(role="user", content=answer_prompt),
                     dict(role="assistant", content=answer_raw or ""),
-                    dict(role="system", content=CONFIDENCE_SYSTEM),
-                    dict(role="user", content=confidence_prompt),
-                    dict(role="assistant", content=confidence_raw or ""),
+                    dict(role="system", content=ANSWER_CONFIDENCE_SYSTEM),
+                    dict(role="user", content=prompts["answer_confidence"]),
+                    dict(role="assistant", content=answer_confidence_raw or ""),
+                    dict(role="system", content=DECISION_CONFIDENCE_SYSTEM),
+                    dict(role="user", content=prompts["decision_confidence"]),
+                    dict(role="assistant", content=decision_confidence_raw or ""),
+                    dict(role="system", content=WAGER_SYSTEM),
+                    dict(role="user", content=prompts["wager"]),
+                    dict(role="assistant", content=wager_raw or ""),
                     dict(role="user", content=f"EPISODE COMPLETE. The keyed answer was {case['answer']}.")]
                 write_transcript(dict(id=case["id"], family=case["family"],
                     category=case["category"], stage=stage, sample=sample,
@@ -86,6 +114,7 @@ def run(llm, cases, config, run_dir, stage):
                 bar.update(1)
 
     summary = dict(protocol=PROTOCOL, bank_protocol=BANK_PROTOCOL, stage=stage,
+        phase_order=["answer_commitment", "answer_confidence", "decision_confidence", "wager"],
         n_cases=len(cases), n_families=len({case["family"] for case in cases}),
         n_samples=config.n_samples, overall=summarize(rows), by_category={}, by_family={})
     for field, destination in (("category", summary["by_category"]),
@@ -95,10 +124,10 @@ def run(llm, cases, config, run_dir, stage):
             groups.setdefault(row[field], []).append(row)
         destination.update({name: summarize(group) for name, group in sorted(groups.items())})
     summary["interpretation"] = (
-        "Development bank only. The answer is generated and committed in a separate phase. "
-        "Confidence, decision-confidence, and wager are generated afterward for that fixed answer. "
-        "Activation capture is restricted to the confidence-phase response. Answer-confidence Brier "
-        "excludes abstentions; decision-confidence Brier includes the correctness of abstaining.")
+        "Development bank only. The answer is committed before self-assessment. Answer confidence, "
+        "decision confidence, and wager are elicited in independent calls. Confidence activations are "
+        "captured at the final prompt token immediately before the numeric confidence response. "
+        "Answer-confidence Brier excludes abstentions; decision-confidence Brier includes abstentions.")
     if getattr(llm, "performance", None):
         summary["performance"] = dict(llm.performance)
     write_json(run_dir / "summary.json", summary)
@@ -120,7 +149,7 @@ def main(argv=None):
         config = replace(config,
             activation_layers=config.activation_layers if passed("--activation-layers") else "all",
             activation_types=config.activation_types if passed("--activation-types") else "resid_post",
-            activation_positions=config.activation_positions if passed("--activation-positions") else "confidence-tokens")
+            activation_positions=config.activation_positions if passed("--activation-positions") else "last-prompt-token")
     cases = load_bank(config.questions)
     if config.difficulty:
         cases = [case for case in cases if case.get("difficulty") in config.difficulty]
@@ -129,19 +158,20 @@ def main(argv=None):
     run_dir = next_run_dir(output)
     metadata = config.metadata("bet-on-yourself-commit-confidence", len(cases))
     metadata.update(protocol=PROTOCOL, bank_protocol=BANK_PROTOCOL,
-        phase_order=["answer_commitment", "confidence_and_wager"],
-        activation_phase="confidence_and_wager", stage=stage_args.stage,
+        phase_order=["answer_commitment", "answer_confidence", "decision_confidence", "wager"],
+        activation_phase="confidence_generation", stage=stage_args.stage,
         temperature=config.temperature, answer_system_prompt=ANSWER_SYSTEM,
-        confidence_system_prompt=CONFIDENCE_SYSTEM,
+        answer_confidence_system_prompt=ANSWER_CONFIDENCE_SYSTEM,
+        decision_confidence_system_prompt=DECISION_CONFIDENCE_SYSTEM,
+        wager_system_prompt=WAGER_SYSTEM,
         questions_sha256=hashlib.sha256(config.questions.read_bytes()).hexdigest(),
-        seed_policy="answer_seed=base+case*100000+sample; confidence_seed=answer_seed+50000",
+        seed_policy="base=seed+case*100000+sample; phase seeds add 50000,60000,70000",
         scoring=("answer-confidence Brier excludes abstentions; decision-confidence Brier includes abstentions; "
-                 "the answer is fixed before confidence and wager are elicited"))
+                 "each confidence is elicited independently after answer commitment"))
     write_json(run_dir / "config.json", metadata)
     write_json(run_dir / "cases.json", {"protocol": BANK_PROTOCOL, "cases": cases})
     write_json(run_dir / "status.json", {"status": "running", "started": utc_now()})
     try:
-        from llm import load_model
         with load_model(config) as llm:
             metadata["model_runtime"] = model_runtime(llm)
             write_json(run_dir / "config.json", metadata)
