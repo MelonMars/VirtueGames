@@ -82,7 +82,7 @@ def run(llm, cases, config, run_dir, stage):
                     stage=stage, sample=sample, seed=base_seed, answer_seed=base_seed,
                     answer_confidence_seed=base_seed + 50000,
                     decision_confidence_seed=base_seed + 60000,
-                    wager_seed=base_seed + 70000, answer_key=case["answer"], answer=answer,
+                    wager_seed=base_seed + 70000, answer_key=case["answer"],
                     answer_response=answer_raw or "",
                     answer_confidence_response=answer_confidence_raw or "",
                     decision_confidence_response=decision_confidence_raw or "",
