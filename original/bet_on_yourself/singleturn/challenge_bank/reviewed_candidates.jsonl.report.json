@@ -1,0 +1,16 @@
+{
+  "input": "original/bet_on_yourself/singleturn/challenge_bank/public_candidates.jsonl",
+  "output": "original/bet_on_yourself/singleturn/challenge_bank/reviewed_candidates.jsonl",
+  "n": 370,
+  "decisions": {
+    "adapt_and_verify": 55,
+    "exclude_from_bank": 12,
+    "inspiration_only": 54,
+    "verify_and_rewrite": 249
+  },
+  "approved": 0,
+  "limitations": [
+    "This pass checks question suitability and identifies required verification; it does not independently validate every factual claim.",
+    "No public benchmark item is approved for a BOY run until a reviewer verifies its answer key and source."
+  ]
+}

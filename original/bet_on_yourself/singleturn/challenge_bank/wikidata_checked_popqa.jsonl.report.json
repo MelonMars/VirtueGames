@@ -1,0 +1,11 @@
+{
+  "input": "original/bet_on_yourself/singleturn/challenge_bank/public_candidates.jsonl",
+  "output": "original/bet_on_yourself/singleturn/challenge_bank/wikidata_checked_popqa.jsonl",
+  "n_popqa": 250,
+  "status_counts": {
+    "exact_match_single_value": 205,
+    "claim_value_missing": 8,
+    "exact_match_multiple_values": 37
+  },
+  "warning": "This checks the current Wikidata triple, not independent truth. Each retained fact still needs a reliable source citation and question review."
+}

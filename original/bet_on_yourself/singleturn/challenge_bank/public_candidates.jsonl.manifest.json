@@ -1,0 +1,26 @@
+{
+  "created_utc": "2026-11-14T20:38:09.710323+00:00",
+  "generator": "prepare_candidates.py",
+  "seed": 17,
+  "truthfulqa_limit": 120,
+  "popqa_limit": 250,
+  "max_subject_popularity": 1000,
+  "source_inputs": {
+    "TruthfulQA": {
+      "path": "/tmp/boy_benchmark_sources/TruthfulQA.csv",
+      "sha256": "8d7dd15f033196140f032d97d30f037da7a7b1192c3f36f9937c1850925335a2"
+    },
+    "PopQA": {
+      "path": "/tmp/boy_benchmark_sources/popQA.tsv",
+      "sha256": "9a5227f41bff0e4c331d4a774d946b12f95307892b58f860a9606ef356e6089b"
+    }
+  },
+  "output": "original/bet_on_yourself/singleturn/challenge_bank/public_candidates.jsonl",
+  "output_sha256": "500f543fd88e5d4ba89e486d8d2a704c5ece518334d5a2742865fa9465cc4ff2",
+  "n_candidates": 370,
+  "by_benchmark": {
+    "PopQA": 250,
+    "TruthfulQA": 120
+  },
+  "review_policy": "All rows are unreviewed candidates, not approved BOY cases."
+}

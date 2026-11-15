@@ -22,7 +22,7 @@ from original.bet_on_yourself.singleturn.commit_confidence import (
 )
 from original.bet_on_yourself.singleturn.run import summarize
 
-DEFAULT_CASES = Path(__file__).parents[1] / "multiturn" / "cases.json"
+DEFAULT_CASES = Path(__file__).parents[1] / "challenge_bank" / "cases.json"
 
 
 def run(llm, cases, config, run_dir, stage):
@@ -78,7 +78,8 @@ def run(llm, cases, config, run_dir, stage):
                 payoff = (parsed["wager"] * (1 if scoring["decision_correct"] else -1)
                           if parsed["wager_parse_ok"] and scoring["decision_correct"] is not None else None)
                 row = dict(id=case["id"], family=case["family"], category=case["category"],
-                    difficulty=case.get("difficulty"), split=case["split"], question=case["question"],
+                    difficulty=case.get("difficulty"), split=case["split"],
+                    analysis_split=case.get("analysis_split"), question=case["question"],
                     stage=stage, sample=sample, seed=base_seed, answer_seed=base_seed,
                     answer_confidence_seed=base_seed + 50000,
                     decision_confidence_seed=base_seed + 60000,

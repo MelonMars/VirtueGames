@@ -135,7 +135,26 @@ def main(argv=None):
         raise ValueError(f"Requested layer range ends at {layer_range[1]}, but the run has {n_layers} layers")
 
     families = {row["family"] for row in samples}
-    splits = family_split(families, args.seed, args.validation_fraction, args.test_fraction)
+    preset_splits = {}
+    for row in samples:
+        preset = row.get("analysis_split")
+        if preset is None:
+            continue
+        if preset not in ("train", "validation", "test"):
+            raise ValueError(f"Invalid analysis_split {preset!r} for {row['id']}")
+        previous = preset_splits.setdefault(row["family"], preset)
+        if previous != preset:
+            raise ValueError(f"Family {row['family']} has inconsistent analysis_split values")
+    if preset_splits:
+        if set(preset_splits) != families:
+            raise ValueError("If analysis_split is set, every family must have a fixed split")
+        if set(preset_splits.values()) != {"train", "validation", "test"}:
+            raise ValueError("Fixed analysis_split must include train, validation, and test")
+        splits = preset_splits
+        split_assignment_source = "predeclared case-bank family splits"
+    else:
+        splits = family_split(families, args.seed, args.validation_fraction, args.test_fraction)
+        split_assignment_source = "seeded random family split"
     # slot 0 = answer confidence; slot 1 = decision confidence. In v2, each
     # field is captured from its own prompt-final state immediately before the
     # model emits the numeric probability.
@@ -313,6 +332,7 @@ def main(argv=None):
     write_json(out / "splits.json", {family: {"split": split} for family, split in sorted(splits.items())})
     write_json(out / "report.json", dict(source_run=str(run_dir), source_protocol=config["protocol"],
         source_config=config, seed=args.seed, split_unit="family", family_splits=splits,
+        split_assignment_source=split_assignment_source,
         layer_range=list(layer_range), layer_count=n_layers,
         item_counts={split: len({row["id"] for row in samples if splits[row["family"]] == split})
                      for split in ("train", "validation", "test")},

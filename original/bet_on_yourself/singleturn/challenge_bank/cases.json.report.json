@@ -1,0 +1,38 @@
+{
+  "protocol": "bet-on-yourself-multiturn-v1",
+  "bank_version": "bet-on-yourself-calibration-pilot-v1",
+  "design": "Single-turn stage-0 calibration pilot. Previously used original bank is train-only; PopQA relation families are held out by split.",
+  "n_cases": 230,
+  "n_families": 27,
+  "by_benchmark": {
+    "original_boy_development": 70,
+    "PopQA": 160
+  },
+  "by_analysis_split": {
+    "train": {
+      "n_cases": 136,
+      "n_families": 18
+    },
+    "validation": {
+      "n_cases": 54,
+      "n_families": 4
+    },
+    "test": {
+      "n_cases": 40,
+      "n_families": 5
+    }
+  },
+  "split_policy": {
+    "train": "All 70 previously used cases plus PopQA author, director, sport, and father relations.",
+    "validation": "PopQA screenwriter, country, composer, and capital relations.",
+    "test": "PopQA genre, place of birth, producer, occupation, and religion relations.",
+    "note": "Held-out relation families test generalization to new answer relations, not broad unseen subject domains. Test items are public-benchmark-derived."
+  },
+  "limitations": [
+    "This is a pilot bank with 27 relation/topic families, not the planned 30+ family final bank.",
+    "PopQA factual keys were checked for one current non-deprecated Wikidata value with at least one attached reference; this is not independent primary-source verification.",
+    "Wikipedia page-text corroboration was rate-limited and is not complete; the five manually spot-checked rows are documented separately.",
+    "Public benchmark-derived items may be familiar to Qwen/Qwen3-4B; report those results separately from new original items.",
+    "All runs must use stage 0 for unaided knowledge; stages 1 and 2 are retained for protocol compatibility and are not part of this pilot."
+  ]
+}

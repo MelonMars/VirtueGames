@@ -216,10 +216,9 @@ def main(argv=None):
                 for target, metric in (("answer", "confidence_brier"), ("decision", "decision_brier")):
                     baseline_rows = [row for row in validation_records if row["target"] == "baseline"]
                     baseline_score = family_mean(baseline_rows, metric)
+                    target_candidates = [candidate for candidate in candidates if candidate["target"] == target]
                     options = []
-                    for candidate in candidates:
-                        if candidate["target"] != target:
-                            continue
+                    for candidate in target_candidates:
                         for alpha in alphas:
                             rows = [row for row in validation_records
                                     if row.get("direction_key") == candidate["key"] and row["alpha"] == alpha]
@@ -245,8 +244,9 @@ def main(argv=None):
                             best_candidate_direction=best[1]["key"] if best else None,
                             best_candidate_alpha=best[2] if best else None,
                             best_candidate_validation_brier=best[0] if best else None,
-                            selection_reason=("no candidate improved validation Brier" if best
-                                              else "no candidate had complete paired coverage"))
+                            selection_reason=("no candidate improved validation Brier" if best else
+                                "analysis selected no direction for this target" if not target_candidates else
+                                "no candidate had complete paired coverage"))
 
                 # The test set is touched only after validation has frozen one
                 # direction/strength (or a no-op) for each forecast target.
@@ -295,8 +295,12 @@ def main(argv=None):
         for target in ("answer", "decision"):
             rows = [row for row in test_records if row["target"] == target]
             if selected[target]["direction_key"] is None:
-                test_interventions[target] = dict(status="not_run_no_validation_improvement",
-                    reason=selected[target]["selection_reason"], metrics=None, metric_coverage=0,
+                reason = selected[target]["selection_reason"]
+                status = ("not_run_no_candidate_direction" if reason ==
+                          "analysis selected no direction for this target" else
+                          "not_run_no_validation_improvement")
+                test_interventions[target] = dict(status=status,
+                    reason=reason, metrics=None, metric_coverage=0,
                     paired_equal_family_brier_change=None)
                 continue
             metric = "confidence_brier" if target == "answer" else "decision_brier"
