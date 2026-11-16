@@ -1,0 +1,6 @@
+{
+  "description": "Curated links for related cases using different source URLs. Further semantic review is required.",
+  "groups": [
+    {"topic": "Statue of Liberty", "case_ids": ["direct_006", "incomplete_007", "scope_006", "premise_007", "indirect_006"]}
+  ]
+}
