@@ -19,3 +19,18 @@ Run the mechanical coverage audit with `python original/bet_on_yourself/authored
 Unmatched and malformed responses can be exported for adjudication with `python original/bet_on_yourself/authored_dossier/adjudicate.py RUN_DIR --out review.jsonl`. Fill each row’s `decision_correct` (boolean), `rationale`, and `reviewer`; then use `--apply review.jsonl --out NEW_DIRECTORY`. The tool requires the whole queue and keeps original run files intact. Review exact matches and the source keys separately; this workflow checks only responses not credited by the alias scorer.
 
 Use `--split train --partition validation` for validation and `--split test` for the held-out families. The [partition manifest](challenge_bank/partitions.json) assigns all seven train families to both train and validation, grouping exact shared source URLs and curated related topics in `topic_links.json`. A bank or topic-link edit invalidates its checksum; make a new manifest before running. The manifest is not a guarantee of independent topics or facts.
+
+### Finding candidate confidence-error directions
+
+Run separate train and validation partitions with the same model, settings, bank and partition manifest, and `--extract-activations`. The default capture records the final prompt token at every residual layer. For example, run the command above once with `--partition train` and once with `--partition validation`, then substitute their output directories below:
+
+```sh
+python original/bet_on_yourself/authored_dossier/analyze_directions.py \
+  TRAIN_RUN_DIR VALIDATION_RUN_DIR --out PATH/TO/NEW_ANALYSIS
+```
+
+The analyzer takes completed dossier runs only; it does not read the test families. It averages repetitions within each case, assigns equal total weight to each family, and fits a covariance direction for signed error (`confidence / 100 - correctness`) at each captured residual layer. It ranks the layers by positive validation correlation and saves the best two unit vectors to `directions.safetensors`. `report.json` contains all estimable layer correlations, selection, sample counts, input identities and limitations. Use `--top-k` to change the number retained. If no validation correlation is positive, a report is saved without a vector file. Searching many layers and selecting by validation correlation can overfit validation; a positive result is exploratory.
+
+After applying reviews with `adjudicate.py`, pass the resulting `samples.jsonl` files using `--train-reviewed PATH` and `--validation-reviewed PATH`. The analyzer verifies that these correspond to the original samples, but does not itself verify the reviews or the answer key. Parse failures and unscored outcomes are excluded and counted. Averages across repeated generations from the same case are not independent observations. Related cases within each partition may also remain dependent.
+
+These are candidate directions, not proven steering interventions. Their positive orientation covaries with overconfidence in training data; test both signs and compare with no steering and appropriate controls. The existing single-turn steering scripts do not support this dossier protocol. A separate dossier steering evaluation is needed, with settings chosen on validation and the test families kept untouched until final evaluation. A local model or unavailable resolved checkpoint revision must be verified independently to ensure both runs used identical weights.
