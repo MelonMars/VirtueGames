@@ -1,0 +1,55 @@
+{
+  "protocol": "bet-on-yourself-multiturn-v1",
+  "bank_version": "bet-on-yourself-calibration-v2",
+  "purpose": "Single-turn stage-0 calibration discovery; all previous bank cases are development/train only.",
+  "n_cases": 430,
+  "n_families": 52,
+  "by_benchmark": {
+    "original_boy_development": 70,
+    "PopQA": 160,
+    "SimpleQA": 200
+  },
+  "by_category": {
+    "easy_verifiable": 14,
+    "medium_factual": 25,
+    "hard_edge": 376,
+    "unanswerable": 5,
+    "false_premise": 10
+  },
+  "by_analysis_split": {
+    "train": {
+      "n_cases": 286,
+      "n_families": 34
+    },
+    "validation": {
+      "n_cases": 64,
+      "n_families": 8
+    },
+    "test": {
+      "n_cases": 80,
+      "n_families": 10
+    }
+  },
+  "new_simpleqa_families": 25,
+  "simpleqa_cell_split_policy": {
+    "unit": "SimpleQA topic x answer_type cell",
+    "selection": "8 rows per cell; deterministic seed 20261115; source URLs unique across selected rows",
+    "test": "10 new cells / 80 items at the default per-family count",
+    "validation": "8 new cells / 64 items at the default per-family count",
+    "train": "7 new cells / 56 items at the default per-family count, plus the entire prior bank"
+  },
+  "limitations": [
+    "SimpleQA is public benchmark data and may be present in model training data.",
+    "SimpleQA source URLs are retained but not independently checked during this build; the dataset authors estimate an approximately 3% inherent issue rate.",
+    "SimpleQA items are challenge-oriented; category labels are not Qwen-specific difficulty estimates. Run the baseline before interpreting category-level calibration.",
+    "Families are benchmark topic-by-answer-type groups, not narrow subtopics; repeat on new source families before making general claims.",
+    "The previous bank, including its previously inspected test portion, is assigned to train/development. Only the 10 new test cells are reserved for this run."
+  ],
+  "source_dataset": {
+    "name": "SimpleQA",
+    "url": "https://openaipublic.blob.core.windows.net/simple-evals/simple_qa_test_set.csv",
+    "repository": "https://github.com/openai/simple-evals",
+    "paper": "https://arxiv.org/abs/2411.04368",
+    "license": "MIT; see LICENSE-SimpleQA.txt"
+  }
+}

@@ -61,8 +61,9 @@ def audit(path):
         if not isinstance(case["sources"], list) or not case["sources"]:
             errors.append(f"{cid}: sources must be a nonempty list")
         if case.get("review_status") not in {
-            "verified", "existing_development_case",
+            "verified", "existing_development_case", "prior_development_only",
             "wikidata_single_value_and_reference_checked",
+            "source_linked_benchmark_item_not_independently_verified",
         }:
             warnings.append(f"{cid}: review_status is not verified")
         if not case.get("source_rationale"):

@@ -67,6 +67,12 @@ immediately before the model emits the numeric forecast. A confidence
 intervention therefore changes only its target forecast; it cannot change the
 answer, the other confidence value, or the wager.
 
+The default bank is now
+`challenge_bank/cases_v2.json` (430 cases, 52 families). The previous 230-case
+bank, including its already inspected test items, is assigned to train for
+this run. The new validation/test splits contain SimpleQA families not used in
+the prior experiment.
+
 ```sh
 python original/bet_on_yourself/singleturn/run_commit_confidence.py \
   --backend transformers --model MODEL --device cuda --thinking off --stage 0 \

@@ -22,7 +22,7 @@ from original.bet_on_yourself.singleturn.commit_confidence import (
 )
 from original.bet_on_yourself.singleturn.run import summarize
 
-DEFAULT_CASES = Path(__file__).parents[1] / "challenge_bank" / "cases.json"
+DEFAULT_CASES = Path(__file__).parent / "challenge_bank" / "cases_v2.json"
 
 
 def run(llm, cases, config, run_dir, stage):
