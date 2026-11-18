@@ -34,3 +34,33 @@ The analyzer takes completed dossier runs only; it does not read the test famili
 After applying reviews with `adjudicate.py`, pass the resulting `samples.jsonl` files using `--train-reviewed PATH` and `--validation-reviewed PATH`. The analyzer verifies that these correspond to the original samples, but does not itself verify the reviews or the answer key. Parse failures and unscored outcomes are excluded and counted. Averages across repeated generations from the same case are not independent observations. Related cases within each partition may also remain dependent.
 
 These are candidate directions, not proven steering interventions. Their positive orientation covaries with overconfidence in training data; test both signs and compare with no steering and appropriate controls. The existing single-turn steering scripts do not support this dossier protocol. A separate dossier steering evaluation is needed, with settings chosen on validation and the test families kept untouched until final evaluation. A local model or unavailable resolved checkpoint revision must be verified independently to ensure both runs used identical weights.
+
+### Diagnosing and testing a direction
+
+`diagnose_directions.py` checks selected direction projections against signed error, correctness, confidence, and exact “Cannot determine” answers; reports correlations within each validation family; and refits on repeated 80% source-group subsamples. Optionally, `--permutations` shuffles whole training source groups within strata with the same family counts, refits all captured layers, and compares their best validation correlation with the observed best. This can be slow and needs RAM for captured activations. It verifies that the selected vectors and validation correlations reproduce the supplied runs. This is exploratory: groups may still share unrecognized topics, some strata cannot be shuffled, and validation is reused.
+
+```sh
+python original/bet_on_yourself/authored_dossier/diagnose_directions.py \
+  TRAIN_RUN_DIR VALIDATION_RUN_DIR --analysis-dir ANALYSIS_DIR \
+  --repeats 100 --permutations 100 --out diagnostics.json
+```
+
+`validate_steering.py` holds each answer fixed and regenerates the numeric confidence with matched seeds. It compares unsteered, zero-strength, selected-vector and orthogonal random-direction conditions; records Brier scores, parse rates, confidence, accuracy, calibration bins and family summaries; and compares a simple confidence offset learned on the training run. It saves `selection.json`, selecting the best complete-coverage validation Brier improvement or no steering. This uses the same validation data already used to select layers, so its improvement is exploratory. The default sweep requires `2 + 2 * (number of vectors) * 6` generations per scored sample and currently generates sequentially.
+
+```sh
+python original/bet_on_yourself/authored_dossier/validate_steering.py \
+  VALIDATION_RUN_DIR --analysis-dir ANALYSIS_DIR --train-run TRAIN_RUN_DIR \
+  --device cuda --out NEW_VALIDATION_SWEEP_DIR
+```
+
+The old run in the example report did not record its resolved checkpoint revision. If you independently verify that the model weights used for both runs and the sweep are identical, pass `--allow-unverified-checkpoint`; this acknowledges the gap rather than proving identity. For future runs, pin a model commit with `--revision`. If the model is on a local path, `--model PATH` uses that local copy but also requires independent verification that it is the same checkpoint.
+
+After choosing the procedure and freezing `selection.json`, use a separately collected `--split test` run for final evaluation. The test run should use the same model, revision, generation settings, bank and prompt settings as training; it need not capture activations. Pass the saved selection, and do not tune again based on the test results:
+
+```sh
+python original/bet_on_yourself/authored_dossier/validate_steering.py \
+  TEST_RUN_DIR --analysis-dir ANALYSIS_DIR --train-run TRAIN_RUN_DIR \
+  --selection NEW_VALIDATION_SWEEP_DIR/selection.json --device cuda --out NEW_TEST_RESULTS_DIR
+```
+
+For both scripts, use `--train-reviewed REVIEWED_TRAIN/samples.jsonl` and `--validation-reviewed REVIEWED_VALIDATION/samples.jsonl` for diagnostics, or `--reviewed REVIEWED_EVALUATION/samples.jsonl` for steering. Rerun `analyze_directions.py` after any label changes and use the corresponding review files consistently. `validate_steering.py` verifies whether reviews were used but cannot prove that two review files contain identical labels; retain the reviewed files and their checksums with the analysis. A no-op selection evaluates only baseline and zero-hook controls. Calibration bins are descriptive sample-weighted; primary Brier comparisons average samples within a case and weight families equally. For meaningful uncertainty estimates, analyze differences by source group and family separately; confidence intervals are not calculated by these scripts.
